@@ -16,6 +16,7 @@ const projects = [
     ],
     platform: "Android Tablet / iPad",
     tags: ["Flutter", "Dart", "REST API", "Payments"],
+    accent: "bg-pastel-blue/40",
     availability: "enterprise",
   },
   {
@@ -30,6 +31,7 @@ const projects = [
     ],
     platform: "iOS & Android",
     tags: ["Flutter", "Firebase", "Real-time", "Mobile"],
+    accent: "bg-pastel-purple/40",
     links: {
       playStore: "#",
       appStore: "#",
@@ -47,6 +49,7 @@ const projects = [
     ],
     platform: "iOS & Android",
     tags: ["Flutter", "UI/UX", "Animations", "Clean Architecture"],
+    accent: "bg-pastel-green/40",
     availability: "enterprise",
   },
 ];
@@ -69,30 +72,35 @@ const ProjectsSection = () => {
         />
       </div>
 
-      <div className="flex flex-col gap-12">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {projects.map((project, i) => (
           <motion.article
             key={project.title}
-            className="group bg-card rounded-2xl p-8 md:p-12 transition-all duration-500 hover:shadow-lg hover:-translate-y-1 border border-border/40"
+            className="group relative bg-card/80 backdrop-blur-sm rounded-2xl p-8 md:p-10 transition-all duration-500 hover:shadow-xl hover:-translate-y-2 border border-border/30 overflow-hidden"
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{
               duration: 0.7,
-              delay: i * 0.12,
+              delay: i * 0.1,
               ease: [0.25, 0.1, 0.25, 1],
             }}
           >
-            {/* Header */}
-            <div className="flex items-start justify-between mb-2">
+            {/* Accent blob */}
+            <div
+              className={`absolute -top-20 -right-20 w-40 h-40 rounded-full blur-3xl opacity-60 ${project.accent} pointer-events-none`}
+            />
+
+            {/* Number + Tags */}
+            <div className="flex items-start justify-between mb-4 relative z-10">
               <span className="text-xs font-medium text-muted-foreground tracking-widest">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <div className="flex flex-wrap gap-2">
+              <div className="flex flex-wrap gap-1.5">
                 {project.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="text-[11px] font-medium px-2.5 py-0.5 bg-secondary text-muted-foreground rounded-full"
+                    className="text-[10px] font-medium px-2 py-0.5 bg-secondary/60 text-muted-foreground rounded-full"
                   >
                     {tag}
                   </span>
@@ -100,87 +108,66 @@ const ProjectsSection = () => {
               </div>
             </div>
 
-            <h3 className="text-xl md:text-2xl font-medium text-foreground mb-3">
+            <h3 className="text-xl md:text-2xl font-semibold text-foreground mb-3 relative z-10">
               {project.title}
             </h3>
 
-            <p className="text-muted-foreground leading-relaxed text-sm md:text-base max-w-2xl mb-8">
+            <p className="text-muted-foreground leading-relaxed text-sm max-w-xl mb-6 relative z-10">
               {project.description}
             </p>
 
-            {/* Two-column detail area */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
-              {/* Key Contributions */}
+            {/* Key Contributions */}
+            <div className="mb-6 relative z-10">
+              <p className="text-[10px] font-semibold text-muted-foreground tracking-widest uppercase mb-3">
+                Key Contributions
+              </p>
+              <ul className="space-y-2">
+                {project.contributions.map((item, idx) => (
+                  <li
+                    key={idx}
+                    className="text-xs text-muted-foreground leading-relaxed flex items-start gap-2"
+                  >
+                    <span className="w-1 h-1 rounded-full bg-foreground/25 mt-1.5 shrink-0" />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Platform & Links */}
+            <div className="flex items-end justify-between relative z-10">
               <div>
-                <p className="text-[11px] font-semibold text-muted-foreground tracking-widest uppercase mb-4">
-                  Key Contributions
+                <p className="text-[10px] font-semibold text-muted-foreground tracking-widest uppercase mb-1">
+                  Platform
                 </p>
-                <ul className="space-y-2.5">
-                  {project.contributions.map((item, idx) => (
-                    <li
-                      key={idx}
-                      className="text-sm text-muted-foreground leading-relaxed flex items-start gap-2.5"
-                    >
-                      <span className="w-1 h-1 rounded-full bg-foreground/30 mt-2 shrink-0" />
-                      {item}
-                    </li>
-                  ))}
-                </ul>
+                <p className="text-xs text-foreground">{project.platform}</p>
               </div>
 
-              {/* Meta & Links */}
-              <div className="flex flex-col gap-6">
-                <div>
-                  <p className="text-[11px] font-semibold text-muted-foreground tracking-widest uppercase mb-2">
-                    Platform
+              <div>
+                {project.links ? (
+                  <div className="flex gap-3">
+                    <a
+                      href={project.links.playStore}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-muted-foreground transition-colors"
+                    >
+                      Play Store <ExternalLink className="w-3 h-3" />
+                    </a>
+                    <a
+                      href={project.links.appStore}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-muted-foreground transition-colors"
+                    >
+                      App Store <ExternalLink className="w-3 h-3" />
+                    </a>
+                  </div>
+                ) : (
+                  <p className="text-xs text-muted-foreground italic">
+                    Enterprise · On request
                   </p>
-                  <p className="text-sm text-foreground">{project.platform}</p>
-                </div>
-
-                <div>
-                  <p className="text-[11px] font-semibold text-muted-foreground tracking-widest uppercase mb-3">
-                    Availability
-                  </p>
-                  {project.links ? (
-                    <div className="flex flex-wrap gap-3">
-                      <a
-                        href={project.links.playStore}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-primary transition-colors"
-                      >
-                        Play Store
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </a>
-                      <span className="text-border">|</span>
-                      <a
-                        href={project.links.appStore}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1.5 text-sm font-medium text-foreground hover:text-primary transition-colors"
-                      >
-                        App Store
-                        <ExternalLink className="w-3.5 h-3.5" />
-                      </a>
-                    </div>
-                  ) : (
-                    <p className="text-sm text-muted-foreground italic">
-                      Enterprise Application · Available on request
-                    </p>
-                  )}
-                </div>
-
-                <div className="mt-auto pt-2">
-                  <a
-                    href="#"
-                    className="inline-flex items-center gap-2 text-sm font-medium text-foreground group-hover:text-primary transition-colors"
-                  >
-                    View Details
-                    <span className="inline-block transition-transform duration-300 group-hover:translate-x-1">
-                      →
-                    </span>
-                  </a>
-                </div>
+                )}
               </div>
             </div>
           </motion.article>
