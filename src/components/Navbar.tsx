@@ -3,7 +3,7 @@ import { motion } from "framer-motion";
 const Navbar = () => {
   return (
     <motion.nav
-      className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between max-w-6xl mx-auto w-full"
+      className="fixed top-0 left-0 right-0 z-50 px-6 md:px-12 py-5 flex items-center justify-between max-w-6xl mx-auto w-full backdrop-blur-md bg-background/70"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.1 }}
@@ -12,7 +12,7 @@ const Navbar = () => {
         LSK
       </a>
       <div className="flex items-center gap-8">
-        {["Projects", "Experience", "Contact"].map((item) => (
+        {["About", "Projects", "Stack", "Experience", "Contact"].map((item) => (
           <a
             key={item}
             href={`#${item.toLowerCase()}`}

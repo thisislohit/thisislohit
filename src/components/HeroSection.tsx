@@ -3,7 +3,12 @@ import TextReveal from "./TextReveal";
 
 const HeroSection = () => {
   return (
-    <section className="min-h-screen flex flex-col justify-center px-6 md:px-12 max-w-6xl mx-auto">
+    <section className="min-h-screen flex flex-col justify-center px-6 md:px-12 max-w-6xl mx-auto relative">
+      {/* Subtle gradient highlight behind hero */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none -z-10">
+        <div className="w-[700px] h-[400px] bg-pastel-blue/30 rounded-full blur-3xl" />
+      </div>
+
       <div className="space-y-8">
         <TextReveal
           text="Lohit Satya Sai Kuntamukkala"

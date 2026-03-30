@@ -36,6 +36,12 @@
 
     --radius: 0.75rem;
 
+    /* Pastel accents */
+    --pastel-blue: 213 97% 87%;
+    --pastel-purple: 263 70% 96%;
+    --pastel-green: 142 77% 93%;
+    --pastel-pink: 330 81% 95%;
+
     --sidebar-background: 0 0% 98%;
     --sidebar-foreground: 240 5.3% 26.1%;
     --sidebar-primary: 240 5.9% 10%;
@@ -58,5 +64,11 @@
 
   body {
     @apply bg-background text-foreground font-sans antialiased;
+  }
+}
+
+@layer utilities {
+  .gradient-blob {
+    @apply absolute rounded-full blur-3xl opacity-40 pointer-events-none;
   }
 }
