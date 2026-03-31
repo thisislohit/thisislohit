@@ -44,7 +44,7 @@ const Home = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-pastel-green/60 text-sm text-foreground font-medium">
-              <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+              <span className="w-2 h-2 rounded-full bg-pastel-green animate-pulse" />
               Available for Work
             </span>
           </motion.div>
