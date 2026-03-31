@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import TextReveal from "./TextReveal";
+import RoleTransition from "./RoleTransition";
 
 const HeroSection = () => {
   return (
