@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import TextReveal from "./TextReveal";
+import RoleTransition from "./RoleTransition";
 
 const HeroSection = () => {
   return (
@@ -18,12 +19,12 @@ const HeroSection = () => {
         />
 
         <motion.p
-          className="text-lg md:text-xl text-muted-foreground font-medium tracking-wide"
+          className="text-lg md:text-xl font-medium tracking-wide"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 1.2, ease: [0.25, 0.1, 0.25, 1] }}
         >
-          Flutter Developer &nbsp;|&nbsp; Frontend Engineer
+          <RoleTransition /> &nbsp;|&nbsp; <span className="text-muted-foreground">Frontend Engineer</span>
         </motion.p>
 
         <motion.p
