@@ -14,7 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        sans: ["Inter", "system-ui", "sans-serif"],
+        serif: ["Cormorant Garamond", "Georgia", "serif"],
+        sans: ["DM Sans", "system-ui", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -51,10 +52,10 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         pastel: {
-          blue: "hsl(var(--pastel-blue))",
-          purple: "hsl(var(--pastel-purple))",
-          green: "hsl(var(--pastel-green))",
-          pink: "hsl(var(--pastel-pink))",
+          blue: "hsl(var(--mist-blue))",
+          purple: "hsl(var(--lavender))",
+          green: "hsl(var(--sage-green))",
+          sand: "hsl(var(--warm-sand))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -81,10 +82,18 @@ export default {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        "float": {
+          "0%, 100%": { transform: "translate(0, 0)" },
+          "33%": { transform: "translate(30px, -20px)" },
+          "66%": { transform: "translate(-20px, 15px)" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        "float-slow": "float 20s ease-in-out infinite",
+        "float-slower": "float 25s ease-in-out infinite",
+        "float-slowest": "float 30s ease-in-out infinite",
       },
     },
   },
