@@ -3,11 +3,13 @@ import { Link } from "react-router-dom";
 import FadeIn from "@/components/FadeIn";
 import { ArrowRight, Zap, CreditCard, Radio, Smartphone, Code } from "lucide-react";
 
+const ease = [0.25, 0.1, 0.25, 1] as const;
+
 const wordVariants = {
   hidden: { y: "100%" },
   visible: (i: number) => ({
     y: 0,
-    transition: { duration: 0.7, delay: 0.4 + i * 0.08, ease: [0.25, 0.1, 0.25, 1] },
+    transition: { duration: 0.7, delay: 0.4 + i * 0.08, ease },
   }),
 };
 
