@@ -1,102 +1,91 @@
-import { motion } from "framer-motion";
-import FadeIn from "@/components/FadeIn";
 import { Link } from "react-router-dom";
-import { ArrowRight, MapPin, Globe, Clock } from "lucide-react";
+import { ArrowRight, Smartphone, Zap, Globe } from "lucide-react";
+import FadeIn from "@/components/FadeIn";
 
-const values = [
-  { title: "Engineering Excellence", desc: "I write code that's maintainable, testable, and built to last. Clean architecture isn't optional — it's the foundation." },
-  { title: "User-Centric Thinking", desc: "Every technical decision is filtered through the lens of user experience. Performance, accessibility, and delight." },
-  { title: "Shipping Velocity", desc: "I believe in shipping early, iterating fast, and maintaining quality. Production is the ultimate test environment." },
-];
-
-const About = () => (
-  <div className="pt-32 pb-24 px-6 md:px-12 max-w-6xl mx-auto">
-    <FadeIn>
-      <p className="text-xs font-medium text-muted-foreground tracking-widest uppercase mb-4">About</p>
-      <h1 className="font-serif text-4xl md:text-6xl font-semibold text-foreground mb-16">
-        The person behind<br />the code
-      </h1>
-    </FadeIn>
-
-    <div className="grid md:grid-cols-5 gap-12 md:gap-16">
-      {/* Bio */}
-      <div className="md:col-span-3 space-y-6">
-        <FadeIn delay={0.1}>
-          <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-            I'm Lohit Satya Sai Kuntamukkala — a developer based in Hyderabad, India, passionate about
-            building software that makes a real difference. My journey started with mobile development in
-            Flutter, and has expanded into full-stack engineering across web and mobile platforms.
-          </p>
-        </FadeIn>
-        <FadeIn delay={0.2}>
-          <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-            I'm drawn to complex problems — SaaS platforms with intricate billing logic, real-time systems
-            that need to feel instant, and fintech applications where reliability isn't negotiable. I've
-            integrated Stripe payments, built WebSocket-powered live features, and shipped apps used in
-            production across the hospitality industry.
-          </p>
-        </FadeIn>
-        <FadeIn delay={0.3}>
-          <p className="text-muted-foreground leading-relaxed text-base md:text-lg">
-            My approach to engineering is rooted in performance and user experience. I believe great software
-            is invisible — it just works. Clean architecture, thoughtful state management, and obsessive
-            attention to detail are what separate good products from exceptional ones.
-          </p>
-        </FadeIn>
-      </div>
-
-      {/* Details card */}
-      <div className="md:col-span-2">
-        <FadeIn delay={0.2}>
-          <div className="bg-card rounded-2xl p-8 shadow-sm space-y-5 sticky top-28">
-            <p className="text-xs font-semibold text-muted-foreground tracking-widest uppercase">Details</p>
-            <div className="flex items-center gap-3">
-              <MapPin size={16} className="text-muted-foreground" />
-              <span className="text-sm text-foreground">Hyderabad, India</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Globe size={16} className="text-muted-foreground" />
-              <span className="text-sm text-foreground">English, Hindi, Telugu</span>
-            </div>
-            <div className="flex items-center gap-3">
-              <Clock size={16} className="text-muted-foreground" />
-              <span className="text-sm text-foreground">Available for new projects</span>
-            </div>
-          </div>
-        </FadeIn>
-      </div>
-    </div>
-
-    {/* What I bring */}
-    <div className="mt-24">
+const About = () => {
+  return (
+    <section className="min-h-screen pt-32 pb-24 px-6 max-w-[1200px] mx-auto">
       <FadeIn>
-        <p className="text-xs font-semibold text-muted-foreground tracking-widest uppercase mb-8">What I bring to a team</p>
+        <p className="font-mono text-xs text-blue-accent tracking-[4px] uppercase mb-4">About</p>
+        <h1 className="font-display text-4xl md:text-6xl font-bold text-foreground tracking-tight mb-12">
+          The engineer behind the app.
+        </h1>
       </FadeIn>
-      <div className="grid md:grid-cols-3 gap-6">
-        {values.map((v, i) => (
-          <FadeIn key={v.title} delay={i * 0.1}>
-            <div className="bg-card rounded-2xl p-8 shadow-sm h-full">
-              <h3 className="font-serif text-xl font-semibold text-foreground mb-3">{v.title}</h3>
-              <p className="text-sm text-muted-foreground leading-relaxed">{v.desc}</p>
+
+      <div className="grid md:grid-cols-[60%_40%] gap-16">
+        <div className="space-y-8">
+          <FadeIn delay={0.1}>
+            <p className="text-muted-foreground leading-[1.8] text-[17px] border-l-2 border-blue-accent/30 pl-5">
+              I'm a Flutter developer based in Hyderabad, India, with 2+ years building
+              production-grade mobile applications for startups and businesses. I specialize
+              in apps that don't just work — they feel fast, look premium, and scale without drama.
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.2}>
+            <p className="text-muted-foreground leading-[1.8] text-[17px] border-l-2 border-blue-accent/30 pl-5">
+              My work spans real-time order management systems, Stripe-integrated payment
+              platforms, SaaS tools for the hospitality industry, and cross-platform apps
+              used daily by real people. I work with founders who care about quality — and move fast.
+            </p>
+          </FadeIn>
+          <FadeIn delay={0.3}>
+            <p className="text-muted-foreground leading-[1.8] text-[17px] border-l-2 border-blue-accent/30 pl-5">
+              When I'm not building in Flutter, I'm obsessing over micro-interactions,
+              architecture decisions, and shipping things that actually make it to the App Store.
+            </p>
+          </FadeIn>
+        </div>
+
+        <div className="space-y-6">
+          <FadeIn delay={0.2}>
+            <div className="glass-card p-6 space-y-4">
+              <p className="font-mono text-xs text-muted-foreground tracking-[3px] uppercase">Details</p>
+              <div className="space-y-3 text-sm">
+                <div className="flex justify-between"><span className="text-muted-foreground">Location</span><span className="text-foreground">Hyderabad, India 🇮🇳</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Languages</span><span className="text-foreground">English, Hindi, Telugu</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Availability</span><span className="text-green-success">Open to work</span></div>
+                <div className="flex justify-between"><span className="text-muted-foreground">Work style</span><span className="text-foreground">Remote-first</span></div>
+              </div>
             </div>
           </FadeIn>
-        ))}
-      </div>
-    </div>
 
-    {/* CTA */}
-    <FadeIn>
-      <div className="mt-24 text-center">
-        <h2 className="font-serif text-3xl md:text-4xl font-semibold text-foreground mb-6">Let's build something together</h2>
-        <Link
-          to="/contact"
-          className="inline-flex items-center gap-2 px-7 py-3.5 bg-foreground text-primary-foreground rounded-full text-sm font-medium hover:scale-105 transition-transform"
-        >
-          Get in Touch <ArrowRight size={16} />
-        </Link>
+          <FadeIn delay={0.3}>
+            <p className="font-mono text-xs text-muted-foreground tracking-[3px] uppercase mb-3">What I bring</p>
+            <div className="space-y-3">
+              {[
+                { icon: Smartphone, title: "Mobile-first thinking", desc: "Every UI decision made for thumbs, not cursors." },
+                { icon: Zap, title: "Production-ready code", desc: "BLoC, GetX, Riverpod — architecture that scales." },
+                { icon: Globe, title: "Remote-native workflow", desc: "Async-first, docs-driven, timezone-flexible." },
+              ].map((card) => (
+                <div key={card.title} className="glass-card-hover p-5">
+                  <div className="flex gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-blue-accent/10 flex items-center justify-center shrink-0">
+                      <card.icon size={16} className="text-blue-accent" />
+                    </div>
+                    <div>
+                      <p className="text-sm font-medium text-foreground">{card.title}</p>
+                      <p className="text-xs text-muted-foreground mt-0.5">{card.desc}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </FadeIn>
+        </div>
       </div>
-    </FadeIn>
-  </div>
-);
+
+      <FadeIn delay={0.4}>
+        <div className="mt-24 text-center">
+          <Link
+            to="/contact"
+            className="inline-flex items-center gap-2 px-8 py-4 rounded-full text-sm font-medium text-white bg-gradient-to-r from-blue-accent to-cyan-accent hover:scale-[1.03] hover:shadow-[0_0_30px_rgba(79,142,247,0.4)] transition-all duration-200"
+          >
+            Let's build something together <ArrowRight size={16} />
+          </Link>
+        </div>
+      </FadeIn>
+    </section>
+  );
+};
 
 export default About;

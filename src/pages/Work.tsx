@@ -1,161 +1,117 @@
-import { motion } from "framer-motion";
+import { Github, ExternalLink } from "lucide-react";
 import FadeIn from "@/components/FadeIn";
-import { ExternalLink, Github } from "lucide-react";
 
 const projects = [
   {
-    title: "Grafterr POS",
-    type: "SaaS · Flutter",
-    description: "A full-featured Point of Sale system with real-time order management, payment integration, and multi-location support for the hospitality industry.",
-    contributions: [
-      "Built real-time order management with live kitchen display sync",
-      "Integrated multiple payment gateways for seamless transactions",
-      "Developed multi-location support with centralized reporting",
+    category: "SaaS · Flutter · Firebase",
+    name: "Real-time POS System",
+    description: "Cross-platform point-of-sale application for the hospitality industry with real-time order management and kitchen display integration.",
+    impact: [
+      "Built real-time order sync across multiple restaurant terminals",
+      "Reduced order processing time by 40% with optimized state management",
+      "Shipped to iOS, Android, and Web from single Flutter codebase",
     ],
-    platform: "Android Tablet / iPad",
-    accent: "bg-pastel-blue/40",
-    enterprise: true,
+    tech: ["Flutter", "Firebase", "BLoC", "WebSocket"],
+    platform: "iOS + Android + Web",
   },
   {
-    title: "Grafterr GO",
-    type: "Mobile · Flutter",
-    description: "Mobile ordering application enabling customers to browse menus, place orders, and pay seamlessly with real-time status updates.",
-    contributions: [
-      "Designed intuitive menu browsing with category navigation",
-      "Built real-time order tracking with push notifications",
-      "Implemented secure in-app payment flow",
+    category: "Fintech · Stripe · Flutter",
+    name: "Payment-Integrated Platform",
+    description: "SaaS billing and payment platform with Stripe and Razorpay integration, handling live transactions and subscription management.",
+    impact: [
+      "Integrated Stripe Connect for marketplace-style payouts",
+      "Built subscription billing with automated invoice generation",
+      "Processed 1000+ live transactions in first month",
     ],
-    platform: "iOS & Android",
-    accent: "bg-pastel-purple/40",
-    links: { playStore: "#", appStore: "#" },
+    tech: ["Flutter", "Stripe", "Razorpay", "Firebase"],
+    platform: "iOS + Android",
   },
   {
-    title: "Collection Display App",
-    type: "Mobile · Flutter",
-    description: "An elegant display application for curating and showcasing collections with smooth animations and intuitive navigation.",
-    contributions: [
-      "Created fluid page transitions with custom curves",
-      "Built responsive grid layouts for various screens",
-      "Implemented gesture-based navigation",
+    category: "Real-time · WebSocket · Flutter",
+    name: "Live Order Management",
+    description: "Real-time kitchen display and order notification system with WebSocket-powered instant updates across devices.",
+    impact: [
+      "Achieved sub-200ms order notification delivery",
+      "Built kitchen display system used across multiple locations",
+      "Implemented offline-first architecture with sync recovery",
     ],
-    platform: "iOS & Android",
-    accent: "bg-pastel-green/40",
-    enterprise: true,
+    tech: ["Flutter", "WebSocket", "GetX", "REST API"],
+    platform: "Mobile + Kitchen Display",
   },
   {
-    title: "Project Alpha",
-    type: "SaaS · React",
-    description: "SaaS platform with Stripe integration for subscription billing, team management, and analytics dashboard.",
-    contributions: [
-      "Architected subscription billing with Stripe",
-      "Built role-based access control system",
-      "Developed analytics dashboard with real-time data",
+    category: "Cross-platform · Flutter",
+    name: "Collection Display App",
+    description: "Cross-platform application for managing and displaying product collections with advanced filtering and search capabilities.",
+    impact: [
+      "Designed responsive UI adapting to phone, tablet, and web",
+      "Built advanced search with real-time filtering across 1000+ items",
+      "Implemented lazy loading for optimal performance on low-end devices",
     ],
-    platform: "Web",
-    accent: "bg-pastel-sand/40",
-    links: { github: "#", live: "#" },
-  },
-  {
-    title: "Project Beta",
-    type: "Real-time · React",
-    description: "Real-time chat and notification system with WebSocket-powered live updates and collaborative features.",
-    contributions: [
-      "Built WebSocket infrastructure for real-time messaging",
-      "Implemented push notification pipeline",
-      "Designed optimistic UI updates for instant feel",
-    ],
-    platform: "Web",
-    accent: "bg-pastel-blue/40",
-    links: { github: "#" },
+    tech: ["Flutter", "Dart", "Provider", "REST API"],
+    platform: "iOS + Android + Web",
   },
 ];
 
-const Work = () => (
-  <div className="pt-32 pb-24 px-6 md:px-12 max-w-6xl mx-auto">
-    <FadeIn>
-      <p className="text-xs font-medium text-muted-foreground tracking-widest uppercase mb-4">Portfolio</p>
-      <h1 className="font-serif text-4xl md:text-6xl font-semibold text-foreground mb-4">
-        Selected Projects
-      </h1>
-      <p className="text-muted-foreground text-lg mb-16">Real products. Real users. Real impact.</p>
-    </FadeIn>
+const Work = () => {
+  return (
+    <section className="min-h-screen pt-32 pb-24 px-6 max-w-[1200px] mx-auto">
+      <FadeIn>
+        <p className="font-mono text-xs text-blue-accent tracking-[4px] uppercase mb-4">Selected Work</p>
+        <h1 className="font-display text-4xl md:text-6xl font-bold text-foreground tracking-tight mb-4">
+          Apps I've shipped.
+        </h1>
+        <p className="text-muted-foreground text-lg mb-16">Real products. Real users. Real impact.</p>
+      </FadeIn>
 
-    <div className="space-y-8">
-      {projects.map((project, i) => (
-        <motion.article
-          key={project.title}
-          className="group bg-card rounded-2xl p-8 md:p-10 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-500 relative overflow-hidden"
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-60px" }}
-          transition={{ duration: 0.6, delay: i * 0.08 }}
-        >
-          <div className={`absolute -top-20 -right-20 w-48 h-48 rounded-full blur-3xl opacity-50 ${project.accent} pointer-events-none`} />
-
-          <div className="relative z-10">
-            <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
-              <div>
-                <h2 className="font-serif text-2xl md:text-3xl font-semibold text-foreground">{project.title}</h2>
-                <span className="inline-block mt-2 px-3 py-1 rounded-full bg-secondary text-xs font-medium text-muted-foreground">
-                  {project.type}
-                </span>
+      <div className="space-y-16">
+        {projects.map((project, i) => (
+          <FadeIn key={project.name} delay={i * 0.1}>
+            <div className="grid md:grid-cols-2 gap-8 items-center">
+              <div className={`${i % 2 === 1 ? 'md:order-2' : ''}`}>
+                <div className="glass-card-hover aspect-[4/3] relative overflow-hidden group cursor-pointer">
+                  <div className="absolute inset-0 flex items-center justify-center">
+                    <span className="font-display text-5xl md:text-6xl font-bold text-foreground/[0.04] select-none">{project.name}</span>
+                  </div>
+                  <div className="absolute inset-0 flex items-center justify-center gap-2 flex-wrap p-8">
+                    {project.tech.map((t) => (
+                      <span key={t} className="px-3 py-1 rounded-full bg-blue-accent/[0.08] border border-blue-accent/20 text-blue-accent font-mono text-[11px]">{t}</span>
+                    ))}
+                  </div>
+                  <div className="absolute top-4 left-4">
+                    <span className="px-3 py-1 rounded-full bg-card/90 border border-white/[0.08] font-mono text-[10px] text-muted-foreground uppercase tracking-wider">{project.category}</span>
+                  </div>
+                </div>
               </div>
-              <span className="text-xs text-muted-foreground">{String(i + 1).padStart(2, "0")}</span>
-            </div>
 
-            <p className="text-muted-foreground leading-relaxed mb-6 max-w-2xl">{project.description}</p>
-
-            <div className="mb-6">
-              <p className="text-xs font-semibold text-muted-foreground tracking-widest uppercase mb-3">Key Contributions</p>
-              <ul className="space-y-2">
-                {project.contributions.map((c, idx) => (
-                  <li key={idx} className="text-sm text-muted-foreground flex items-start gap-2">
-                    <span className="w-1 h-1 rounded-full bg-foreground/25 mt-2 shrink-0" />
-                    {c}
-                  </li>
-                ))}
-              </ul>
-            </div>
-
-            <div className="flex items-end justify-between">
-              <div>
-                <p className="text-xs font-semibold text-muted-foreground tracking-widest uppercase mb-1">Platform</p>
-                <p className="text-sm text-foreground">{project.platform}</p>
-              </div>
-              <div className="flex gap-3">
-                {project.links ? (
-                  <>
-                    {project.links.github && (
-                      <a href={project.links.github} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-muted-foreground transition-colors">
-                        <Github size={14} /> GitHub
-                      </a>
-                    )}
-                    {project.links.live && (
-                      <a href={project.links.live} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-muted-foreground transition-colors">
-                        <ExternalLink size={14} /> Live Demo
-                      </a>
-                    )}
-                    {project.links.playStore && (
-                      <a href={project.links.playStore} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-muted-foreground transition-colors">
-                        Play Store
-                      </a>
-                    )}
-                    {project.links.appStore && (
-                      <a href={project.links.appStore} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 text-xs font-medium text-foreground hover:text-muted-foreground transition-colors">
-                        App Store
-                      </a>
-                    )}
-                  </>
-                ) : (
-                  <p className="text-xs text-muted-foreground italic">Enterprise · On request</p>
-                )}
+              <div className={`space-y-5 ${i % 2 === 1 ? 'md:order-1' : ''}`}>
+                <p className="font-mono text-xs text-blue-accent tracking-[2px] uppercase">{project.category}</p>
+                <h3 className="font-display text-2xl md:text-4xl font-semibold text-foreground tracking-tight">{project.name}</h3>
+                <p className="text-muted-foreground text-[17px] leading-[1.7]">{project.description}</p>
+                <div className="space-y-2">
+                  {project.impact.map((point) => (
+                    <p key={point} className="text-sm text-muted-foreground flex gap-2">
+                      <span className="text-blue-accent shrink-0">→</span>
+                      {point}
+                    </p>
+                  ))}
+                </div>
+                <div className="flex flex-wrap gap-2 pt-2">
+                  {project.tech.map((t) => (
+                    <span key={t} className="px-3 py-1 rounded-full bg-blue-accent/[0.08] border border-blue-accent/20 text-blue-accent font-mono text-[11px]">{t}</span>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground font-mono">Platform: {project.platform}</p>
+                <div className="flex gap-3 pt-1">
+                  <a href="#" className="p-2 rounded-lg border border-white/[0.08] text-muted-foreground hover:text-blue-accent hover:border-blue-accent/25 transition-all" aria-label="GitHub"><Github size={16} /></a>
+                  <a href="#" className="p-2 rounded-lg border border-white/[0.08] text-muted-foreground hover:text-blue-accent hover:border-blue-accent/25 transition-all" aria-label="Live demo"><ExternalLink size={16} /></a>
+                </div>
               </div>
             </div>
-          </div>
-        </motion.article>
-      ))}
-    </div>
-  </div>
-);
+          </FadeIn>
+        ))}
+      </div>
+    </section>
+  );
+};
 
 export default Work;

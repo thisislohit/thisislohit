@@ -9,13 +9,14 @@ export default {
       center: true,
       padding: "2rem",
       screens: {
-        "2xl": "1400px",
+        "2xl": "1200px",
       },
     },
     extend: {
       fontFamily: {
-        serif: ["Cormorant Garamond", "Georgia", "serif"],
+        display: ["Syne", "system-ui", "sans-serif"],
         sans: ["DM Sans", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "monospace"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -51,11 +52,21 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
-        pastel: {
-          blue: "hsl(var(--mist-blue))",
-          purple: "hsl(var(--lavender))",
-          green: "hsl(var(--sage-green))",
-          sand: "hsl(var(--warm-sand))",
+        blue: {
+          accent: "hsl(var(--blue-accent))",
+        },
+        cyan: {
+          accent: "hsl(var(--cyan-accent))",
+        },
+        purple: {
+          accent: "hsl(var(--purple-accent))",
+        },
+        green: {
+          success: "hsl(var(--green-success))",
+        },
+        surface: {
+          DEFAULT: "hsl(var(--surface))",
+          hover: "hsl(var(--surface-hover))",
         },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
@@ -83,17 +94,27 @@ export default {
           to: { height: "0" },
         },
         "float": {
-          "0%, 100%": { transform: "translate(0, 0)" },
-          "33%": { transform: "translate(30px, -20px)" },
-          "66%": { transform: "translate(-20px, 15px)" },
+          "0%, 100%": { transform: "translateY(-8px)" },
+          "50%": { transform: "translateY(8px)" },
+        },
+        "pulse-glow": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0.5" },
+        },
+        "blink": {
+          "0%, 100%": { opacity: "1" },
+          "50%": { opacity: "0" },
         },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
-        "float-slow": "float 20s ease-in-out infinite",
-        "float-slower": "float 25s ease-in-out infinite",
-        "float-slowest": "float 30s ease-in-out infinite",
+        "float-1": "float 3s ease-in-out infinite",
+        "float-2": "float 3.5s ease-in-out 0.5s infinite",
+        "float-3": "float 4s ease-in-out 1s infinite",
+        "float-4": "float 3.2s ease-in-out 1.5s infinite",
+        "pulse-glow": "pulse-glow 2s ease-in-out infinite",
+        "blink": "blink 1s step-end infinite",
       },
     },
   },
