@@ -4,12 +4,14 @@ import { ArrowRight, Github, Linkedin, Mail, Smartphone, Zap, Globe, CreditCard,
 import FadeIn from "@/components/FadeIn";
 import { useEffect, useRef, useState } from "react";
 
+const ease = [0.16, 1, 0.3, 1] as const;
+
 const wordVariants = {
   hidden: { y: 20, opacity: 0 },
   visible: (i: number) => ({
     y: 0,
     opacity: 1,
-    transition: { duration: 0.6, delay: 0.3 + i * 0.08, ease: [0.16, 1, 0.3, 1] },
+    transition: { duration: 0.6, delay: 0.3 + i * 0.08, ease },
   }),
 };
 
