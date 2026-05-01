@@ -1,132 +1,68 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { Link, useLocation } from "react-router-dom";
-import { useState, useEffect } from "react";
-import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
 
-const navLinks = [
-  { label: "Work", path: "/work" },
-  { label: "About", path: "/about" },
-  { label: "Stack", path: "/stack" },
-  { label: "Experience", path: "/experience" },
-  { label: "Contact", path: "/contact" },
-];
+const navLinks = ["Product", "Features", "Integrations", "Testimonials", "Pricing"];
 
 const Navbar = () => {
-  const location = useLocation();
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 40);
+    const onScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", onScroll);
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => {
-    setMobileOpen(false);
-  }, [location.pathname]);
-
   return (
     <>
-      <motion.nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-          scrolled
-            ? "py-3 backdrop-blur-xl bg-[rgba(8,8,16,0.7)] border-b border-white/[0.05]"
-            : "py-4 bg-transparent"
+      <motion.header
+        initial={{ opacity: 0, y: -14 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45 }}
+        className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
+          scrolled ? "bg-white/95 backdrop-blur-xl border-b border-slate-200/80 py-4" : "bg-transparent py-5"
         }`}
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.3 }}
       >
-        <div className="max-w-[1200px] mx-auto px-6 flex items-center justify-between h-[56px]">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-0.5">
-            <span className="font-display text-lg font-bold text-foreground tracking-tight">LSK</span>
-            <span className="w-[2px] h-4 bg-blue-accent animate-blink ml-0.5" />
-          </Link>
-
-          {/* Desktop nav */}
-          <div className="hidden md:flex items-center gap-8">
+        <div className="mx-auto flex h-12 max-w-[1200px] items-center justify-between px-6">
+          <a href="#" className="text-xl font-bold tracking-tight text-slate-900">Loomify</a>
+          <nav className="hidden items-center gap-8 md:flex">
             {navLinks.map((link) => (
-              <Link
-                key={link.path}
-                to={link.path}
-                className="relative text-sm transition-colors duration-200 group"
-              >
-                <span className={
-                  location.pathname === link.path
-                    ? "text-blue-accent font-medium"
-                    : "text-muted-foreground hover:text-blue-accent"
-                }>
-                  {link.label}
-                </span>
-                {location.pathname === link.path && (
-                  <motion.span
-                    layoutId="nav-dot"
-                    className="absolute -bottom-1.5 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-blue-accent"
-                  />
-                )}
-              </Link>
+              <a key={link} href="#" className="text-sm font-medium text-slate-600 transition-colors hover:text-slate-900">
+                {link}
+              </a>
             ))}
-          </div>
-
-          {/* CTA + Mobile toggle */}
-          <div className="flex items-center gap-3">
-            <Link
-              to="/contact"
-              className="hidden md:inline-flex px-5 py-2 rounded-full text-sm font-medium text-blue-accent border border-blue-accent/50 bg-blue-accent/[0.08] hover:bg-blue-accent/[0.18] hover:shadow-[0_0_20px_rgba(79,142,247,0.3)] transition-all duration-200"
-            >
-              Hire Me →
-            </Link>
-            <button
-              className="md:hidden p-2 text-foreground"
-              onClick={() => setMobileOpen(!mobileOpen)}
-              aria-label="Toggle menu"
-            >
-              {mobileOpen ? <X size={20} /> : <Menu size={20} />}
+          </nav>
+          <div className="hidden md:block">
+            <button className="rounded-full bg-slate-900 px-6 py-2.5 text-sm font-semibold text-white shadow-[0_10px_30px_rgba(15,23,42,0.22)] transition-all hover:scale-[1.02] hover:shadow-[0_16px_36px_rgba(15,23,42,0.28)]">
+              Start Free Trial
             </button>
           </div>
+          <button onClick={() => setMobileOpen(!mobileOpen)} className="md:hidden text-sm font-semibold text-slate-900">Menu</button>
         </div>
-      </motion.nav>
+      </motion.header>
 
-      {/* Mobile drawer */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="fixed inset-0 z-40 md:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            className="fixed inset-0 z-40 bg-slate-950/30 p-6 md:hidden"
+            onClick={() => setMobileOpen(false)}
           >
-            <div className="absolute inset-0 bg-black/60" onClick={() => setMobileOpen(false)} />
             <motion.div
-              className="absolute right-0 top-0 bottom-0 w-72 bg-card border-l border-white/[0.06] p-8 pt-24 flex flex-col"
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "spring", damping: 30, stiffness: 300 }}
+              initial={{ y: -20, opacity: 0 }}
+              animate={{ y: 0, opacity: 1 }}
+              exit={{ y: -20, opacity: 0 }}
+              onClick={(e) => e.stopPropagation()}
+              className="mt-20 rounded-2xl bg-white p-6 shadow-xl"
             >
-              <div className="flex flex-col gap-6 flex-1">
+              <div className="flex flex-col gap-4">
                 {navLinks.map((link) => (
-                  <Link
-                    key={link.path}
-                    to={link.path}
-                    className={`text-lg font-display font-medium ${
-                      location.pathname === link.path
-                        ? "text-blue-accent"
-                        : "text-muted-foreground"
-                    }`}
-                  >
-                    {link.label}
-                  </Link>
+                  <a key={link} href="#" className="text-base text-slate-700">{link}</a>
                 ))}
+                <button className="mt-4 rounded-full bg-slate-900 px-5 py-3 text-sm font-semibold text-white">Start Free Trial</button>
               </div>
-              <Link
-                to="/contact"
-                className="mt-auto px-5 py-3 rounded-full text-sm font-medium text-blue-accent border border-blue-accent/50 bg-blue-accent/[0.08] text-center"
-              >
-                Hire Me →
-              </Link>
             </motion.div>
           </motion.div>
         )}

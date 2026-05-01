@@ -1,23 +1,31 @@
-import { Github, Linkedin } from "lucide-react";
+const footerColumns = [
+  { title: "Product", links: ["Features", "Roadmap", "Changelog", "Integrations"] },
+  { title: "Company", links: ["About", "Customers", "Careers", "Contact"] },
+  { title: "Resources", links: ["Documentation", "API", "Guides", "Status"] },
+];
 
 const Footer = () => (
-  <footer className="py-8 px-6 max-w-[1200px] mx-auto border-t border-white/[0.05]">
-    <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-      <p className="text-sm text-muted-foreground">
-        © {new Date().getFullYear()} Lohit Satya Sai Kuntamukkala
-      </p>
-      <p className="text-sm text-muted-foreground">
-        Built with Flutter love 💙
-      </p>
-      <div className="flex items-center gap-3">
-        {/* [FILL IN] Add real URLs */}
-        <a href="#" className="w-8 h-8 rounded-full border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-muted-foreground hover:text-blue-accent hover:border-blue-accent transition-all duration-200" aria-label="GitHub">
-          <Github size={14} />
-        </a>
-        <a href="#" className="w-8 h-8 rounded-full border border-white/[0.08] bg-white/[0.03] flex items-center justify-center text-muted-foreground hover:text-blue-accent hover:border-blue-accent transition-all duration-200" aria-label="LinkedIn">
-          <Linkedin size={14} />
-        </a>
+  <footer className="border-t border-slate-200 bg-white px-6 py-20">
+    <div className="mx-auto max-w-[1200px]">
+      <div className="grid gap-12 md:grid-cols-[1.4fr_2fr]">
+        <div>
+          <p className="text-2xl font-bold tracking-tight text-slate-900">Loomify</p>
+          <p className="mt-4 max-w-sm text-sm leading-7 text-slate-600">The all-in-one customer meeting and workflow platform for modern product teams.</p>
+        </div>
+        <div className="grid grid-cols-2 gap-10 sm:grid-cols-3">
+          {footerColumns.map((col) => (
+            <div key={col.title}>
+              <p className="mb-4 text-sm font-semibold text-slate-900">{col.title}</p>
+              <ul className="space-y-3">
+                {col.links.map((link) => (
+                  <li key={link}><a href="#" className="text-sm text-slate-600 hover:text-slate-900">{link}</a></li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
       </div>
+      <div className="mt-16 border-t border-slate-200 pt-8 text-sm text-slate-500">© 2026 Loomify Inc. All rights reserved.</div>
     </div>
   </footer>
 );

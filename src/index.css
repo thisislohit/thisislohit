@@ -4,132 +4,44 @@
 
 @layer base {
   :root {
-    --background: 230 50% 5%;
-    --foreground: 240 20% 97%;
-
-    --card: 230 40% 8%;
-    --card-foreground: 240 20% 97%;
-
-    --popover: 230 40% 8%;
-    --popover-foreground: 240 20% 97%;
-
-    --primary: 220 90% 64%;
+    --background: 210 33% 98%;
+    --foreground: 222 47% 11%;
+    --card: 0 0% 100%;
+    --card-foreground: 222 47% 11%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 222 47% 11%;
+    --primary: 222 47% 11%;
     --primary-foreground: 0 0% 100%;
-
-    --secondary: 230 40% 10%;
-    --secondary-foreground: 240 20% 97%;
-
-    --muted: 230 30% 12%;
-    --muted-foreground: 235 15% 55%;
-
-    --accent: 220 90% 64%;
+    --secondary: 210 40% 96%;
+    --secondary-foreground: 222 47% 11%;
+    --muted: 210 40% 96%;
+    --muted-foreground: 215 16% 47%;
+    --accent: 221 83% 53%;
     --accent-foreground: 0 0% 100%;
-
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
-
-    --border: 0 0% 100% / 0.06;
-    --input: 0 0% 100% / 0.06;
-    --ring: 220 90% 64%;
-
+    --border: 214 32% 91%;
+    --input: 214 32% 91%;
+    --ring: 221 83% 53%;
     --radius: 1rem;
-
-    /* Brand colors */
-    --blue-accent: 220 90% 64%;
-    --cyan-accent: 199 92% 59%;
-    --purple-accent: 232 80% 73%;
-    --green-success: 160 68% 52%;
-
-    /* Surface colors */
-    --surface: 230 40% 8%;
-    --surface-hover: 230 35% 12%;
-    --glow: 220 90% 64%;
-
-    --sidebar-background: 230 40% 8%;
-    --sidebar-foreground: 240 20% 97%;
-    --sidebar-primary: 220 90% 64%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 222 47% 11%;
+    --sidebar-primary: 222 47% 11%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 230 35% 12%;
-    --sidebar-accent-foreground: 240 20% 97%;
-    --sidebar-border: 0 0% 100% / 0.06;
-    --sidebar-ring: 220 90% 64%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
+    --sidebar-accent: 210 40% 96%;
+    --sidebar-accent-foreground: 222 47% 11%;
+    --sidebar-border: 214 32% 91%;
+    --sidebar-ring: 221 83% 53%;
   }
 
-  html {
-    scroll-behavior: smooth;
-  }
+  * { @apply border-border; }
+
+  html { scroll-behavior: smooth; }
 
   body {
     @apply bg-background text-foreground antialiased;
-    font-family: 'DM Sans', system-ui, sans-serif;
-    background-color: #080810;
+    font-family: Inter, system-ui, sans-serif;
   }
 
-  h1, h2, h3 {
-    font-family: 'Syne', system-ui, sans-serif;
-  }
-
-  /* Noise overlay */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    z-index: 9999;
-    pointer-events: none;
-    opacity: 0.025;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-    background-repeat: repeat;
-    background-size: 256px;
-  }
-
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-  }
-  ::-webkit-scrollbar-track {
-    background: transparent;
-  }
-  ::-webkit-scrollbar-thumb {
-    background: hsl(var(--muted-foreground) / 0.3);
-    border-radius: 3px;
-  }
-  ::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground) / 0.5);
-  }
-}
-
-@layer utilities {
-  .text-gradient-blue {
-    @apply bg-clip-text text-transparent;
-    background-image: linear-gradient(135deg, hsl(var(--blue-accent)), hsl(var(--cyan-accent)));
-  }
-
-  .glow-blue {
-    box-shadow: 0 0 40px hsl(var(--blue-accent) / 0.12);
-  }
-
-  .glow-blue-strong {
-    box-shadow: 0 0 30px hsl(var(--blue-accent) / 0.4);
-  }
-
-  .border-glow {
-    border-color: hsl(var(--blue-accent) / 0.25);
-  }
-
-  .glass-card {
-    @apply bg-card border border-white/[0.06] rounded-2xl;
-  }
-
-  .glass-card-hover {
-    @apply glass-card transition-all duration-300;
-  }
-  .glass-card-hover:hover {
-    @apply border-glow glow-blue;
-  }
+  h1, h2, h3, h4 { font-family: Inter, system-ui, sans-serif; }
 }

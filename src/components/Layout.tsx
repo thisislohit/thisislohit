@@ -2,14 +2,12 @@ import { Outlet, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
-import GradientBlobs from "./GradientBlobs";
 
 const Layout = () => {
   const location = useLocation();
 
   return (
     <div className="min-h-screen bg-background relative">
-      <GradientBlobs />
       <Navbar />
       <motion.main
         key={location.pathname}
