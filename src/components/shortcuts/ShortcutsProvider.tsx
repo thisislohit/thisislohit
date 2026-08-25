@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useRef, useState, type ReactNode } from "react";
+import { useRouter } from "next/navigation";
 import { ShortcutsDialog } from "./ShortcutsDialog";
 import { matchShortcut, isSequencePrefix } from "@/lib/shortcuts";
 
@@ -43,6 +44,7 @@ function isTypingTarget(target: EventTarget | null): boolean {
 //   button this provider exposes via context.
 export function ShortcutsProvider({ children }: { children: ReactNode }) {
   const [dialogOpen, setDialogOpen] = useState(false);
+  const router = useRouter();
   const bufferRef = useRef<string[]>([]);
   const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -79,7 +81,7 @@ export function ShortcutsProvider({ children }: { children: ReactNode }) {
 
       if (action) {
         event.preventDefault();
-        window.location.hash = action;
+        router.push(action);
         resetBuffer();
         return;
       }
@@ -98,7 +100,7 @@ export function ShortcutsProvider({ children }: { children: ReactNode }) {
       document.removeEventListener("keydown", handleKeyDown);
       resetBuffer();
     };
-  }, [resetBuffer]);
+  }, [resetBuffer, router]);
 
   return (
     <ShortcutsContext.Provider value={{ openDialog: () => setDialogOpen(true) }}>

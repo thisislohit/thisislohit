@@ -52,8 +52,10 @@ Decision: **Foundations & Education kept, scoped to the confirmed facts only.** 
 
 Decision: **Branded Identity does not become a section** — its content (wordmark, nav, footer social links, back-to-top) is a cross-page brand treatment and folds into Header/Footer implementation instead.
 
+Decision: **Split into separate routes — resolved 2026-08-25, supersedes the single-page IA below.** User requested real per-section pages instead of one page with anchor scrolling. Nav items each got their own route: `/` (Hero), `/about`, `/work` (+ Skills), `/experience` (+ Foundations & Education), `/contact`. Skills and Foundations stayed grouped into Work/Experience respectively rather than getting their own route — same as their scroll-only, no-nav-link status on the old layout. Footer moved into the shared root layout (renders on every route) instead of being the last section on one page.
+
 ## Functional Requirements
-- Single-page (or single-page-primary) scroll experience with anchor-based sections.
+- ~~Single-page (or single-page-primary) scroll experience with anchor-based sections.~~ **Superseded 2026-08-25** — see the routing decision above. Real routes per top-level nav item instead.
 - Hero, About, Work, Skills, Experience, Foundations & Education, Contact, Footer sections render with real content (see Content Needed).
 - Each Work item links out to a live project and/or source repo (external link, new tab).
 - Contact section provides a direct, working `mailto:` link (and optional social links) — no server-side form/backend in v1.

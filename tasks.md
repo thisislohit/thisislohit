@@ -105,6 +105,17 @@ User supplied a new "Experience Timeline" export (screenshot + `lohit_portfolio_
 
 **All 8 sections of the single-page site are now built out with real, approved content end to end** — Hero, About, Work, Skills, Experience, Foundations & Education, Contact, Footer.
 
+## Route Split (2026-08-25 — single page → separate pages)
+User requested real per-section pages instead of one page with anchor scrolling. See scope.md's routing decision and architecture.md's updated Routing row.
+- [x] New routes: `/` (Hero only), `/about` (About), `/work` (Work + Skills), `/experience` (Experience + Foundations & Education), `/contact` (Contact). Skills/Foundations grouped into the adjacent numbered section rather than getting their own route — matches their scroll-only, no-nav-link status on the old layout.
+- [x] Footer moved out of page.tsx into the root layout (`src/app/layout.tsx`) so it renders once, on every route, instead of being the last item in a single page's section list.
+- [x] `Navigation` rebuilt: `next/link` + `usePathname`-based active state replaces the old `IntersectionObserver` scroll-spy (no longer meaningful once sections live on different pages) — simpler, less client JS, no observer cleanup to manage.
+- [x] Hero's CTAs repointed: "View My Work →" → `/work`, "Let's Talk" → `/contact`, "Scroll to Explore" → renamed "Continue to About" (`ArrowRight`, not `ArrowDown` — it's a page navigation now, not a same-page scroll cue) → `/about`. Footer's back-to-top repointed to `/` as "Back to home".
+- [x] Keyboard shortcuts updated (`src/lib/shortcuts.ts`, `ShortcutsProvider.tsx`): actions are now real paths (`/`, `/work`, `/work#skills`, `/contact`) dispatched via `router.push` (`next/navigation`) instead of `window.location.hash`. Shortcut scope unchanged from the already-approved spec (`G H`/`G P`/`G S`/`G C`) — no new shortcuts added for About/Experience.
+- [x] `sitemap.ts` updated to emit one entry per route (was a single `/` entry).
+- [x] Per-route `metadata` (title/description) added to all 4 new page files — reuses existing, already-approved section copy, nothing invented.
+- [x] Verified: all 4 new routes build as static (`○ /about`, `/work`, `/experience`, `/contact` in build output), `npm run build`/`npm run lint` clean. Live-checked in-browser: correct page content per route, nav active-state (`aria-current`) matches the current path, Hero CTAs and Footer home link resolve to the right routes, `G P`/`G H` shortcuts navigate correctly via client-side transition, mobile nav overlay still opens with the updated route links.
+
 ## Portfolio Sections (Phase 7–8, complete — 2026-08-25)
 - [x] Hero — implemented 2026-08-25 (src/sections/Hero.tsx, static per user's explicit choice — no Stitch "animated" variant, page's one real `<h1>`, View Work/Get in touch CTAs)
 - [x] About — implemented 2026-08-25 (src/sections/About.tsx)

@@ -1,16 +1,19 @@
 // Structural shortcut list straight from scope.md's already-approved spec
-// (§Functional Requirements) — not invented here. Actions are bare section
-// ids (no leading '#'), matching the real ids in src/sections/*.
+// (§Functional Requirements) — not invented here. Actions are real routes
+// as of 2026-08-25's move from one page with anchors to separate pages
+// (src/app/{about,work,experience,contact}/page.tsx). "g s" targets
+// Skills's in-page id on the /work route, matching its scroll-only status
+// on the old layout.
 export interface ShortcutSequence {
   keys: string[];
   action: string;
 }
 
 export const NAVIGATION_SHORTCUTS: ShortcutSequence[] = [
-  { keys: ["g", "h"], action: "hero" },
-  { keys: ["g", "p"], action: "work" },
-  { keys: ["g", "s"], action: "skills" },
-  { keys: ["g", "c"], action: "contact" },
+  { keys: ["g", "h"], action: "/" },
+  { keys: ["g", "p"], action: "/work" },
+  { keys: ["g", "s"], action: "/work#skills" },
+  { keys: ["g", "c"], action: "/contact" },
 ];
 
 // Pure, DOM/timer-free matching so it's directly testable — the provider

@@ -1,4 +1,5 @@
-import { ArrowDown, ArrowUpRight } from "lucide-react";
+import NextLink from "next/link";
+import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { Heading } from "@/components/ui/Heading";
 import { Text } from "@/components/ui/Text";
@@ -67,13 +68,13 @@ export default function Hero() {
 
           <div className="flex flex-wrap items-center gap-8">
             <Button
-              href="#work"
+              href="/work"
               variant="primary"
               className="!font-metadata !text-metadata uppercase tracking-metadata"
             >
               View My Work →
             </Button>
-            <Link href="#contact" className="inline-flex items-center gap-1 uppercase">
+            <Link href="/contact" className="inline-flex items-center gap-1 uppercase">
               <Text variant="metadata" as="span" className="!text-accent-primary-text">
                 Let&apos;s Talk
               </Text>
@@ -101,13 +102,13 @@ export default function Hero() {
           </div>
         </div>
 
-        <a
-          href="#about"
+        <NextLink
+          href="/about"
           className="inline-flex items-center gap-2 self-start font-sans text-metadata font-metadata uppercase tracking-metadata text-text-primary transition-colors duration-fast hover:text-accent-primary"
         >
-          Scroll to Explore
-          <ArrowDown size={16} strokeWidth={2} aria-hidden="true" />
-        </a>
+          Continue to About
+          <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+        </NextLink>
       </div>
     </Section>
   );

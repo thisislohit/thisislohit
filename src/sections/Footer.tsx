@@ -1,3 +1,4 @@
+import NextLink from "next/link";
 import { ArrowUp } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { SocialLink } from "@/components/ui/SocialLink";
@@ -45,13 +46,13 @@ export default function Footer() {
             <SocialLink key={link.href} label={link.label} href={link.href} />
           ))}
 
-          <a
-            href="#hero"
-            aria-label="Back to top"
+          <NextLink
+            href="/"
+            aria-label="Back to home"
             className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-sm border border-transparent text-text-primary transition-colors duration-fast hover:border-border"
           >
             <ArrowUp size={20} strokeWidth={2} aria-hidden="true" />
-          </a>
+          </NextLink>
         </div>
       </div>
     </Section>

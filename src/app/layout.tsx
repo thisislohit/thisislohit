@@ -3,6 +3,7 @@ import { Geist } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/ui/Navigation";
 import { ShortcutsProvider } from "@/components/shortcuts/ShortcutsProvider";
+import Footer from "@/sections/Footer";
 
 // design.md specifies a single family (Geist) for both display and body —
 // no separate mono/serif. next/font self-hosts at build time, satisfying
@@ -45,18 +46,20 @@ export const metadata: Metadata = {
   },
 };
 
-// Structural nav labels/anchors, not user content — matches the link set
+// Structural nav labels/routes, not user content — matches the link set
 // Stitch's own generated screens consistently used across every pulled
 // reference (stitch-design/html/*.html: "Work | Experience | About |
-// Contact"), and the real section ids already defined in src/sections/.
-// Skills/Beyond Mobile/Foundations are reachable by scroll, same as in the
-// Stitch reference, without a top-nav entry. Resume is intentionally
-// omitted until a real resume link exists (tasks.md "Content Needed").
+// Contact"). As of 2026-08-25 these are real routes, not same-page anchors
+// — see src/app/{about,work,experience,contact}/page.tsx. Skills/Foundations
+// are reachable within Work/Experience respectively, same as they were
+// scroll-only (no top-nav entry) on the old single-page layout. Resume is
+// intentionally omitted until a real resume link exists (tasks.md "Content
+// Needed From User").
 const NAV_LINKS = [
-  { label: "About", href: "#about" },
-  { label: "Work", href: "#work" },
-  { label: "Experience", href: "#experience" },
-  { label: "Contact", href: "#contact" },
+  { label: "About", href: "/about" },
+  { label: "Work", href: "/work" },
+  { label: "Experience", href: "/experience" },
+  { label: "Contact", href: "/contact" },
 ];
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -70,7 +73,8 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="min-h-full flex flex-col overflow-x-hidden">
         <ShortcutsProvider>
           <Navigation links={NAV_LINKS} homeLabel="thisislohit" />
-          {children}
+          <main className="flex flex-col gap-stack-xl">{children}</main>
+          <Footer />
         </ShortcutsProvider>
       </body>
     </html>

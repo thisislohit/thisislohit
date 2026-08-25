@@ -118,6 +118,8 @@ Decision:
 - Experience rows kept non-interactive (no arrow icon) since there's no real link destination per entry, unlike ProjectRow
 - Experience headline/closing copy implemented directly without separate draft-approval round-trip, given user's urgency ('I'll push it later but I need to fix') and that every prior draft this session had been approved unedited — flagged as a deviation, not a new default
 - Domain locked in: thisislohit.dev (final), thisislohit.pages.dev (Cloudflare Pages) used as the temporary live deployment until the real domain is pointed at it
+- Skills and Foundations & Education did NOT get their own routes — grouped into /work and /experience respectively, matching their pre-existing scroll-only (no nav link) status
+- Deployment platform is Cloudflare (Workers, GitHub-integrated auto-deploy), not Vercel as architecture.md originally planned — corrected in architecture.md 2026-08-25
 
 Architecture:
 - Next.js App Router + TypeScript + Tailwind v4 + typed local data files, no CMS, no animation library, Vercel deploy. Full reasoning in architecture.md.
@@ -232,6 +234,7 @@ Completed:
 - Archived experience-v2.html/png into stitch-design/
 - Updated tasks.md with full Experience Timeline Upgrade entry
 - Set metadataBase in layout.tsx and base URLs in sitemap.ts/robots.ts to https://thisislohit.pages.dev (resolves the prior Next.js metadataBase warning); build and lint verified clean
+- Split single-page site into real routes: / (Hero), /about, /work (+Skills), /experience (+Foundations), /contact. Footer moved to root layout. Navigation rebuilt on usePathname instead of IntersectionObserver scroll-spy. Keyboard shortcuts now use router.push to real paths. sitemap.ts emits one entry per route. Verified build/lint clean and live in-browser.
 
 Current:
 - Attempted to pull the Stitch design through the `stitch` MCP server. Its tools were not available in that session's tool list — Claude Code only loads an MCP server's tools at session start, and `stitch` was registered mid-session. The connection itself is healthy; this is a session-boot limitation, not a config problem.
