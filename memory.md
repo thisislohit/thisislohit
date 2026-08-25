@@ -241,6 +241,7 @@ Completed:
 - Split single-page site into real routes: / (Hero), /about, /work (+Skills), /experience (+Foundations), /contact. Footer moved to root layout. Navigation rebuilt on usePathname instead of IntersectionObserver scroll-spy. Keyboard shortcuts now use router.push to real paths. sitemap.ts emits one entry per route. Verified build/lint clean and live in-browser.
 - Added Hero entrance animation matching stitch-design/html/hero-animated.html; verified build/lint clean and all animated elements settle at opacity:1
 - Redesigned Skills section (src/sections/Skills.tsx) to match the 'Expertise / Technical Stack' Stitch export: table header row, stat card, 7 category titles promoted to real <h3>s, accent-tag highlighting, new 'Stack // Production' compact index sourced from existing skillGroups tags. Verified via accessibility tree/page text (screenshot pane was flaky); build/lint clean.
+- Added principle-row hover polish to About.tsx (accent-primary-text/5 bg tint + number shift), matching the Engineering Philosophy Stitch export which otherwise already matched the existing implementation almost exactly
 
 Current:
 - Attempted to pull the Stitch design through the `stitch` MCP server. Its tools were not available in that session's tool list — Claude Code only loads an MCP server's tools at session start, and `stitch` was registered mid-session. The connection itself is healthy; this is a session-boot limitation, not a config problem.

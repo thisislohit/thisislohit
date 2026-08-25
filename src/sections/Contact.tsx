@@ -17,6 +17,13 @@ import { social } from "@/data/social";
 // Deliberately not repeated: the Stitch reference reuses "Built for Real
 // Users." as a closing line here too — that's already Work's closing
 // line, so it isn't duplicated.
+//
+// "TALK." watermark (2026-08-25, matching stitch-design/html/contact-
+// closing.html) — purely decorative background type, aria-hidden and
+// select-none since it carries no information. The reference's footer
+// changes (Twitter link, "LSSK.DEV" wordmark, new tagline) are NOT part
+// of this — Footer is shared across every route and those were already
+// declined in earlier rounds this session.
 export default function Contact() {
   const contactItems: { label: string; value: string; href?: string }[] = [
     ...(social.email
@@ -56,17 +63,26 @@ export default function Contact() {
           Available for Work
         </Tag>
 
-        <div className="mt-4 flex flex-col divide-y divide-border border-t border-border">
-          {contactItems.map((item) => (
-            <ListRow key={item.label} href={item.href}>
-              <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-6">
-                <Text variant="metadata" as="span" className="shrink-0 sm:w-32">
-                  {item.label}
-                </Text>
-                <Text variant="body-md">{item.value}</Text>
-              </div>
-            </ListRow>
-          ))}
+        <div className="relative overflow-hidden">
+          <span
+            aria-hidden="true"
+            className="watermark-text pointer-events-none absolute -bottom-8 -right-4 select-none font-sans text-display-xl-mobile font-display-xl uppercase leading-none tracking-display-xl lg:text-display-xl"
+          >
+            Talk.
+          </span>
+
+          <div className="relative mt-4 flex flex-col divide-y divide-border border-t border-border">
+            {contactItems.map((item) => (
+              <ListRow key={item.label} href={item.href}>
+                <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-6">
+                  <Text variant="metadata" as="span" className="shrink-0 sm:w-32">
+                    {item.label}
+                  </Text>
+                  <Text variant="body-md">{item.value}</Text>
+                </div>
+              </ListRow>
+            ))}
+          </div>
         </div>
       </div>
     </Section>

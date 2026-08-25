@@ -105,6 +105,12 @@ User supplied a new "Experience Timeline" export (screenshot + `lohit_portfolio_
 
 **All 8 sections of the single-page site are now built out with real, approved content end to end** — Hero, About, Work, Skills, Experience, Foundations & Education, Contact, Footer.
 
+## Contact Watermark (2026-08-25 — matching the "Contact / Closing" export)
+User shared `lohit_portfolio_contact_closing/code.html`. Like About, Contact.tsx already matched this reference almost exactly (same headline, statement, CTA, Available for Work tag, and contact list rows/arrows) from earlier session work.
+- [x] Added the reference's decorative "TALK." background watermark behind the contact list — outlined-only display type (`.watermark-text` in globals.css, `-webkit-text-stroke` using the existing `--color-border` token, not a new color), `aria-hidden` + `pointer-events-none` since it carries no information, `overflow-hidden` on its wrapper so it can't cause horizontal scroll.
+- [x] Deliberately did NOT change: Footer (shared across every route — the reference's Twitter link, "LSSK.DEV" wordmark, and new "Built With Flutter / Code / Curiosity" tagline were already declined in the last two rounds, not re-litigated here).
+- [x] Verified: `npm run build`/`npm run lint` clean; live-checked in-browser — watermark renders correctly behind the Location row, no horizontal overflow at 375px (`window.scrollX` stays `0` after `scrollTo`).
+
 ## About Principle-Row Hover Polish (2026-08-25 — matching the "Engineering Philosophy" export)
 User shared `lohit_portfolio_about_engineering_philosophy/code.html`. Unlike the Hero/Skills exports, About.tsx already matched this reference almost exactly (same headline, same 4 principles with identical titles/descriptions/tags, same "The App Is Only the Surface." break, same How I Work grid) from earlier session work — confirmed with the user before doing anything further.
 - [x] Added the reference's principle-row hover interaction: a subtle background tint (`hover:bg-accent-primary-text/5` — Tailwind's built-in opacity modifier on the existing token, not a new one-off color) and the row number shifting right + turning blue on hover (`group-hover:translate-x-1 group-hover:text-accent-primary-text`).

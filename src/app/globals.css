@@ -313,3 +313,14 @@ body {
 .animate-pulse-horizontal {
   animation: pulse-horizontal 2s ease-in-out infinite;
 }
+
+/* Contact's decorative background watermark (2026-08-25, matching
+   stitch-design/html/contact-closing.html) — outlined-only display type,
+   reusing the display-xl size/weight tokens rather than the reference's
+   own one-off 250px value, and --color-border for the stroke so it stays
+   on the existing token system. Purely ornamental (aria-hidden in
+   Contact.tsx), never the only way to reach any real content. */
+.watermark-text {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-border);
+}
