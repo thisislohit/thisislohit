@@ -1,0 +1,24 @@
+---
+description: Session workflow and documentation-sync rules
+globs: "**/*"
+alwaysApply: true
+---
+
+# Documentation Rules
+
+Before starting work in a new session, read in this order:
+1. `memory.md`
+2. `scope.md`
+3. `architecture.md`
+4. `design.md`
+5. `DESIGN_SYSTEM.md`
+6. `plan.md`
+7. `tasks.md`
+
+After completing meaningful work:
+- Update `tasks.md` (check off completed items; add newly discovered ones).
+- Update `memory.md` — append a dated Session Log entry (Decision / Architecture / Design / Completed / Next / Notes format already used in the file). Keep it compact; never paste full conversation transcripts.
+- Document any new or changed architectural decision inline in `architecture.md` or `DESIGN_SYSTEM.md` (whichever it belongs to), not only in `memory.md`.
+- Do not rewrite historical `memory.md` entries unless a decision was actually reversed — if reversed, add a new entry noting the change and why; don't silently delete the old one.
+
+The repository documentation (`memory.md`, `scope.md`, `architecture.md`, `design.md`, `DESIGN_SYSTEM.md`, `plan.md`, `tasks.md`) is the source of truth for the project. A new session must never require prior chat history to understand current state.

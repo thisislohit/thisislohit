@@ -1,0 +1,21 @@
+{
+  "name": "thisislohit-mcp-server",
+  "version": "0.1.0",
+  "description": "Minimal MCP server exposing thisislohit portfolio project context (scope, architecture, design tokens, memory, tasks) to Claude.",
+  "private": true,
+  "type": "module",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "dev": "tsc -p tsconfig.json --watch"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.30.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "typescript": "^5.7.2"
+  }
+}

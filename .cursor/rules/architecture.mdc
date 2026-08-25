@@ -1,0 +1,15 @@
+---
+description: Architecture rules — enforce the stack and folder structure decided in architecture.md
+globs: src/**/*
+alwaysApply: true
+---
+
+# Architecture Rules
+
+- Follow `architecture.md`. Do not introduce a different framework, CSS approach, state library, or CMS without updating that document and getting explicit approval first.
+- Avoid unnecessary dependencies. Before adding any package, check the "Explicitly rejected" list in `architecture.md` (CMS, Framer Motion/GSAP, Redux/Zustand, CSS-in-JS, contact-form backend) — these were deliberately rejected for this project's scope.
+- Avoid unnecessary abstractions. Do not create a wrapper, hook, or generic system for something used only once.
+- Prefer Server Components. A file becomes a Client Component (`"use client"`) only when it needs browser interactivity (keyboard shortcuts, mobile nav toggle, shortcuts dialog) — not by default.
+- Keep components focused: one component, one responsibility. Generic primitives live in `src/components/ui/`; page-specific composition lives in `src/sections/`. Do not let section-specific logic leak into `ui/`.
+- Keep content and UI separate: project/skill/experience data lives in `src/data/*.ts`, never hardcoded inside a section component.
+- No project/skill/experience content may be invented. If real data is missing, it belongs in `tasks.md` "Content Needed," not filled in as placeholder inside a data file being treated as final.

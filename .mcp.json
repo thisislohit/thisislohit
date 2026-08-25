@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "thisislohit": {
+      "type": "stdio",
+      "command": "node",
+      "args": [
+        "/Users/lohit/LohithFlutter/thisislohit/mcp-server/dist/index.js"
+      ],
+      "env": {}
+    }
+  }
+}

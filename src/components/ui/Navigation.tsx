@@ -1,0 +1,158 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import * as Dialog from "@radix-ui/react-dialog";
+import { Menu, X, CircleHelp } from "lucide-react";
+import { IconButton } from "./IconButton";
+import { useShortcuts } from "@/components/shortcuts/ShortcutsProvider";
+
+export interface NavLink {
+  label: string;
+  href: string;
+}
+
+interface NavigationProps {
+  links: NavLink[];
+  homeHref?: string;
+  homeLabel: string;
+}
+
+// design.md doesn't visually specify Navigation — DESIGN_SYSTEM.md Part 3
+// derives it from the IA + shape rules: minimal text links, no pill/box
+// background, current section via accent-primary text (not a box), mobile
+// as a full-screen overlay. This is one of architecture.md's three named
+// Client Component boundaries (mobile nav toggle) — everything else on the
+// page stays server-rendered.
+//
+// The mobile overlay is built on Radix Dialog, not hand-rolled — found
+// during the 2026-08-25 QA pass that an earlier hand-rolled version had a
+// real bug: the top-bar wordmark/hamburger stayed keyboard-focusable
+// underneath the visually-covering overlay (no focus trap, no focus
+// restoration on close). architecture.md's own reasoning for depending on
+// Radix at all — "building an accessible focus-trapped modal from scratch
+// is exactly the kind of foundational-but-tricky problem not worth
+// reinventing" — applies here word-for-word, same as it does to
+// ShortcutsDialog.
+export function Navigation({ links, homeHref = "#hero", homeLabel }: NavigationProps) {
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [activeHref, setActiveHref] = useState<string | null>(null);
+  const { openDialog } = useShortcuts();
+
+  // Scroll-spy: highlight whichever linked section currently owns the
+  // vertical "reading band" of the viewport, rather than requiring exact
+  // full visibility.
+  useEffect(() => {
+    const targets = links
+      .map((link) => document.querySelector(link.href))
+      .filter((el): el is Element => el !== null);
+
+    if (targets.length === 0) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const mostVisible = entries
+          .filter((entry) => entry.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (mostVisible) {
+          setActiveHref(`#${mostVisible.target.id}`);
+        }
+      },
+      { rootMargin: "-40% 0px -50% 0px", threshold: [0, 0.25, 0.5, 0.75, 1] },
+    );
+
+    targets.forEach((target) => observer.observe(target));
+    return () => observer.disconnect();
+  }, [links]);
+
+  return (
+    <nav
+      aria-label="Primary"
+      className="sticky top-0 z-nav border-b border-border-subtle bg-background/80 backdrop-blur-sm"
+    >
+      <div className="flex items-center justify-between px-margin-page-mobile md:px-margin-page py-6">
+        <a
+          href={homeHref}
+          className="font-sans text-headline-lg-mobile lg:text-headline-lg font-headline uppercase tracking-tighter text-text-primary"
+        >
+          {homeLabel}
+        </a>
+
+        <div className="hidden lg:flex items-center gap-6">
+          <ul className="flex items-center gap-6">
+            {links.map((link) => {
+              const isActive = activeHref === link.href;
+              return (
+                <li key={link.href}>
+                  <a
+                    href={link.href}
+                    aria-current={isActive ? "true" : undefined}
+                    className={
+                      "font-sans text-metadata font-metadata uppercase tracking-metadata transition-colors duration-fast " +
+                      (isActive
+                        ? // Persistent, not just a hover flash — stays
+                          // visible for as long as that section is
+                          // scrolled to, so it needs the AA-safe text
+                          // color (see globals.css accent-primary-text),
+                          // not the literal design.md blue. Bold +
+                          // underline (border, not text-decoration) per
+                          // the updated nav design, 2026-08-25.
+                          "border-b-2 border-accent-primary-text font-bold text-accent-primary-text"
+                        : "text-text-primary hover:text-accent-primary")
+                    }
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              );
+            })}
+          </ul>
+
+          {/* Visible discoverability affordance for the "?" shortcut
+              (scope.md) — every keyboard shortcut has a non-keyboard
+              equivalent; this is "?"'s. Desktop-only, matching the
+              shortcut system itself being desktop-only. */}
+          <IconButton
+            icon={<CircleHelp size={20} strokeWidth={2} />}
+            aria-label="Open keyboard shortcuts"
+            onClick={openDialog}
+          />
+        </div>
+
+        <div className="lg:hidden">
+          <Dialog.Root open={mobileOpen} onOpenChange={setMobileOpen}>
+            <Dialog.Trigger asChild>
+              <IconButton icon={<Menu size={24} strokeWidth={2} />} aria-label="Open menu" />
+            </Dialog.Trigger>
+            <Dialog.Portal>
+              <Dialog.Content className="fixed inset-0 z-nav bg-background flex flex-col">
+                <Dialog.Title className="sr-only">Mobile navigation</Dialog.Title>
+                <div className="flex items-center justify-between px-margin-page-mobile py-6">
+                  <span className="font-sans text-headline-lg-mobile font-headline uppercase tracking-tighter text-text-primary">
+                    {homeLabel}
+                  </span>
+                  <Dialog.Close asChild>
+                    <IconButton icon={<X size={24} strokeWidth={2} />} aria-label="Close menu" />
+                  </Dialog.Close>
+                </div>
+                <ul className="flex flex-col gap-6 px-margin-page-mobile py-6">
+                  {links.map((link) => (
+                    <li key={link.href}>
+                      <Dialog.Close asChild>
+                        <a
+                          href={link.href}
+                          className="text-headline-lg-mobile font-headline tracking-headline-lg-mobile text-text-primary"
+                        >
+                          {link.label}
+                        </a>
+                      </Dialog.Close>
+                    </li>
+                  ))}
+                </ul>
+              </Dialog.Content>
+            </Dialog.Portal>
+          </Dialog.Root>
+        </div>
+      </div>
+    </nav>
+  );
+}

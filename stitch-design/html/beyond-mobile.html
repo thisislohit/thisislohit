@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html class="scroll-smooth" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lohit Portfolio - Beyond Mobile</title>
+<link href="https://fonts.googleapis.com" rel="preconnect"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary-container": "#738e00",
+                        "secondary-fixed-dim": "#b4c4ff",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed-dim": "#aed500",
+                        "on-secondary-fixed": "#00174c",
+                        "secondary-container": "#3a6bed",
+                        "on-primary-fixed": "#1c1b1b",
+                        "tertiary-fixed": "#c8f31d",
+                        "surface-container": "#eeeeea",
+                        "surface-tint": "#5f5e5e",
+                        "surface-bright": "#faf9f5",
+                        "inverse-surface": "#2f312e",
+                        "background": "#faf9f5",
+                        "on-tertiary-fixed-variant": "#3d4d00",
+                        "outline": "#747878",
+                        "secondary-fixed": "#dbe1ff",
+                        "surface": "#faf9f5",
+                        "outline-variant": "#c4c7c7",
+                        "on-primary-fixed-variant": "#474646",
+                        "on-error": "#ffffff",
+                        "surface-variant": "#e2e3df",
+                        "tertiary-container": "#171e00",
+                        "primary": "#000000",
+                        "error": "#ba1a1a",
+                        "primary-container": "#1c1b1b",
+                        "surface-container-highest": "#e2e3df",
+                        "surface-container-low": "#f4f4f0",
+                        "on-surface-variant": "#444748",
+                        "on-secondary-fixed-variant": "#003daa",
+                        "surface-dim": "#dadad6",
+                        "on-secondary-container": "#fefcff",
+                        "surface-container-high": "#e8e8e4",
+                        "on-error-container": "#93000a",
+                        "inverse-on-surface": "#f1f1ed",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "on-primary-container": "#858383",
+                        "tertiary": "#000000",
+                        "on-primary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-surface": "#1a1c1a",
+                        "surface-container-lowest": "#ffffff",
+                        "secondary": "#1151d3",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1a1c1a",
+                        "inverse-primary": "#c8c6c5",
+                        "primary-fixed": "#e5e2e1",
+                        "on-tertiary-fixed": "#171e00"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "gutter": "1.5rem",
+                        "stack-xl": "8rem",
+                        "stack-lg": "4rem",
+                        "stack-md": "2rem",
+                        "margin-page": "4rem"
+                    },
+                    "fontFamily": {
+                        "body-md": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "metadata": ["Geist"],
+                        "headline-lg-mobile": ["Geist"],
+                        "display-xl": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "display-lg": ["Geist"]
+                    },
+                    "fontSize": {
+                        "body-md": ["17px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "headline-lg": ["64px", { "lineHeight": "0.95", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "metadata": ["12px", { "lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "600" }],
+                        "headline-lg-mobile": ["48px", { "lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "display-xl": ["150px", { "lineHeight": "0.85", "letterSpacing": "-0.08em", "fontWeight": "900" }],
+                        "body-lg": ["20px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-lg": ["96px", { "lineHeight": "0.9", "letterSpacing": "-0.06em", "fontWeight": "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .editorial-border-b { border-bottom: 1px solid rgba(17, 17, 17, 0.15); }
+        .editorial-border-t { border-top: 1px solid rgba(17, 17, 17, 0.15); }
+        .editorial-border { border: 1px solid rgba(17, 17, 17, 0.15); }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased selection:bg-tertiary-fixed selection:text-primary min-h-screen flex flex-col">
+<!-- TopNavBar -->
+<nav class="w-full top-0 sticky bg-background border-b border-primary/10 z-50">
+<div class="flex justify-between items-center w-full px-margin-page py-6 max-w-full mx-auto">
+<a class="font-headline-lg-mobile text-headline-lg-mobile md:font-headline-lg md:text-headline-lg font-bold tracking-tighter text-primary" href="#">Lohit Satya Sai</a>
+<div class="hidden md:flex items-center gap-8">
+<a class="font-metadata text-metadata uppercase tracking-widest text-primary opacity-70 hover:opacity-100 transition-opacity cursor-pointer active:scale-95" href="#">Work</a>
+<a class="font-metadata text-metadata uppercase tracking-widest text-secondary font-bold border-b-2 border-secondary cursor-pointer active:scale-95" href="#">Experience</a>
+<a class="font-metadata text-metadata uppercase tracking-widest text-primary opacity-70 hover:opacity-100 transition-opacity cursor-pointer active:scale-95" href="#">About</a>
+<a class="font-metadata text-metadata uppercase tracking-widest text-primary opacity-70 hover:opacity-100 transition-opacity cursor-pointer active:scale-95" href="#">Contact</a>
+<button class="bg-primary text-on-primary font-metadata text-metadata uppercase tracking-widest px-6 py-3 rounded-none hover:bg-[#4D7CFE] transition-colors cursor-pointer active:scale-95">Resume</button>
+</div>
+<!-- Mobile Menu Toggle (Decorative) -->
+<button class="md:hidden p-2 text-primary">
+<span class="material-symbols-outlined">menu</span>
+</button>
+</div>
+</nav>
+<main class="flex-grow w-full max-w-[1440px] mx-auto px-margin-page pb-stack-xl">
+<!-- SECTION INTRODUCTION -->
+<section class="pt-stack-xl pb-stack-lg border-b border-primary/10">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter">
+<div class="md:col-span-4 flex flex-col justify-end pb-8">
+<span class="font-metadata text-metadata text-primary/60 tracking-widest uppercase block mb-4">05 — Beyond Mobile</span>
+<p class="font-body-lg text-body-lg text-primary/80 max-w-sm">
+                        Outside my full-time mobile work, I experiment with the technologies around the product — from backend APIs and databases to web applications, deployment, and AR.
+                    </p>
+<p class="font-body-md text-body-md text-primary/60 mt-6 max-w-sm">
+                        Some are freelance projects. Some are experiments. Some are systems I'm actively learning by building.
+                    </p>
+</div>
+<div class="md:col-span-8 flex items-end">
+<h1 class="font-display-lg text-display-lg md:font-display-xl md:text-display-xl font-black text-primary tracking-tighter leading-none uppercase max-w-4xl">
+                        More Than<br/>The App.
+                    </h1>
+</div>
+</div>
+</section>
+<!-- FULL-STACK DEVELOPMENT -->
+<section class="py-stack-lg border-b border-primary/10">
+<div class="mb-stack-md">
+<h2 class="font-display-lg text-display-lg font-black tracking-tighter uppercase leading-none text-primary">
+                    From Mobile To <span class="text-[#4D7CFE]">Full Stack</span>.
+                </h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter relative">
+<div class="md:col-span-5">
+<p class="font-body-lg text-body-lg text-primary mb-stack-md max-w-md border-l border-[#4D7CFE] pl-6 py-2">
+                        "I learn new technologies by building complete systems rather than studying them in isolation."
+                    </p>
+<div class="flex flex-col gap-6">
+<div class="editorial-border p-6 relative bg-surface">
+<span class="font-metadata text-metadata text-primary/50 absolute top-2 right-2">FRONTEND</span>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">React</span>
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">TypeScript</span>
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">HTML</span>
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">CSS</span>
+</div>
+</div>
+<div class="editorial-border p-6 relative bg-surface">
+<span class="font-metadata text-metadata text-primary/50 absolute top-2 right-2">BACKEND</span>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">Node.js</span>
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">Express</span>
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">REST APIs</span>
+</div>
+</div>
+<div class="editorial-border p-6 relative bg-surface">
+<span class="font-metadata text-metadata text-primary/50 absolute top-2 right-2">DATABASE</span>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">SQL</span>
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">MySQL</span>
+</div>
+</div>
+<div class="editorial-border p-6 relative bg-surface">
+<span class="font-metadata text-metadata text-primary/50 absolute top-2 right-2">DEPLOYMENT</span>
+<div class="flex flex-wrap gap-2 mt-2">
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">VPS</span>
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">Linux</span>
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">Nginx</span>
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">PM2</span>
+<span class="px-3 py-1 editorial-border font-metadata text-metadata bg-background">Git</span>
+</div>
+</div>
+</div>
+</div>
+<div class="md:col-span-7 flex items-center justify-center min-h-[400px] bg-surface editorial-border p-8 mt-8 md:mt-0 relative overflow-hidden">
+<!-- Technical Diagram Placeholder -->
+<div class="w-full h-full flex flex-col items-center justify-center space-y-12">
+<div class="flex items-center justify-between w-full max-w-lg px-8 border border-primary/20 bg-background py-4 relative z-10">
+<span class="font-metadata text-metadata tracking-widest">UI / CLIENT</span>
+<span class="material-symbols-outlined text-primary/50">devices</span>
+</div>
+<div class="w-[1px] h-12 bg-[#4D7CFE] relative">
+<div class="absolute bottom-[-5px] left-[-4px] w-0 h-0 border-l-[4.5px] border-l-transparent border-r-[4.5px] border-r-transparent border-t-[6px] border-t-[#4D7CFE]"></div>
+</div>
+<div class="flex items-center justify-between w-full max-w-lg px-8 border border-primary/20 bg-background py-4 relative z-10">
+<span class="font-metadata text-metadata tracking-widest">API / SERVER</span>
+<span class="material-symbols-outlined text-primary/50">dns</span>
+</div>
+<div class="w-[1px] h-12 bg-[#4D7CFE] relative">
+<div class="absolute bottom-[-5px] left-[-4px] w-0 h-0 border-l-[4.5px] border-l-transparent border-r-[4.5px] border-r-transparent border-t-[6px] border-t-[#4D7CFE]"></div>
+</div>
+<div class="flex items-center justify-between w-full max-w-lg px-8 border border-primary/20 bg-background py-4 relative z-10">
+<span class="font-metadata text-metadata tracking-widest">DATABASE</span>
+<span class="material-symbols-outlined text-primary/50">database</span>
+</div>
+</div>
+<!-- Decorative subtle grid -->
+<div class="absolute inset-0 z-0 opacity-5" style="background-image: radial-gradient(#111 1px, transparent 1px); background-size: 20px 20px;"></div>
+</div>
+</div>
+</section>
+<!-- SECTION END -->
+<section class="py-stack-xl text-center flex flex-col items-center">
+<h2 class="font-display-lg text-display-lg md:font-display-xl md:text-display-xl font-black uppercase tracking-tighter leading-[0.85] text-primary max-w-[1200px] mb-12">
+                I DON'T JUST LEARN STACKS.<br/>I <span class="text-[#4D7CFE]">BUILD</span> WITH THEM.
+            </h2>
+<div class="flex flex-wrap justify-center items-center gap-4 md:gap-8 font-metadata text-metadata text-primary/60 tracking-[0.2em] uppercase max-w-3xl border-t border-b border-primary/10 py-6">
+<span>FLUTTER</span>
+<span class="w-1 h-1 bg-primary/30 rounded-full"></span>
+<span>REACT</span>
+<span class="w-1 h-1 bg-primary/30 rounded-full"></span>
+<span>NODE.JS</span>
+<span class="w-1 h-1 bg-primary/30 rounded-full"></span>
+<span>SQL</span>
+<span class="w-1 h-1 bg-primary/30 rounded-full"></span>
+<span>UNITY</span>
+<span class="w-1 h-1 bg-primary/30 rounded-full"></span>
+<span>AR</span>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full relative border-t border-primary bg-background text-primary">
+<div class="grid grid-cols-1 md:grid-cols-12 gap-gutter px-margin-page py-stack-md mt-stack-xl w-full">
+<div class="md:col-span-8 flex flex-col justify-between">
+<h3 class="font-headline-lg text-headline-lg font-black text-primary mb-8">Lohit Satya Sai</h3>
+<p class="font-metadata text-metadata uppercase tracking-widest text-primary opacity-60">
+                    © 2024 Lohit Satya Sai Kuntamukkala. Built with Flutter &amp; Technical Precision.
+                </p>
+</div>
+<div class="md:col-span-4 flex flex-col gap-4">
+<a class="font-metadata text-metadata uppercase tracking-widest text-primary opacity-60 hover:text-secondary transition-colors transition-transform hover:-translate-y-1" href="#">LinkedIn</a>
+<a class="font-metadata text-metadata uppercase tracking-widest text-primary opacity-60 hover:text-secondary transition-colors transition-transform hover:-translate-y-1" href="#">GitHub</a>
+<a class="font-metadata text-metadata uppercase tracking-widest text-primary opacity-60 hover:text-secondary transition-colors transition-transform hover:-translate-y-1" href="#">Twitter</a>
+<a class="font-metadata text-metadata uppercase tracking-widest text-primary opacity-60 hover:text-secondary transition-colors transition-transform hover:-translate-y-1" href="#">Email</a>
+</div>
+</div>
+</footer>
+</body></html>

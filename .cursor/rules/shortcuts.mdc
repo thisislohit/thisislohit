@@ -1,0 +1,24 @@
+---
+description: Keyboard shortcut system rules
+globs: src/components/shortcuts/**/*
+alwaysApply: false
+---
+
+# Keyboard Shortcut Rules
+
+Use only the documented shortcuts (see `memory.md` "Keyboard Shortcuts" and `DESIGN_SYSTEM.md`):
+
+```
+G H → Home / Hero
+G P → Projects (Work)
+G S → Skills
+G C → Contact
+?   → Open keyboard shortcuts help dialog
+Esc → Close dialog/mobile menu
+```
+
+- Do not add new shortcuts without updating `memory.md` and this file at the same time.
+- Do not interfere with any browser or OS shortcut (no single-letter shortcuts that collide with common browser bindings; sequences must require the `G` prefix).
+- Ignore all shortcut input while focus is inside an `input`, `textarea`, `select`, or any `contenteditable` element.
+- Every shortcut must have a fully equivalent mouse/touch navigation path — shortcuts are an enhancement, never a requirement to use the site.
+- Shortcuts must have zero effect on mobile/touch devices (no touch equivalent is needed).

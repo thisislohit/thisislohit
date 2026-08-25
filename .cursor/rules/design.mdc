@@ -1,0 +1,18 @@
+---
+description: Design system rules — enforce design.md/DESIGN_SYSTEM.md as the only visual source
+globs: src/**/*.{ts,tsx,css}
+alwaysApply: true
+---
+
+# Design Rules
+
+- `design.md` is the primary visual reference for this project. It came from Stitch and must not be overwritten or reinterpreted without explicit user request.
+- Do not invent a new visual language. If a value seems missing, check `DESIGN_SYSTEM.md` §1.7 (Documented Gaps) first — it has already resolved the known gaps with reasoning.
+- Use only tokens defined in `DESIGN_SYSTEM.md` Part 2 (mapped into Tailwind's `@theme` in `src/app/globals.css`). Never write a raw hex color, arbitrary pixel spacing, or a Tailwind arbitrary-value bracket (`w-[123px]`, `text-[#111]`) for a value a token already covers.
+- Do not introduce colors beyond the five defined in `DESIGN_SYSTEM.md` §1.3 (background, near-black, Electric Blue, Acid Lime, Soft Coral) plus the documented error color. No gradients — `design.md` explicitly prohibits them.
+- Do not introduce shadows or blur-based elevation. `design.md` is intentionally flat; depth comes from 1px borders/opacity layering only.
+- Corner radius: `0px` default everywhere. `4px` (`--radius-sm`) only for small interactive elements (inputs, tags) — never exceed it. No pill shapes or circles except small status dots.
+- Reuse existing components from `DESIGN_SYSTEM.md` Part 3 / `src/components/ui` before creating a new one. If a new component seems necessary, confirm it's actually implied by `design.md` or the approved IA in `scope.md`, not just convenient.
+- Maintain consistent typography: only the seven type styles in `DESIGN_SYSTEM.md` §1.4 (display-xl, display-lg, headline-lg, headline-lg-mobile, body-lg, body-md, metadata). Font family is Geist only.
+- Iconography: `lucide-react` only, 2px stroke width, sharp joins — icons are functional (external link, arrow, etc.), never decorative.
+- Follow the Stitch interaction patterns exactly: button hover fills (primary → Electric Blue, secondary → Acid Lime), list-row arrow-up-right hover translates 2px, input active border → Electric Blue. Do not add hover effects `design.md` doesn't specify (no scale, no shadow-on-hover, no glow).

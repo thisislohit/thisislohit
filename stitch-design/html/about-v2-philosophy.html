@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LSSK.DEV - About &amp; Engineering Philosophy</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "tertiary-fixed": "#c8f31d",
+                        "inverse-primary": "#c8c6c5",
+                        "secondary": "#1151d3",
+                        "on-primary-fixed-variant": "#474646",
+                        "primary": "#000000",
+                        "primary-container": "#1c1b1b",
+                        "surface-container-low": "#f4f4f0",
+                        "secondary-container": "#3a6bed",
+                        "tertiary-container": "#171e00",
+                        "on-primary-fixed": "#1c1b1b",
+                        "secondary-fixed-dim": "#b4c4ff",
+                        "on-secondary-fixed": "#00174c",
+                        "surface-container-high": "#e8e8e4",
+                        "on-tertiary-container": "#738e00",
+                        "surface-bright": "#faf9f5",
+                        "error": "#ba1a1a",
+                        "inverse-surface": "#2f312e",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-container": "#fefcff",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1a1c1a",
+                        "on-surface-variant": "#444748",
+                        "primary-fixed": "#e5e2e1",
+                        "surface-dim": "#dadad6",
+                        "surface-container": "#eeeeea",
+                        "on-tertiary-fixed-variant": "#3d4d00",
+                        "background": "#faf9f5",
+                        "outline-variant": "#c4c7c7",
+                        "inverse-on-surface": "#f1f1ed",
+                        "surface-tint": "#5f5e5e",
+                        "tertiary": "#000000",
+                        "on-primary": "#ffffff",
+                        "surface-variant": "#e2e3df",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#aed500",
+                        "on-surface": "#1a1c1a",
+                        "surface-container-lowest": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-tertiary-fixed": "#171e00",
+                        "on-secondary-fixed-variant": "#003daa",
+                        "outline": "#747878",
+                        "surface-container-highest": "#e2e3df",
+                        "on-primary-container": "#858383",
+                        "surface": "#faf9f5",
+                        "primary-fixed-dim": "#c8c6c5"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0px", // Minimalist rule overrides base
+                        "lg": "0px",
+                        "xl": "0px",
+                        "full": "0px"
+                    },
+                    spacing: {
+                        "stack-md": "2rem",
+                        "gutter": "1.5rem",
+                        "stack-lg": "4rem",
+                        "stack-xl": "8rem",
+                        "margin-page": "4rem"
+                    },
+                    fontFamily: {
+                        "display-xl": ["Geist", "sans-serif"],
+                        "headline-lg-mobile": ["Geist", "sans-serif"],
+                        "body-lg": ["Geist", "sans-serif"],
+                        "headline-lg": ["Geist", "sans-serif"],
+                        "body-md": ["Geist", "sans-serif"],
+                        "metadata": ["Geist", "sans-serif"],
+                        "display-lg": ["Geist", "sans-serif"]
+                    },
+                    fontSize: {
+                        "display-xl": ["150px", { lineHeight: "0.85", letterSpacing: "-0.08em", fontWeight: "900" }],
+                        "headline-lg-mobile": ["48px", { lineHeight: "1.0", letterSpacing: "-0.02em", fontWeight: "700" }],
+                        "body-lg": ["20px", { lineHeight: "1.6", letterSpacing: "0", fontWeight: "400" }],
+                        "headline-lg": ["64px", { lineHeight: "0.95", letterSpacing: "-0.04em", fontWeight: "700" }],
+                        "body-md": ["17px", { lineHeight: "1.5", letterSpacing: "0", fontWeight: "400" }],
+                        "metadata": ["12px", { lineHeight: "1", letterSpacing: "0.15em", fontWeight: "600" }],
+                        "display-lg": ["96px", { lineHeight: "0.9", letterSpacing: "-0.06em", fontWeight: "800" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        body {
+            background-color: #faf9f5;
+            color: #111111;
+            font-family: 'Geist', sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+        
+        ::selection {
+            background-color: #0047ff;
+            color: white;
+        }
+
+        .border-t-technical {
+            border-top: 1px solid rgba(17, 17, 17, 0.15);
+        }
+
+        .border-b-technical {
+            border-bottom: 1px solid rgba(17, 17, 17, 0.15);
+        }
+
+        .border-l-technical {
+            border-left: 1px solid rgba(17, 17, 17, 0.15);
+        }
+        
+        .technical-tag {
+            border: 1px solid rgba(17, 17, 17, 0.15);
+            padding: 4px 8px;
+            font-family: 'Geist', sans-serif;
+            font-weight: 600;
+            font-size: 12px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            display: inline-block;
+        }
+
+        .principle-item {
+            transition: background-color 0.3s ease;
+        }
+
+        .principle-item:hover {
+            background-color: rgba(0, 71, 255, 0.03);
+            border-color: #0047ff;
+        }
+
+        .principle-item:hover .principle-num {
+            transform: translateX(4px);
+            color: #0047ff;
+        }
+
+        .principle-item:hover .principle-arrow {
+            opacity: 1;
+            transform: translate(2px, -2px);
+            color: #0047ff;
+        }
+
+        .principle-num, .principle-arrow {
+            transition: all 0.3s ease;
+        }
+        
+        .electric-blue {
+            color: #0047ff;
+        }
+    </style>
+</head>
+<body class="bg-background text-primary selection:bg-secondary selection:text-white pt-32 pb-32">
+<!-- JSON Navigation Component: TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-background/80 dark:bg-background/80 backdrop-blur-md border-b border-primary/10 dark:border-primary-fixed/10">
+<div class="flex justify-between items-center w-full px-margin-page py-6 mx-auto hidden md:flex">
+<div class="font-display-lg text-body-lg font-black tracking-tighter text-primary dark:text-on-primary-fixed">LSSK.DEV</div>
+<div class="flex gap-8 items-center font-metadata text-metadata uppercase tracking-widest">
+<a class="text-on-surface-variant dark:text-on-primary-fixed-variant pb-1 hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="#">Work</a>
+<a class="text-on-surface-variant dark:text-on-primary-fixed-variant pb-1 hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="#">Experience</a>
+<a class="text-primary dark:text-tertiary-fixed border-b border-primary dark:border-tertiary-fixed pb-1 hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200 active:scale-95 transition-transform" href="#">About</a>
+<a class="text-on-surface-variant dark:text-on-primary-fixed-variant pb-1 hover:text-secondary dark:hover:text-secondary-fixed transition-colors duration-200" href="#">Contact</a>
+</div>
+<a class="bg-primary text-white font-metadata text-metadata uppercase tracking-widest px-6 py-3 hover:bg-secondary transition-colors duration-200" href="#">Resume</a>
+</div>
+<!-- Mobile Nav Fallback -->
+<div class="flex md:hidden justify-between items-center w-full px-4 py-4 border-b border-primary/10 bg-background z-50">
+<div class="font-display-lg text-body-lg font-black tracking-tighter text-primary">LSSK.DEV</div>
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 0;">menu</span>
+</div>
+</nav>
+<main class="w-full">
+<!-- 05 — ABOUT SECTION -->
+<section class="px-4 md:px-margin-page mx-auto mt-stack-md md:mt-stack-xl">
+<div class="grid grid-cols-4 md:grid-cols-12 gap-gutter">
+<div class="col-span-4 md:col-span-12 mb-8">
+<p class="font-metadata text-metadata uppercase text-primary mb-4">05 — About</p>
+<h1 class="font-headline-lg-mobile md:font-display-xl text-headline-lg-mobile md:text-display-xl text-primary max-w-[90%] md:max-w-none leading-none">
+                        I BUILD FOR<br/>THE REAL WORLD.
+                    </h1>
+</div>
+</div>
+<div class="grid grid-cols-4 md:grid-cols-12 gap-gutter mt-stack-md md:mt-stack-xl">
+<div class="col-span-4 md:col-span-4 border-t-technical pt-4 mb-8 md:mb-0">
+<h2 class="font-metadata text-metadata uppercase mb-6 text-on-surface-variant">Technical Profile</h2>
+</div>
+<div class="col-span-4 md:col-span-8 md:col-start-6 border-t-technical pt-4">
+<p class="font-body-lg text-body-lg mb-12 max-w-2xl text-primary">
+                        Flutter Developer with 3+ years of hands-on experience building and maintaining scalable cross-platform mobile applications for the hospitality and service industries.
+                    </p>
+<div class="flex flex-wrap gap-3">
+<span class="technical-tag hover:bg-secondary hover:text-white hover:border-secondary transition-colors cursor-default">SaaS-based applications</span>
+<span class="technical-tag hover:bg-secondary hover:text-white hover:border-secondary transition-colors cursor-default">Payment integrations</span>
+<span class="technical-tag hover:bg-secondary hover:text-white hover:border-secondary transition-colors cursor-default">Native Android integration</span>
+<span class="technical-tag hover:bg-secondary hover:text-white hover:border-secondary transition-colors cursor-default">Offline-first systems</span>
+<span class="technical-tag hover:bg-secondary hover:text-white hover:border-secondary transition-colors cursor-default">Real-time synchronization</span>
+<span class="technical-tag hover:bg-secondary hover:text-white hover:border-secondary transition-colors cursor-default">Production stability</span>
+<span class="technical-tag hover:bg-secondary hover:text-white hover:border-secondary transition-colors cursor-default">Performance optimization</span>
+</div>
+</div>
+</div>
+</section>
+<!-- ENGINEERING PHILOSOPHY -->
+<section class="px-4 md:px-margin-page mx-auto mt-stack-xl pt-stack-xl border-t-technical">
+<div class="grid grid-cols-4 md:grid-cols-12 gap-gutter mb-16">
+<div class="col-span-4 md:col-span-5">
+<p class="font-metadata text-metadata uppercase mb-4 text-on-surface-variant">Engineering Philosophy</p>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-primary uppercase">
+                        I'M INTERESTED IN THE PROBLEMS BEHIND THE SCREEN.
+                    </h2>
+</div>
+<div class="col-span-4 md:col-span-6 md:col-start-7 flex items-end">
+<p class="font-body-lg text-body-lg text-on-surface-variant">
+                        Architecture, reliability, performance, device integration, and the small details that determine whether software actually works in production.
+                    </p>
+</div>
+</div>
+<!-- Principles List -->
+<div class="w-full flex flex-col">
+<!-- 01 -->
+<div class="principle-item border-t-technical py-8 md:py-12 px-4 md:px-8 grid grid-cols-4 md:grid-cols-12 gap-gutter group relative cursor-crosshair">
+<div class="col-span-4 md:col-span-4 flex items-start justify-between md:justify-start">
+<span class="font-metadata text-metadata principle-num">01 —</span>
+<span class="material-symbols-outlined principle-arrow opacity-0 md:ml-auto" style="font-variation-settings: 'FILL' 0;">arrow_outward</span>
+</div>
+<div class="col-span-4 md:col-span-8">
+<h3 class="font-headline-lg-mobile md:font-headline-lg text-2xl md:text-4xl mb-4 font-bold tracking-tight">SOLVE THE SYSTEM</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+                            Good mobile software is more than a UI. I think about data flow, state, synchronization, platform behavior, and failure cases.
+                        </p>
+</div>
+</div>
+<!-- 02 -->
+<div class="principle-item border-t-technical py-8 md:py-12 px-4 md:px-8 grid grid-cols-4 md:grid-cols-12 gap-gutter group relative cursor-crosshair">
+<div class="col-span-4 md:col-span-4 flex items-start justify-between md:justify-start">
+<span class="font-metadata text-metadata principle-num">02 —</span>
+<span class="material-symbols-outlined principle-arrow opacity-0 md:ml-auto" style="font-variation-settings: 'FILL' 0;">arrow_outward</span>
+</div>
+<div class="col-span-4 md:col-span-8">
+<h3 class="font-headline-lg-mobile md:font-headline-lg text-2xl md:text-4xl mb-4 font-bold tracking-tight">BUILD FOR REAL CONDITIONS</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl">
+                            Offline scenarios, unreliable networks, payment failures, hardware constraints, and production bugs are part of the product—not edge cases to ignore.
+                        </p>
+</div>
+</div>
+<!-- 03 -->
+<div class="principle-item border-t-technical py-8 md:py-12 px-4 md:px-8 grid grid-cols-4 md:grid-cols-12 gap-gutter group relative cursor-crosshair">
+<div class="col-span-4 md:col-span-4 flex items-start justify-between md:justify-start">
+<span class="font-metadata text-metadata principle-num">03 —</span>
+<span class="material-symbols-outlined principle-arrow opacity-0 md:ml-auto" style="font-variation-settings: 'FILL' 0;">arrow_outward</span>
+</div>
+<div class="col-span-4 md:col-span-8">
+<h3 class="font-headline-lg-mobile md:font-headline-lg text-2xl md:text-4xl mb-4 font-bold tracking-tight">KEEP COMPLEXITY UNDER CONTROL</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mb-6">
+                            Architecture should make a system easier to understand, test, change, and scale.
+                        </p>
+<div class="flex gap-2 flex-wrap">
+<span class="technical-tag">CLEAN ARCHITECTURE</span>
+<span class="technical-tag">BLoC</span>
+<span class="technical-tag">MODULARITY</span>
+</div>
+</div>
+</div>
+<!-- 04 -->
+<div class="principle-item border-t-technical border-b-technical py-8 md:py-12 px-4 md:px-8 grid grid-cols-4 md:grid-cols-12 gap-gutter group relative cursor-crosshair">
+<div class="col-span-4 md:col-span-4 flex items-start justify-between md:justify-start">
+<span class="font-metadata text-metadata principle-num">04 —</span>
+<span class="material-symbols-outlined principle-arrow opacity-0 md:ml-auto" style="font-variation-settings: 'FILL' 0;">arrow_outward</span>
+</div>
+<div class="col-span-4 md:col-span-8">
+<h3 class="font-headline-lg-mobile md:font-headline-lg text-2xl md:text-4xl mb-4 font-bold tracking-tight">LEARN WHEN THE PROBLEM DEMANDS IT</h3>
+<p class="font-body-md text-body-md text-on-surface-variant max-w-xl mb-6">
+                            New SDKs, native platform APIs, payment systems, and unfamiliar integrations are problems to investigate rather than reasons to stop.
+                        </p>
+<div class="flex gap-2 flex-wrap">
+<span class="technical-tag">R&amp;D</span>
+<span class="technical-tag">SDK INTEGRATION</span>
+<span class="technical-tag">NATIVE PLATFORM</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- TYPOGRAPHIC BREAK -->
+<section class="w-full px-4 md:px-margin-page mx-auto mt-stack-xl mb-stack-xl py-stack-md flex items-center justify-center overflow-hidden border-t-technical border-b-technical bg-white">
+<h2 class="font-display-xl text-display-xl md:text-[200px] leading-none whitespace-nowrap text-primary text-center">
+                THE APP IS ONLY THE <span class="electric-blue">SURFACE.</span>
+</h2>
+</section>
+<!-- WORKING STYLE & DETAILS -->
+<section class="px-4 md:px-margin-page mx-auto mt-stack-xl">
+<div class="grid grid-cols-4 md:grid-cols-12 gap-gutter">
+<div class="col-span-4 md:col-span-12 mb-12 border-b-technical pb-4">
+<p class="font-metadata text-metadata uppercase text-primary">HOW I WORK</p>
+</div>
+<!-- Columns -->
+<div class="col-span-4 md:col-span-3 border-l-technical pl-4 md:pl-6 mb-8 md:mb-0">
+<h4 class="font-metadata text-metadata uppercase text-primary mb-4">BUILD</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Focusing on robust architecture and predictable state management from day one.</p>
+</div>
+<div class="col-span-4 md:col-span-3 border-l-technical pl-4 md:pl-6 mb-8 md:mb-0">
+<h4 class="font-metadata text-metadata uppercase text-primary mb-4">DEBUG</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Diving deep into stack traces, network layers, and platform specifics to resolve root causes.</p>
+</div>
+<div class="col-span-4 md:col-span-3 border-l-technical pl-4 md:pl-6 mb-8 md:mb-0">
+<h4 class="font-metadata text-metadata uppercase text-primary mb-4">INTEGRATE</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Seamlessly connecting third-party services, APIs, and hardware peripherals.</p>
+</div>
+<div class="col-span-4 md:col-span-3 border-l-technical pl-4 md:pl-6">
+<h4 class="font-metadata text-metadata uppercase text-primary mb-4">IMPROVE</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Continuously refactoring and optimizing for performance and maintainability.</p>
+</div>
+</div>
+<!-- Metadata Grid -->
+<div class="grid grid-cols-4 md:grid-cols-12 gap-gutter mt-stack-md pt-stack-md border-t-technical">
+<div class="col-span-4 md:col-span-4 flex flex-col gap-8">
+<div>
+<p class="font-metadata text-metadata uppercase text-on-surface-variant mb-2">BASED IN</p>
+<p class="font-body-lg text-body-lg text-primary font-bold">Hyderabad</p>
+</div>
+<div>
+<p class="font-metadata text-metadata uppercase text-on-surface-variant mb-2">PRIMARY FOCUS</p>
+<p class="font-body-lg text-body-lg text-primary font-bold">Flutter</p>
+</div>
+<div>
+<p class="font-metadata text-metadata uppercase text-on-surface-variant mb-2">PLATFORMS</p>
+<p class="font-body-lg text-body-lg text-primary font-bold">Android, iOS, Windows</p>
+</div>
+</div>
+<div class="col-span-4 md:col-span-8 md:col-start-5 mt-8 md:mt-0">
+<p class="font-metadata text-metadata uppercase text-on-surface-variant mb-6">EDUCATION</p>
+<div class="border-l-technical pl-6 border-secondary">
+<h4 class="font-headline-lg-mobile md:font-headline-lg text-2xl md:text-3xl font-bold text-primary mb-2">B.TECH COMPUTER SCIENCE &amp; ENGINEERING</h4>
+<p class="font-body-md text-body-md text-on-surface-variant">Krishna University College of Engineering and Technology</p>
+<p class="font-metadata text-metadata text-secondary mt-4">2018 — 2022</p>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- JSON Navigation Component: Footer -->
+<footer class="w-full bg-background dark:bg-background border-t border-primary/10 dark:border-primary-fixed/10 mt-stack-xl flex flex-col md:flex-row justify-between items-start md:items-center px-margin-page py-stack-md mx-auto transition-opacity duration-300">
+<div class="font-display-xl text-metadata font-bold text-primary dark:text-on-primary-fixed mb-4 md:mb-0">
+            LSSK.DEV
+        </div>
+<div class="font-metadata text-metadata text-primary dark:text-on-primary-fixed mb-4 md:mb-0">
+            © 2024 Lohit Satya Sai Kuntamukkala. All rights reserved.
+        </div>
+<div class="flex gap-6 font-metadata text-metadata">
+<a class="text-on-surface-variant dark:text-on-primary-fixed-variant hover:text-secondary dark:hover:text-secondary-fixed underline" href="#">GitHub</a>
+<a class="text-on-surface-variant dark:text-on-primary-fixed-variant hover:text-secondary dark:hover:text-secondary-fixed underline" href="#">LinkedIn</a>
+<a class="text-on-surface-variant dark:text-on-primary-fixed-variant hover:text-secondary dark:hover:text-secondary-fixed underline" href="#">Twitter</a>
+<a class="text-on-surface-variant dark:text-on-primary-fixed-variant hover:text-secondary dark:hover:text-secondary-fixed underline" href="#">Email</a>
+</div>
+</footer>
+</body></html>

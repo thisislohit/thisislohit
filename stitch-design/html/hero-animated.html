@@ -1,0 +1,352 @@
+<!DOCTYPE html><html lang="en"><head>
+<meta charset="utf-8">
+<meta content="width=device-width, initial-scale=1.0" name="viewport">
+<title>Lohit Satya Sai Kuntamukkala - Flutter Developer</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com" rel="preconnect">
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect">
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@100..900&amp;display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet">
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#aed500",
+                        "surface-variant": "#e2e3df",
+                        "inverse-primary": "#c8c6c5",
+                        "on-tertiary-container": "#738e00",
+                        "on-primary": "#ffffff",
+                        "on-background": "#1a1c1a",
+                        "on-primary-fixed": "#1c1b1b",
+                        "on-tertiary-fixed-variant": "#3d4d00",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#dadad6",
+                        "secondary-container": "#3a6bed",
+                        "surface-container": "#eeeeea",
+                        "surface-tint": "#5f5e5e",
+                        "outline": "#747878",
+                        "inverse-on-surface": "#f1f1ed",
+                        "error-container": "#ffdad6",
+                        "outline-variant": "#c4c7c7",
+                        "secondary-fixed-dim": "#b4c4ff",
+                        "surface-container-highest": "#e2e3df",
+                        "background": "#faf9f5",
+                        "primary-container": "#1c1b1b",
+                        "tertiary": "#000000",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f4f4f0",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#faf9f5",
+                        "primary": "#000000",
+                        "inverse-surface": "#2f312e",
+                        "on-tertiary-fixed": "#171e00",
+                        "on-primary-container": "#858383",
+                        "surface-bright": "#faf9f5",
+                        "on-surface": "#1a1c1a",
+                        "on-secondary-container": "#fefcff",
+                        "on-secondary-fixed-variant": "#003daa",
+                        "primary-fixed": "#e5e2e1",
+                        "tertiary-container": "#171e00",
+                        "on-secondary-fixed": "#00174c",
+                        "on-primary-fixed-variant": "#474646",
+                        "on-error-container": "#93000a",
+                        "on-surface-variant": "#444748",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#1151d3",
+                        "tertiary-fixed": "#c8f31d",
+                        "secondary-fixed": "#dbe1ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-high": "#e8e8e4",
+                        "primary-fixed-dim": "#c8c6c5",
+                        "electric-blue": "#4D7CFE",
+                        "acid-lime": "#C8F31D",
+                        "ink": "#111111",
+                        "paper": "#F7F7F3"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "stack-lg": "4rem",
+                        "gutter": "1.5rem",
+                        "stack-md": "2rem",
+                        "margin-page": "4rem",
+                        "stack-xl": "8rem"
+                    },
+                    "fontFamily": {
+                        "headline-lg-mobile": ["Geist"],
+                        "body-lg": ["Geist"],
+                        "metadata": ["Geist"],
+                        "display-lg": ["Geist"],
+                        "headline-lg": ["Geist"],
+                        "body-md": ["Geist"],
+                        "display-xl": ["Geist"]
+                    },
+                    "fontSize": {
+                        "headline-lg-mobile": ["48px", { "lineHeight": "1.0", "letterSpacing": "-0.02em", "fontWeight": "700" }],
+                        "body-lg": ["20px", { "lineHeight": "1.6", "letterSpacing": "0", "fontWeight": "400" }],
+                        "metadata": ["12px", { "lineHeight": "1", "letterSpacing": "0.15em", "fontWeight": "600" }],
+                        "display-lg": ["96px", { "lineHeight": "0.9", "letterSpacing": "-0.06em", "fontWeight": "800" }],
+                        "headline-lg": ["64px", { "lineHeight": "0.95", "letterSpacing": "-0.04em", "fontWeight": "700" }],
+                        "body-md": ["17px", { "lineHeight": "1.5", "letterSpacing": "0", "fontWeight": "400" }],
+                        "display-xl": ["150px", { "lineHeight": "0.85", "letterSpacing": "-0.08em", "fontWeight": "900" }]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .hero-name-clamp {
+            font-size: clamp(72px, 11vw, 160px);
+            line-height: 0.85;
+            letter-spacing: -0.06em;
+            font-weight: 900;
+        }
+        .hero-clip-right {
+            margin-right: -10vw; /* Push past edge intentionally */
+        }
+        
+        /* Interactive Background Pattern */
+        body {
+            background-color: #F7F7F3;
+            color: #111111;
+            background-image: radial-gradient(circle at calc(var(--mouse-x, 50) * 1%) calc(var(--mouse-y, 50) * 1%), rgba(77, 124, 254, 0.05) 0%, transparent 50%), 
+                              linear-gradient(rgba(17, 17, 17, 0.03) 1px, transparent 1px), 
+                              linear-gradient(90deg, rgba(17, 17, 17, 0.03) 1px, transparent 1px);
+            background-size: 100% 100%, 40px 40px, 40px 40px;
+            background-position: 0 0, -1px -1px, -1px -1px;
+            transition: background-position 0.1s ease;
+        }
+
+        /* Animations */
+        @media (prefers-reduced-motion: no-preference) {
+            .animate-slide-up-fade {
+                animation: slideUpFade 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            .delay-100 { animation-delay: 100ms; }
+            .delay-200 { animation-delay: 200ms; }
+            .delay-300 { animation-delay: 300ms; }
+            .delay-400 { animation-delay: 400ms; }
+            .delay-500 { animation-delay: 500ms; }
+            
+            .animate-line-draw {
+                animation: lineDraw 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+                transform-origin: left;
+                transform: scaleX(0);
+            }
+
+            .animate-pulse-vertical {
+                animation: pulseVertical 2s ease-in-out infinite;
+            }
+
+            .scroll-reveal {
+                opacity: 0;
+                transform: translateY(20px);
+                transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1), transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+            }
+            
+            .scroll-reveal.is-visible {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUpFade {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes lineDraw {
+            to {
+                transform: scaleX(1);
+            }
+        }
+
+        @keyframes pulseVertical {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(5px); }
+        }
+
+        /* Hover Interactions */
+        .group-cta:hover .cta-arrow {
+            transform: translate(4px, -4px);
+        }
+        
+        .link-underline {
+            position: relative;
+            text-decoration: none !important;
+        }
+        .link-underline::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            transform: scaleX(0);
+            height: 1px;
+            bottom: 0;
+            left: 0;
+            background-color: currentColor;
+            transform-origin: bottom right;
+            transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .link-underline:hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        
+        .nav-link {
+            position: relative;
+        }
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            left: -10px;
+            top: 50%;
+            transform: translateY(-50%) scale(0);
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: #4D7CFE;
+            transition: transform 0.3s ease;
+        }
+        .nav-link:hover {
+            color: #4D7CFE !important;
+        }
+        .nav-link:hover::before {
+            transform: translateY(-50%) scale(1);
+        }
+        
+        .nav-link.active-nav::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #4D7CFE;
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="antialiased min-h-screen flex flex-col overflow-x-hidden font-body-md selection:bg-electric-blue selection:text-white" style="--mouse-x: 95.46875; --mouse-y: 20.55722891566265;">
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 flex justify-between items-center px-margin-page py-6 bg-background/80 backdrop-blur-sm border-b border-primary/10 dark:border-on-background/10">
+<div class="font-headline-lg text-headline-lg tracking-tighter text-primary dark:text-on-background uppercase animate-slide-up-fade">
+            LOHIT / 26
+        </div>
+<div class="hidden md:flex gap-8 font-metadata text-metadata animate-slide-up-fade delay-100">
+<a class="nav-link text-on-surface-variant dark:text-outline-variant transition-colors duration-300 cursor-pointer" href="#">WORK</a>
+<a class="nav-link text-on-surface-variant dark:text-outline-variant transition-colors duration-300 cursor-pointer" href="#">EXPERIENCE</a>
+<a class="nav-link active-nav text-electric-blue font-bold cursor-pointer" href="#">ABOUT</a>
+<a class="nav-link text-on-surface-variant dark:text-outline-variant transition-colors duration-300 cursor-pointer" href="#">CONTACT</a>
+</div>
+</nav>
+<!-- Main Content Grid -->
+<main class="flex-grow pt-32 md:pt-48 pb-24 px-margin-page grid grid-cols-4 md:grid-cols-12 gap-gutter relative">
+<!-- Decoration / Metadata Header -->
+<div class="col-span-4 md:col-span-12 flex items-center gap-4 mb-8 md:mb-16">
+<div class="font-metadata text-metadata text-ink animate-slide-up-fade delay-200">01 — MOBILE ENGINEERING</div>
+<div class="h-px bg-ink/15 flex-grow max-w-md animate-line-draw delay-300"></div>
+</div>
+<!-- Identity / Giant Typography (Asymmetric Left) -->
+<div class="col-span-4 md:col-span-12 z-10 flex flex-col mb-stack-md md:mb-stack-lg relative w-full">
+<h1 class="hero-name-clamp text-ink uppercase m-0 p-0 text-left animate-slide-up-fade delay-100" style="font-size: clamp(48px, 8vw, 130px); line-height: 0.85; letter-spacing: -0.06em; font-weight: 900;">LOHIT SATYA SAI</h1>
+<h1 class="hero-name-clamp text-ink uppercase m-0 p-0 md:text-left relative animate-slide-up-fade delay-200" style="font-size: clamp(48px, 8vw, 130px); line-height: 0.85; letter-spacing: -0.06em; font-weight: 900;">
+                KUNTAMUKKALA
+                <!-- Small indicator -->
+<span class="absolute top-4 right-20 md:right-auto md:left-full md:ml-4 w-3 h-3 bg-electric-blue rounded-none animate-pulse"></span>
+</h1>
+</div>
+<!-- Role & Description (Asymmetric Right/Center) -->
+<div class="col-span-4 md:col-start-7 md:col-span-6 flex flex-col gap-6 z-20">
+<div class="flex items-center gap-3 mb-2 animate-slide-up-fade delay-300">
+<span class="bg-acid-lime border border-ink text-ink font-metadata text-metadata px-2 py-1 uppercase tracking-widest">
+                    AVAILABLE FOR WORK
+                </span>
+</div>
+<h2 class="font-headline-lg-mobile md:font-headline-lg text-headline-lg-mobile md:text-headline-lg text-ink uppercase leading-none animate-slide-up-fade delay-400">
+                FLUTTER<br>DEVELOPER
+            </h2>
+<p class="font-metadata text-metadata text-ink/70 animate-slide-up-fade delay-400">
+                3+ YEARS BUILDING PRODUCTION MOBILE SOFTWARE
+            </p>
+<p class="font-body-lg text-body-lg text-ink max-w-[520px] mt-4 mb-8 animate-slide-up-fade delay-500">
+                Building scalable cross-platform mobile applications, payment systems, offline-first experiences, and production software with Flutter.
+            </p>
+<!-- Actions -->
+<div class="flex flex-wrap items-center gap-8 mb-12 animate-slide-up-fade delay-500">
+<a class="group-cta bg-ink text-white px-8 py-4 font-metadata text-metadata tracking-widest uppercase transition-colors duration-300 hover:bg-electric-blue flex items-center gap-2" href="#">
+                    VIEW MY WORK <span class="cta-arrow transition-transform duration-300">→</span>
+</a>
+<a class="link-underline font-metadata text-metadata tracking-widest uppercase text-ink hover:text-electric-blue transition-colors duration-300 flex items-center gap-1 pb-1" href="#">
+                    LET'S TALK <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">arrow_outward</span>
+</a>
+</div>
+<!-- Technical Signals (Grid within grid) -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-8 border-t border-ink/15 pt-8 animate-slide-up-fade delay-500">
+<div class="flex flex-col gap-1">
+<span class="font-metadata text-metadata text-ink/50 uppercase">Domain</span>
+<span class="font-metadata text-metadata text-ink uppercase">MOBILE / FLUTTER / ARCHITECTURE</span>
+</div>
+<div class="flex flex-col gap-1">
+<span class="font-metadata text-metadata text-ink/50 uppercase">Platforms</span>
+<span class="font-metadata text-metadata text-ink uppercase">ANDROID · iOS · WINDOWS</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer -->
+<footer class="scroll-reveal fixed bottom-0 w-full z-40 flex justify-between items-center px-margin-page py-8 bg-background border-t border-primary/10 dark:border-on-background/10 is-visible">
+<div class="flex items-center gap-4 font-metadata text-metadata text-primary uppercase tracking-widest">
+<span class="">© 2024 Lohit Satya Sai Kuntamukkala</span>
+</div>
+<div class="flex items-center gap-8 font-metadata text-metadata uppercase tracking-widest">
+<span class="hidden md:inline-block text-on-surface-variant dark:text-outline-variant hover:text-electric-blue transition-all cursor-default">LOCATION: HYDERABAD</span>
+<a class="text-primary dark:text-on-background hover:text-electric-blue transition-all flex items-center gap-2 group" href="#">
+                SCROLL TO EXPLORE <span class="material-symbols-outlined text-sm animate-pulse-vertical group-hover:text-electric-blue transition-colors">arrow_downward</span>
+</a>
+</div>
+</footer>
+<script>
+    // Mouse tracking for background gradient
+    document.addEventListener('mousemove', (e) => {
+        const x = (e.clientX / window.innerWidth) * 100;
+        const y = (e.clientY / window.innerHeight) * 100;
+        document.body.style.setProperty('--mouse-x', x);
+        document.body.style.setProperty('--mouse-y', y);
+    });
+
+    // Intersection Observer for Footer Reveal
+    document.addEventListener('DOMContentLoaded', () => {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('is-visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.scroll-reveal').forEach((el) => {
+            observer.observe(el);
+        });
+        
+        // Trigger manually for fixed footer to show on load after slight delay
+        setTimeout(() => {
+            document.querySelectorAll('.scroll-reveal').forEach((el) => {
+                el.classList.add('is-visible');
+            });
+        }, 800);
+    });
+</script>
+
+
+</body></html>
