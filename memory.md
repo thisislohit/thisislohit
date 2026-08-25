@@ -121,6 +121,9 @@ Decision:
 - Skills and Foundations & Education did NOT get their own routes — grouped into /work and /experience respectively, matching their pre-existing scroll-only (no nav link) status
 - Deployment platform is Cloudflare (Workers, GitHub-integrated auto-deploy), not Vercel as architecture.md originally planned — corrected in architecture.md 2026-08-25
 - Hero switched from static to animated (2026-08-25) — reverses the earlier session decision to keep Hero static. Implemented as pure CSS keyframe entrance animation (slide-up-fade, line-draw, pulse-horizontal) in globals.css, not the source reference's JS/IntersectionObserver scroll-reveal, to keep Hero a Server Component
+- Skills headline stays headline-lg (not the reference's bigger display-lg/xl) for consistency with every other section's h2
+- Compact stack index excludes Riverpod/SQLite (unconfirmed) and CI/CD (no literal tag in skillGroups) — same discipline as the main skill tags
+- No Resume nav button, no LSSK rebrand, no 'Built With Precision' tagline — user explicitly chose to keep the thisislohit wordmark and skip the new unapproved copy
 
 Architecture:
 - Next.js App Router + TypeScript + Tailwind v4 + typed local data files, no CMS, no animation library, Vercel deploy. Full reasoning in architecture.md.
@@ -237,6 +240,7 @@ Completed:
 - Set metadataBase in layout.tsx and base URLs in sitemap.ts/robots.ts to https://thisislohit.pages.dev (resolves the prior Next.js metadataBase warning); build and lint verified clean
 - Split single-page site into real routes: / (Hero), /about, /work (+Skills), /experience (+Foundations), /contact. Footer moved to root layout. Navigation rebuilt on usePathname instead of IntersectionObserver scroll-spy. Keyboard shortcuts now use router.push to real paths. sitemap.ts emits one entry per route. Verified build/lint clean and live in-browser.
 - Added Hero entrance animation matching stitch-design/html/hero-animated.html; verified build/lint clean and all animated elements settle at opacity:1
+- Redesigned Skills section (src/sections/Skills.tsx) to match the 'Expertise / Technical Stack' Stitch export: table header row, stat card, 7 category titles promoted to real <h3>s, accent-tag highlighting, new 'Stack // Production' compact index sourced from existing skillGroups tags. Verified via accessibility tree/page text (screenshot pane was flaky); build/lint clean.
 
 Current:
 - Attempted to pull the Stitch design through the `stitch` MCP server. Its tools were not available in that session's tool list — Claude Code only loads an MCP server's tools at session start, and `stitch` was registered mid-session. The connection itself is healthy; this is a session-boot limitation, not a config problem.

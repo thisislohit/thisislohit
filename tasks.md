@@ -105,6 +105,13 @@ User supplied a new "Experience Timeline" export (screenshot + `lohit_portfolio_
 
 **All 8 sections of the single-page site are now built out with real, approved content end to end** — Hero, About, Work, Skills, Experience, Foundations & Education, Contact, Footer.
 
+## Skills Redesign (2026-08-25 — matching the "Expertise / Technical Stack" export)
+User shared `lohit_portfolio_expertise_technical_stack/code.html` and asked to match it.
+- [x] Rebuilt `Skills.tsx`: table header row (Idx/Capability Domain/Description & Stack), a "3+ years" stat card next to the section headline, larger per-row category titles promoted to real `<h3>`s (all 7 are distinct, unlike Experience's repeated "Flutter Developer" — a real heading is correct here), the lead tag per row using the existing `accent` Tag variant, and a new "Stack // Production" compact index (4 columns) below the typographic break.
+- [x] Deliberately NOT copied: Riverpod/SQLite (still not in the confirmed skills list — same decision as before), a "CI/CD" entry in the compact index (no literal `CI/CD` tag exists in `skillGroups`), a "Resume" nav button (no resume link exists yet), the reference's "LSSK" rebrand + "Built With Precision" tagline (kept the established `thisislohit` wordmark, no new unapproved copy), the reference's bigger display-lg/xl headline (kept headline-lg for consistency with every other section's `<h2>`), and its arbitrary per-row tag/title coloring (no per-row one-off colors — just the existing Tag variants).
+- [x] `STACK_INDEX` data is pulled directly from `skillGroups`' own existing tag arrays, not a new/separate data source.
+- [x] Verified via `get_page_text`/accessibility tree (Browser pane screenshots were flaky mid-scroll this pass, a known environment issue, not a site bug): all 7 category headings present as distinct `<h3>`s, table header/stat card/compact index all render with correct content. `npm run build`/`npm run lint` clean.
+
 ## Hero Entrance Animation (2026-08-25 — switched from static to animated)
 User shared the Stitch "animated" Hero variant (`stitch-design/html/hero-animated.html`) and asked to switch to it, reversing the earlier session decision to keep Hero static.
 - [x] Added a one-time staggered slide-up-fade entrance in `globals.css` (`.animate-slide-up-fade` + `.delay-100`–`.delay-500`, `.animate-line-draw` for the eyebrow divider, `.animate-pulse-horizontal` for the "Continue to About" arrow) — pure CSS keyframes with `animation-fill-mode: forwards`, per architecture.md's pre-named exception ("Revisit only if a specific section, e.g. Hero entrance, needs orchestration CSS can't express").
