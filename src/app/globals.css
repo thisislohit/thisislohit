@@ -244,3 +244,72 @@ body {
     scroll-behavior: auto !important;
   }
 }
+
+/* Hero entrance animation — architecture.md's one named exception to
+   "CSS transitions only, no orchestration": a one-time staggered
+   slide-up-fade on load, matching the animated Hero variant the user
+   picked (stitch-design/html/hero-animated.html) over the static one.
+   Pure CSS (animation-fill-mode: forwards), no JS/IntersectionObserver
+   needed — unlike the source reference's scroll-reveal, this doesn't
+   depend on JS running, and keeps Hero a Server Component. The global
+   prefers-reduced-motion block above already collapses animation-duration
+   to 0.01ms, so reduced-motion users still land on the final (visible)
+   frame instantly rather than needing a separate no-preference guard. */
+@keyframes slide-up-fade {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slide-up-fade {
+  opacity: 0;
+  animation: slide-up-fade 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+.animate-slide-up-fade.delay-100 {
+  animation-delay: 100ms;
+}
+.animate-slide-up-fade.delay-200 {
+  animation-delay: 200ms;
+}
+.animate-slide-up-fade.delay-300 {
+  animation-delay: 300ms;
+}
+.animate-slide-up-fade.delay-400 {
+  animation-delay: 400ms;
+}
+.animate-slide-up-fade.delay-500 {
+  animation-delay: 500ms;
+}
+
+@keyframes line-draw {
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.animate-line-draw {
+  transform: scaleX(0);
+  transform-origin: left;
+  animation: line-draw 1s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+  animation-delay: 300ms;
+}
+
+@keyframes pulse-horizontal {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(4px);
+  }
+}
+
+.animate-pulse-horizontal {
+  animation: pulse-horizontal 2s ease-in-out infinite;
+}

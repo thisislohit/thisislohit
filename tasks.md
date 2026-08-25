@@ -105,6 +105,13 @@ User supplied a new "Experience Timeline" export (screenshot + `lohit_portfolio_
 
 **All 8 sections of the single-page site are now built out with real, approved content end to end** — Hero, About, Work, Skills, Experience, Foundations & Education, Contact, Footer.
 
+## Hero Entrance Animation (2026-08-25 — switched from static to animated)
+User shared the Stitch "animated" Hero variant (`stitch-design/html/hero-animated.html`) and asked to switch to it, reversing the earlier session decision to keep Hero static.
+- [x] Added a one-time staggered slide-up-fade entrance in `globals.css` (`.animate-slide-up-fade` + `.delay-100`–`.delay-500`, `.animate-line-draw` for the eyebrow divider, `.animate-pulse-horizontal` for the "Continue to About" arrow) — pure CSS keyframes with `animation-fill-mode: forwards`, per architecture.md's pre-named exception ("Revisit only if a specific section, e.g. Hero entrance, needs orchestration CSS can't express").
+- [x] Deliberately did NOT port the source reference's mouse-tracking radial-gradient background, fixed/blurred nav+footer chrome, or `IntersectionObserver`-driven `scroll-reveal` class — those are page-chrome/JS-dependent concerns outside "switch Hero to animated," and the JS-based reveal specifically would have forced Hero into a Client Component, contradicting architecture.md's RSC-by-default rule. The CSS-only approach achieves the same visible effect without that cost.
+- [x] Reduced motion: relies on the already-existing global `@media (prefers-reduced-motion: reduce)` block (forces `animation-duration: 0.01ms`) rather than adding a second `no-preference` guard like the source reference — with `forwards` fill mode this still lands on the same final visible frame, just effectively instantly.
+- [x] Verified: `npm run build`/`npm run lint` clean; live-checked all 9 animated elements settle at `opacity: 1` (`getComputedStyle`) after the animation completes — nothing left invisible.
+
 ## Route Split (2026-08-25 — single page → separate pages)
 User requested real per-section pages instead of one page with anchor scrolling. See scope.md's routing decision and architecture.md's updated Routing row.
 - [x] New routes: `/` (Hero only), `/about` (About), `/work` (Work + Skills), `/experience` (Experience + Foundations & Education), `/contact` (Contact). Skills/Foundations grouped into the adjacent numbered section rather than getting their own route — matches their scroll-only, no-nav-link status on the old layout.
@@ -117,7 +124,7 @@ User requested real per-section pages instead of one page with anchor scrolling.
 - [x] Verified: all 4 new routes build as static (`○ /about`, `/work`, `/experience`, `/contact` in build output), `npm run build`/`npm run lint` clean. Live-checked in-browser: correct page content per route, nav active-state (`aria-current`) matches the current path, Hero CTAs and Footer home link resolve to the right routes, `G P`/`G H` shortcuts navigate correctly via client-side transition, mobile nav overlay still opens with the updated route links.
 
 ## Portfolio Sections (Phase 7–8, complete — 2026-08-25)
-- [x] Hero — implemented 2026-08-25 (src/sections/Hero.tsx, static per user's explicit choice — no Stitch "animated" variant, page's one real `<h1>`, View Work/Get in touch CTAs)
+- [x] Hero — implemented 2026-08-25 (src/sections/Hero.tsx, page's one real `<h1>`, View Work/Get in touch CTAs). **Switched to the animated variant later the same day** — see "Hero Entrance Animation" below; supersedes the earlier static-only decision.
 - [x] About — implemented 2026-08-25 (src/sections/About.tsx)
 - [x] Work / Projects — implemented 2026-08-25 (src/sections/Work.tsx, ProjectRow list from src/data/projects.ts)
 - [x] Skills — implemented 2026-08-25 (src/sections/Skills.tsx, grouped Tag rows from src/data/skills.ts)

@@ -28,18 +28,27 @@ import { Link } from "@/components/ui/Link";
 //   shared base style — Contact's email Button wasn't part of this
 //   update, so its existing body-md style is left alone rather than
 //   silently changed everywhere.
+//
+// Entrance animation (2026-08-25): the user picked the "animated" Hero
+// variant (stitch-design/html/hero-animated.html) over the static one —
+// a one-time staggered slide-up-fade on load, per-element delays matching
+// the reference's visual hierarchy. Pure CSS (globals.css's
+// .animate-slide-up-fade/.animate-line-draw/.animate-pulse-horizontal,
+// architecture.md's one named exception to "no orchestration"), so Hero
+// stays a Server Component — no IntersectionObserver/JS needed, unlike
+// the source reference's own scroll-reveal implementation.
 export default function Hero() {
   return (
     <Section id="hero" aria-label="Hero">
       <div className="col-span-4 lg:col-span-12 flex flex-col gap-8">
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 animate-slide-up-fade delay-100">
           <Text variant="metadata" as="span">
             01 — Mobile Engineering
           </Text>
-          <div className="h-px max-w-md flex-1 bg-border" />
+          <div className="h-px max-w-md flex-1 bg-border animate-line-draw" />
         </div>
 
-        <Heading level="hero-name" as="h1" className="uppercase">
+        <Heading level="hero-name" as="h1" className="uppercase animate-slide-up-fade delay-200">
           <span className="block">Lohit</span>
           <span className="relative block text-right lg:-mr-[10vw] lg:text-left">
             Kuntamukkala
@@ -51,22 +60,28 @@ export default function Hero() {
         </Heading>
 
         <div className="flex flex-col gap-6 lg:max-w-xl lg:self-end">
-          <Tag variant="accent">Available for Work</Tag>
+          <Tag variant="accent" className="animate-slide-up-fade delay-300">
+            Available for Work
+          </Tag>
 
-          <Heading level="headline-lg" as="h2" className="uppercase leading-none">
+          <Heading
+            level="headline-lg"
+            as="h2"
+            className="uppercase leading-none animate-slide-up-fade delay-300"
+          >
             Flutter Developer
           </Heading>
 
-          <Text variant="metadata" as="span">
+          <Text variant="metadata" as="span" className="animate-slide-up-fade delay-400">
             3+ years building production mobile software
           </Text>
 
-          <Text variant="body-lg" className="max-w-[520px]">
+          <Text variant="body-lg" className="max-w-[520px] animate-slide-up-fade delay-400">
             Building scalable cross-platform mobile applications, payment systems, offline-first
             experiences, and production software with Flutter.
           </Text>
 
-          <div className="flex flex-wrap items-center gap-8">
+          <div className="flex flex-wrap items-center gap-8 animate-slide-up-fade delay-500">
             <Button
               href="/work"
               variant="primary"
@@ -82,7 +97,7 @@ export default function Hero() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 gap-4 border-t border-border pt-8 sm:grid-cols-2">
+          <div className="grid grid-cols-1 gap-4 border-t border-border pt-8 sm:grid-cols-2 animate-slide-up-fade delay-500">
             <div className="flex flex-col gap-1">
               <span className="font-sans text-metadata font-metadata uppercase tracking-metadata text-text-muted">
                 Domain
@@ -104,10 +119,15 @@ export default function Hero() {
 
         <NextLink
           href="/about"
-          className="inline-flex items-center gap-2 self-start font-sans text-metadata font-metadata uppercase tracking-metadata text-text-primary transition-colors duration-fast hover:text-accent-primary"
+          className="group inline-flex items-center gap-2 self-start font-sans text-metadata font-metadata uppercase tracking-metadata text-text-primary transition-colors duration-fast hover:text-accent-primary animate-slide-up-fade delay-500"
         >
           Continue to About
-          <ArrowRight size={16} strokeWidth={2} aria-hidden="true" />
+          <ArrowRight
+            size={16}
+            strokeWidth={2}
+            aria-hidden="true"
+            className="animate-pulse-horizontal group-hover:text-accent-primary"
+          />
         </NextLink>
       </div>
     </Section>
