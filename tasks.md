@@ -105,6 +105,12 @@ User supplied a new "Experience Timeline" export (screenshot + `lohit_portfolio_
 
 **All 8 sections of the single-page site are now built out with real, approved content end to end** — Hero, About, Work, Skills, Experience, Foundations & Education, Contact, Footer.
 
+## About Principle-Row Hover Polish (2026-08-25 — matching the "Engineering Philosophy" export)
+User shared `lohit_portfolio_about_engineering_philosophy/code.html`. Unlike the Hero/Skills exports, About.tsx already matched this reference almost exactly (same headline, same 4 principles with identical titles/descriptions/tags, same "The App Is Only the Surface." break, same How I Work grid) from earlier session work — confirmed with the user before doing anything further.
+- [x] Added the reference's principle-row hover interaction: a subtle background tint (`hover:bg-accent-primary-text/5` — Tailwind's built-in opacity modifier on the existing token, not a new one-off color) and the row number shifting right + turning blue on hover (`group-hover:translate-x-1 group-hover:text-accent-primary-text`).
+- [x] Deliberately did NOT add the reference's arrow icon per row — no real link destination for these rows, same rule already applied to Experience/Skills. Also skipped (already-declined, same as the last two exports): the "LSSK.DEV" wordmark, "Resume" nav button, and a "Twitter" footer link (not in `social.ts`'s confirmed links).
+- [x] Verified: `npm run build`/`npm run lint` clean; live-checked hover state via `computer.hover` (real mouse event, not synthetic dispatch — this pane's `:hover` only responds to real mouse actions) — number turns blue and shifts, row background computes to the expected 5%-alpha tint.
+
 ## Skills Redesign (2026-08-25 — matching the "Expertise / Technical Stack" export)
 User shared `lohit_portfolio_expertise_technical_stack/code.html` and asked to match it.
 - [x] Rebuilt `Skills.tsx`: table header row (Idx/Capability Domain/Description & Stack), a "3+ years" stat card next to the section headline, larger per-row category titles promoted to real `<h3>`s (all 7 are distinct, unlike Experience's repeated "Flutter Developer" — a real heading is correct here), the lead tag per row using the existing `accent` Tag variant, and a new "Stack // Production" compact index (4 columns) below the typographic break.

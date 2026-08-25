@@ -30,7 +30,12 @@ const TECHNICAL_PROFILE = [
 // Engineering Philosophy — drafted 2026-08-25, approved by the user before
 // implementation. Each principle is grounded in a specific resume/
 // experience fact (see the comment per item), not invented; tags on 03/04
-// are existing confirmed skills, not new ones.
+// are existing confirmed skills, not new ones. Row hover tint + number
+// shift (2026-08-25, matching lohit_portfolio_about_engineering_philosophy)
+// uses the existing accent-primary-text token at Tailwind's built-in 5%
+// opacity modifier, not a new one-off color — no arrow icon, unlike the
+// reference, since these rows have no real link destination (same rule
+// already applied to Experience/Skills rows).
 const PRINCIPLES = [
   {
     title: "Solve the System",
@@ -136,8 +141,15 @@ export default function About() {
 
           <div className="flex flex-col divide-y divide-border">
             {PRINCIPLES.map((principle, index) => (
-              <div key={principle.title} className="flex flex-col gap-3 py-8">
-                <Text variant="metadata" as="span">
+              <div
+                key={principle.title}
+                className="group flex flex-col gap-3 py-8 px-4 -mx-4 transition-colors duration-base hover:bg-accent-primary-text/5"
+              >
+                <Text
+                  variant="metadata"
+                  as="span"
+                  className="transition-transform duration-fast group-hover:translate-x-1 group-hover:text-accent-primary-text"
+                >
                   {String(index + 1).padStart(2, "0")} —
                 </Text>
                 {/* Plain <h3>, not the Heading component — this sub-scale
