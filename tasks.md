@@ -105,6 +105,12 @@ User supplied a new "Experience Timeline" export (screenshot + `lohit_portfolio_
 
 **All 8 sections of the single-page site are now built out with real, approved content end to end** — Hero, About, Work, Skills, Experience, Foundations & Education, Contact, Footer.
 
+## Logo Hover Animation (2026-08-25)
+User asked to add an animation to the icon-only logo.
+- [x] Faint outline dots fill in on hover, staggered into a diagonal wave from the L outward — functional (signals the icon is a link home), not gratuitous, matching the site's existing hover-affordance pattern (Button fill, ListRow arrow-translate). Pure CSS, no JS.
+- [x] **Found + fixed a real bug**: initial attempt used Tailwind's `group-hover:fill-opacity-100`, which silently did nothing — `fill-opacity-*` isn't part of Tailwind v4's default utility set. Replaced with a plain `.logo-dot` CSS class in globals.css (`fill-opacity` transition + `.group:hover` selector), verified via `getComputedStyle` that all 16 dots reach `fill-opacity: 1` on hover.
+- [x] `npm run build`/`npm run lint` clean.
+
 ## Logo + Compact Header (2026-08-25 — user-supplied icon)
 User provided a logo SVG (icon + wordmark + tagline lockup) and asked to replace the plain "thisislohit" nav text with it, restyled to this site's own font/colors, plus a smaller header overall.
 - [x] Rendered the raw SVG to confirm its actual content before touching anything — it reads "thisislohit." (lowercase, with a period) + "FLUTTER DEVELOPER" tagline next to an "L"-shaped 5×5 dot-grid icon. Not "LSSK.DEV" as briefly suspected from the Stitch exports.

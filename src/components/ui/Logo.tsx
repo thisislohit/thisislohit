@@ -10,6 +10,17 @@ interface LogoProps {
 // mark didn't look good and asked to drop the text, keeping just the dot
 // grid — screen readers still get the site name via the wrapping <Link>'s
 // aria-label in Navigation.tsx, not from this component.
+//
+// Hover animation (2026-08-25, user requested "add an animation for this
+// logo"): the faint outline dots fill in on hover, staggered into a
+// diagonal wave spreading away from the L — functional, not just
+// decorative, since this icon is always a link back to "/" (design.md's
+// "motion should be functional" rule: it signals "this is clickable" the
+// same way Button's hover fill or ListRow's arrow-translate do elsewhere
+// on the site). Pure CSS (`group`/`group-hover`), no JS — stays a Server
+// Component. `prefers-reduced-motion` is handled by the existing global
+// rule in globals.css (collapses the transition to ~instant), not a
+// second guard here.
 export function Logo({ className = "" }: LogoProps) {
   const filled: [number, number][] = [
     [4, 4.5],
@@ -22,9 +33,9 @@ export function Logo({ className = "" }: LogoProps) {
     [40, 52.5],
     [52, 52.5],
   ];
-  const outlined: [number, number][] = [16, 28, 40, 52].flatMap((x) =>
-    [4.5, 16.5, 28.5, 40.5].map((y): [number, number] => [x, y]),
-  );
+  const outlined: [number, number][] = [16, 28, 40, 52]
+    .flatMap((x) => [4.5, 16.5, 28.5, 40.5].map((y): [number, number] => [x, y]))
+    .sort((a, b) => a[0] + a[1] - (b[0] + b[1]));
 
   return (
     <svg
@@ -33,10 +44,20 @@ export function Logo({ className = "" }: LogoProps) {
       viewBox="0 0 56 57"
       fill="none"
       aria-hidden="true"
-      className={`shrink-0 text-text-primary ${className}`.trim()}
+      className={`group shrink-0 text-text-primary ${className}`.trim()}
     >
-      {outlined.map(([cx, cy]) => (
-        <circle key={`o-${cx}-${cy}`} cx={cx} cy={cy} r="4" stroke="currentColor" strokeOpacity="0.15" />
+      {outlined.map(([cx, cy], index) => (
+        <circle
+          key={`o-${cx}-${cy}`}
+          cx={cx}
+          cy={cy}
+          r="4"
+          stroke="currentColor"
+          strokeOpacity="0.15"
+          fill="currentColor"
+          className="logo-dot"
+          style={{ transitionDelay: `${index * 25}ms` }}
+        />
       ))}
       {filled.map(([cx, cy]) => (
         <circle key={`f-${cx}-${cy}`} cx={cx} cy={cy} r="4" fill="currentColor" />

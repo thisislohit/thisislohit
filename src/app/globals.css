@@ -324,3 +324,17 @@ body {
   color: transparent;
   -webkit-text-stroke: 1px var(--color-border);
 }
+
+/* Logo icon's hover fill-in (2026-08-25) — plain CSS rather than a
+   Tailwind `fill-opacity-*` utility (not part of Tailwind v4's default
+   utility set, so `group-hover:fill-opacity-100` silently did nothing).
+   `.group:hover` scopes it to the containing <svg>, which carries the
+   `group` class itself (see Logo.tsx). */
+.logo-dot {
+  fill-opacity: 0;
+  transition: fill-opacity var(--duration-base) var(--ease-standard);
+}
+
+.group:hover .logo-dot {
+  fill-opacity: 1;
+}
