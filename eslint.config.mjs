@@ -16,6 +16,7 @@ const eslintConfig = defineConfig([
     // of the Next.js app — see mcp-server/ for its own config.
     "mcp-server/**",
     "stitch-design/**",
+    "scratch/**",
   ]),
 ]);
 

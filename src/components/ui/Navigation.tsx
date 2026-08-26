@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import * as Dialog from "@radix-ui/react-dialog";
 import { Menu, X, CircleHelp } from "lucide-react";
 import { IconButton } from "./IconButton";
+import { Logo } from "./Logo";
 import { useShortcuts } from "@/components/shortcuts/ShortcutsProvider";
 
 export interface NavLink {
@@ -35,6 +36,14 @@ interface NavigationProps {
 // is exactly the kind of foundational-but-tricky problem not worth
 // reinventing" — applies here word-for-word, same as it does to
 // ShortcutsDialog.
+//
+// Wordmark replaced with the `Logo` component (2026-08-25, user-supplied
+// icon+lockup) — the icon geometry only, rebuilt with this site's own
+// Geist/token colors rather than the source SVG's baked dark-background
+// palette and vector-path lettering. Nav padding reduced (py-6 → py-3,
+// both here and in the mobile sheet) per the user's "smaller header"
+// request.
+
 export function Navigation({ links, homeHref = "/", homeLabel }: NavigationProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
@@ -45,12 +54,9 @@ export function Navigation({ links, homeHref = "/", homeLabel }: NavigationProps
       aria-label="Primary"
       className="sticky top-0 z-nav border-b border-border-subtle bg-background/80 backdrop-blur-sm"
     >
-      <div className="flex items-center justify-between px-margin-page-mobile md:px-margin-page py-6">
-        <Link
-          href={homeHref}
-          className="font-sans text-headline-lg-mobile lg:text-headline-lg font-headline uppercase tracking-tighter text-text-primary"
-        >
-          {homeLabel}
+      <div className="flex items-center justify-between px-margin-page-mobile md:px-margin-page py-3">
+        <Link href={homeHref} aria-label={homeLabel}>
+          <Logo />
         </Link>
 
         <div className="hidden lg:flex items-center gap-6">
@@ -102,10 +108,8 @@ export function Navigation({ links, homeHref = "/", homeLabel }: NavigationProps
             <Dialog.Portal>
               <Dialog.Content className="fixed inset-0 z-nav bg-background flex flex-col">
                 <Dialog.Title className="sr-only">Mobile navigation</Dialog.Title>
-                <div className="flex items-center justify-between px-margin-page-mobile py-6">
-                  <span className="font-sans text-headline-lg-mobile font-headline uppercase tracking-tighter text-text-primary">
-                    {homeLabel}
-                  </span>
+                <div className="flex items-center justify-between px-margin-page-mobile py-3">
+                  <Logo />
                   <Dialog.Close asChild>
                     <IconButton icon={<X size={24} strokeWidth={2} />} aria-label="Close menu" />
                   </Dialog.Close>

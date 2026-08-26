@@ -318,3 +318,10 @@ Notes:
 - MCP servers registered via `claude mcp add` mid-session do not become callable until the next session start — worth remembering for any future server additions, not just `stitch`.
 - Content sourced from stitch-design/html/beyond-mobile.html and foundations-education.html for section framing (not literal content — real content is still 100% pending from user per tasks.md "Content Needed"). Beyond Mobile framing: full-stack/backend/web/AR work alongside mobile. Foundations & Education framing: B.Tech CS degree + build-first learning philosophy statement.
 
+### 2026-08-26
+
+Decision:
+- Logo SVG's actual text content is 'thisislohit.' (lowercase, period) + 'FLUTTER DEVELOPER' tagline — not 'LSSK.DEV' as the Stitch exports suggested. Confirmed by rendering the raw SVG before implementing, avoiding a wrong assumption.
+
+Completed:
+- Added Logo component (src/components/ui/Logo.tsx) from user-supplied SVG — icon geometry reconstructed with currentColor, wordmark/tagline rebuilt as real Geist text (not the source's baked vector-path lettering). Nav padding reduced py-6→py-3 for a smaller header. Nav reordered to Work/Experience/About/Contact matching every Stitch export. Added .stitch-mcp/ and /scratch/ to .gitignore (stray cache/scratch artifacts).

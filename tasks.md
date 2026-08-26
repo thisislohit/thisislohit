@@ -105,6 +105,14 @@ User supplied a new "Experience Timeline" export (screenshot + `lohit_portfolio_
 
 **All 8 sections of the single-page site are now built out with real, approved content end to end** — Hero, About, Work, Skills, Experience, Foundations & Education, Contact, Footer.
 
+## Logo + Compact Header (2026-08-25 — user-supplied icon)
+User provided a logo SVG (icon + wordmark + tagline lockup) and asked to replace the plain "thisislohit" nav text with it, restyled to this site's own font/colors, plus a smaller header overall.
+- [x] Rendered the raw SVG to confirm its actual content before touching anything — it reads "thisislohit." (lowercase, with a period) + "FLUTTER DEVELOPER" tagline next to an "L"-shaped 5×5 dot-grid icon. Not "LSSK.DEV" as briefly suspected from the Stitch exports.
+- [x] New `src/components/ui/Logo.tsx`: reconstructs only the icon's dot geometry (9 filled + 16 faint-outline circles, `currentColor` instead of the source's dark-background palette) and renders the wordmark/tagline as real text in this site's Geist/token system — not the source SVG's baked vector-path lettering, per the user's explicit "change the font style to our standards and colors as well".
+- [x] `Navigation.tsx` now renders `<Logo />` instead of a plain text link (desktop nav + mobile sheet header), and nav vertical padding dropped `py-6` → `py-3` for a visibly smaller header, per the user's request.
+- [x] Verified: nav height confirmed via `getBoundingClientRect` (69px, down from ~110px+), circle count in the icon confirmed via `querySelectorAll('circle')` (25, matching the reconstructed geometry), mobile menu opens correctly with the new logo and the corrected Work/Experience/About/Contact order. `npm run build`/`npm run lint` clean.
+- [x] Added `.stitch-mcp/` and `/scratch/` to `.gitignore` — local Stitch-pull cache/scratch artifacts that appeared on disk from tooling, not project source.
+
 ## Contact Watermark (2026-08-25 — matching the "Contact / Closing" export)
 User shared `lohit_portfolio_contact_closing/code.html`. Like About, Contact.tsx already matched this reference almost exactly (same headline, statement, CTA, Available for Work tag, and contact list rows/arrows) from earlier session work.
 - [x] Added the reference's decorative "TALK." background watermark behind the contact list — outlined-only display type (`.watermark-text` in globals.css, `-webkit-text-stroke` using the existing `--color-border` token, not a new color), `aria-hidden` + `pointer-events-none` since it carries no information, `overflow-hidden` on its wrapper so it can't cause horizontal scroll.
