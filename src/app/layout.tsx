@@ -55,10 +55,12 @@ export const metadata: Metadata = {
 // scroll-only (no top-nav entry) on the old single-page layout. Resume is
 // intentionally omitted until a real resume link exists (tasks.md "Content
 // Needed From User").
+// Order matches every pulled Stitch export exactly (Work, Experience,
+// About, Contact) — 2026-08-25, was previously About-first.
 const NAV_LINKS = [
-  { label: "About", href: "/about" },
   { label: "Work", href: "/work" },
   { label: "Experience", href: "/experience" },
+  { label: "About", href: "/about" },
   { label: "Contact", href: "/contact" },
 ];
 
