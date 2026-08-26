@@ -15,20 +15,20 @@ interface LogoProps {
 // logo"): the faint outline dots fill in on hover, staggered into a
 // diagonal wave spreading away from the L — functional, not just
 // decorative, since this icon is always a link back to "/" (design.md's
-// "motion should be functional" rule: it signals "this is clickable" the
-// same way Button's hover fill or ListRow's arrow-translate do elsewhere
-// on the site). Pure CSS (`group`/`group-hover`), no JS — stays a Server
-// Component. `prefers-reduced-motion` is handled by the existing global
-// rule in globals.css (collapses the transition to ~instant), not a
-// second guard here.
+// "motion should be functional" rule). Pure CSS (`group`/`group-hover`),
+// no JS — stays a Server Component.
 //
-// Hover color (2026-08-25): first tried recoloring the whole icon to
-// accent-primary-text on hover, but the user asked for the L itself to
-// stay put and only the animated reveal to carry the color — so the L's
-// dots keep `currentColor`/text-primary (never changes) while the
-// newly-filling dots use accent-primary-text directly (not currentColor),
-// same AA-safe blue as Nav's active link/Link hover/Button hover fill,
-// just scoped to the part that's actually animating.
+// Hover color, third iteration (2026-08-25): tried (1) recoloring the
+// whole icon blue, (2) keeping the L black and only coloring the
+// animated reveal blue. User then asked for a full invert instead — a
+// blue badge appears behind the icon and every dot (L included) turns
+// white on top of it, like a color-invert filter. The badge uses plain
+// `hover:` (not `group-hover:`) since it's reacting to its own hover,
+// not a descendant's — `group-hover:` only matches descendants of the
+// `.group` element, so putting it on the `.group` element itself is a
+// no-op (found via computed-style verification, not assumption). The
+// icon color still uses `group-hover:text-on-primary` since the <svg>
+// is a real descendant of the wrapping `.group` span.
 export function Logo({ className = "" }: LogoProps) {
   const filled: [number, number][] = [
     [4, 4.5],
@@ -46,30 +46,34 @@ export function Logo({ className = "" }: LogoProps) {
     .sort((a, b) => a[0] + a[1] - (b[0] + b[1]));
 
   return (
-    <svg
-      width="36"
-      height="36"
-      viewBox="0 0 56 57"
-      fill="none"
-      aria-hidden="true"
-      className={`group shrink-0 text-text-primary ${className}`.trim()}
+    <span
+      className={`group inline-flex items-center justify-center rounded-sm p-1.5 transition-colors duration-base hover:bg-accent-primary-text ${className}`.trim()}
     >
-      {outlined.map(([cx, cy], index) => (
-        <circle
-          key={`o-${cx}-${cy}`}
-          cx={cx}
-          cy={cy}
-          r="4"
-          stroke="currentColor"
-          strokeOpacity="0.15"
-          fill="var(--color-accent-primary-text)"
-          className="logo-dot"
-          style={{ transitionDelay: `${index * 25}ms` }}
-        />
-      ))}
-      {filled.map(([cx, cy]) => (
-        <circle key={`f-${cx}-${cy}`} cx={cx} cy={cy} r="4" fill="currentColor" />
-      ))}
-    </svg>
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 56 57"
+        fill="none"
+        aria-hidden="true"
+        className="shrink-0 text-text-primary transition-colors duration-base group-hover:text-on-primary"
+      >
+        {outlined.map(([cx, cy], index) => (
+          <circle
+            key={`o-${cx}-${cy}`}
+            cx={cx}
+            cy={cy}
+            r="4"
+            stroke="currentColor"
+            strokeOpacity="0.15"
+            fill="currentColor"
+            className="logo-dot"
+            style={{ transitionDelay: `${index * 25}ms` }}
+          />
+        ))}
+        {filled.map(([cx, cy]) => (
+          <circle key={`f-${cx}-${cy}`} cx={cx} cy={cy} r="4" fill="currentColor" />
+        ))}
+      </svg>
+    </span>
   );
 }

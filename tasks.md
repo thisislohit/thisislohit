@@ -105,6 +105,12 @@ User supplied a new "Experience Timeline" export (screenshot + `lohit_portfolio_
 
 **All 8 sections of the single-page site are now built out with real, approved content end to end** — Hero, About, Work, Skills, Experience, Foundations & Education, Contact, Footer.
 
+## Logo Hover Invert (2026-08-25 — third iteration)
+User asked for a different treatment: "invert blue black and L was white".
+- [x] A blue (`accent-primary-text`) rounded badge now appears behind the icon on hover, and every dot — including the previously-untouched L — turns white (`on-primary`) on top of it, giving a true color-invert look rather than recoloring dots in place.
+- [x] **Found + fixed a real bug**: the badge background was first written as `group-hover:bg-accent-primary-text` on the same element carrying the `group` class — a no-op, since Tailwind's `group-hover:` only matches descendants of `.group`, never the `.group` element itself. Confirmed via `getComputedStyle` (background stayed transparent while the icon's own `group-hover:text-on-primary` correctly fired, since the `<svg>` is a real descendant). Fixed by using plain `hover:bg-accent-primary-text` for the badge's own hover, keeping `group-hover:` only for the descendant icon color.
+- [x] Verified via screenshot: solid blue rounded badge behind the icon on hover, full grid (L included) turns white.
+
 ## Logo Hover Color (2026-08-25)
 User asked to make the hover "blue or something, or invert" and let me pick the best option. First pass recolored the whole icon (L included) to accent-primary-text; user then asked for only the animated reveal to carry color, not the L itself.
 - [x] Final: the L's dots keep `currentColor`/text-primary permanently (never changes on hover); the newly-filling dots use `accent-primary-text` directly (not `currentColor`, so they're independent of the L's color) — same AA-safe blue as Nav's active link/Link hover/Button hover fill, just scoped to the part that's actually animating.
