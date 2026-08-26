@@ -21,6 +21,15 @@ interface LogoProps {
 // Component. `prefers-reduced-motion` is handled by the existing global
 // rule in globals.css (collapses the transition to ~instant), not a
 // second guard here.
+//
+// Hover color (2026-08-25, user asked for "blue or something, or invert"):
+// the whole icon (existing L dots + newly-filled ones) shifts to
+// `accent-primary-text` on hover, not a new one-off color — the same
+// AA-safe blue already used for Nav's active link, Link's hover state,
+// and Button's hover fill, so the icon's hover reads as consistent with
+// every other interactive element on the site rather than introducing a
+// fourth treatment. Both circle groups use `fill="currentColor"`, so
+// changing the <svg>'s own `color` recolors all of them at once.
 export function Logo({ className = "" }: LogoProps) {
   const filled: [number, number][] = [
     [4, 4.5],
@@ -44,7 +53,7 @@ export function Logo({ className = "" }: LogoProps) {
       viewBox="0 0 56 57"
       fill="none"
       aria-hidden="true"
-      className={`group shrink-0 text-text-primary ${className}`.trim()}
+      className={`group shrink-0 text-text-primary transition-colors duration-base hover:text-accent-primary-text ${className}`.trim()}
     >
       {outlined.map(([cx, cy], index) => (
         <circle

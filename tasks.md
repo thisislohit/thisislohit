@@ -105,6 +105,11 @@ User supplied a new "Experience Timeline" export (screenshot + `lohit_portfolio_
 
 **All 8 sections of the single-page site are now built out with real, approved content end to end** — Hero, About, Work, Skills, Experience, Foundations & Education, Contact, Footer.
 
+## Logo Hover Color (2026-08-25)
+User asked to make the hover "blue or something, or invert" and let me pick the best option.
+- [x] Icon shifts to `accent-primary-text` on hover (the same AA-safe blue already used for Nav's active link, Link's hover state, and Button's hover fill) rather than introducing a new one-off hover color — both circle groups use `fill="currentColor"`, so recoloring the `<svg>`'s own `color` recolors the whole icon (existing L + newly-filled dots) at once.
+- [x] Verified via screenshot: full grid fills solid blue on hover, matching the rest of the site's interactive-state color.
+
 ## Logo Hover Animation (2026-08-25)
 User asked to add an animation to the icon-only logo.
 - [x] Faint outline dots fill in on hover, staggered into a diagonal wave from the L outward — functional (signals the icon is a link home), not gratuitous, matching the site's existing hover-affordance pattern (Button fill, ListRow arrow-translate). Pure CSS, no JS.
