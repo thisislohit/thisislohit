@@ -106,9 +106,9 @@ User supplied a new "Experience Timeline" export (screenshot + `lohit_portfolio_
 **All 8 sections of the single-page site are now built out with real, approved content end to end** — Hero, About, Work, Skills, Experience, Foundations & Education, Contact, Footer.
 
 ## Logo Hover Color (2026-08-25)
-User asked to make the hover "blue or something, or invert" and let me pick the best option.
-- [x] Icon shifts to `accent-primary-text` on hover (the same AA-safe blue already used for Nav's active link, Link's hover state, and Button's hover fill) rather than introducing a new one-off hover color — both circle groups use `fill="currentColor"`, so recoloring the `<svg>`'s own `color` recolors the whole icon (existing L + newly-filled dots) at once.
-- [x] Verified via screenshot: full grid fills solid blue on hover, matching the rest of the site's interactive-state color.
+User asked to make the hover "blue or something, or invert" and let me pick the best option. First pass recolored the whole icon (L included) to accent-primary-text; user then asked for only the animated reveal to carry color, not the L itself.
+- [x] Final: the L's dots keep `currentColor`/text-primary permanently (never changes on hover); the newly-filling dots use `accent-primary-text` directly (not `currentColor`, so they're independent of the L's color) — same AA-safe blue as Nav's active link/Link hover/Button hover fill, just scoped to the part that's actually animating.
+- [x] Verified via screenshot: L stays solid black, surrounding grid fills in blue as it animates.
 
 ## Logo Hover Animation (2026-08-25)
 User asked to add an animation to the icon-only logo.

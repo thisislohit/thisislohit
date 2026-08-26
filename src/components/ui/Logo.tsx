@@ -22,14 +22,13 @@ interface LogoProps {
 // rule in globals.css (collapses the transition to ~instant), not a
 // second guard here.
 //
-// Hover color (2026-08-25, user asked for "blue or something, or invert"):
-// the whole icon (existing L dots + newly-filled ones) shifts to
-// `accent-primary-text` on hover, not a new one-off color — the same
-// AA-safe blue already used for Nav's active link, Link's hover state,
-// and Button's hover fill, so the icon's hover reads as consistent with
-// every other interactive element on the site rather than introducing a
-// fourth treatment. Both circle groups use `fill="currentColor"`, so
-// changing the <svg>'s own `color` recolors all of them at once.
+// Hover color (2026-08-25): first tried recoloring the whole icon to
+// accent-primary-text on hover, but the user asked for the L itself to
+// stay put and only the animated reveal to carry the color — so the L's
+// dots keep `currentColor`/text-primary (never changes) while the
+// newly-filling dots use accent-primary-text directly (not currentColor),
+// same AA-safe blue as Nav's active link/Link hover/Button hover fill,
+// just scoped to the part that's actually animating.
 export function Logo({ className = "" }: LogoProps) {
   const filled: [number, number][] = [
     [4, 4.5],
@@ -53,7 +52,7 @@ export function Logo({ className = "" }: LogoProps) {
       viewBox="0 0 56 57"
       fill="none"
       aria-hidden="true"
-      className={`group shrink-0 text-text-primary transition-colors duration-base hover:text-accent-primary-text ${className}`.trim()}
+      className={`group shrink-0 text-text-primary ${className}`.trim()}
     >
       {outlined.map(([cx, cy], index) => (
         <circle
@@ -63,7 +62,7 @@ export function Logo({ className = "" }: LogoProps) {
           r="4"
           stroke="currentColor"
           strokeOpacity="0.15"
-          fill="currentColor"
+          fill="var(--color-accent-primary-text)"
           className="logo-dot"
           style={{ transitionDelay: `${index * 25}ms` }}
         />
