@@ -1,0 +1,11 @@
+[build]
+  command = "npm run build"
+  # Next.js on Netlify: the runtime plugin serves from .next — not "out" or "dist".
+  publish = ".next"
+
+[build.environment]
+  # Next 16 needs Node >= 20.9
+  NODE_VERSION = "22"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
