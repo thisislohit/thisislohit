@@ -2,57 +2,55 @@ import NextLink from "next/link";
 import { ArrowUp } from "lucide-react";
 import { Section } from "@/components/ui/Section";
 import { SocialLink } from "@/components/ui/SocialLink";
-import { Text } from "@/components/ui/Text";
+import { TVAEmblem } from "@/components/tva/TVAEmblem";
+import { PruneButton } from "@/components/tva/PruneButton";
 import { social } from "@/data/social";
 
-// design.md "Components → Footer" / DESIGN_SYSTEM.md Part 3: minimal
-// closing landmark — copyright, SocialLinks, back-to-top. Top hairline
-// divider (border-border-subtle) separates it from Contact; no full-width
-// fill/background, per "elements sit directly on the paper" (§1.0
-// Elevation). Also carries the Branded Identity wordmark/nav treatment
-// from the pulled Stitch screen (folded in here per scope.md IA decision,
-// not a standalone section).
-//
-// Back-to-top is plain markup here, not a components/ui primitive — it's
-// used exactly once and DESIGN_SYSTEM.md doesn't name it as a separate
-// component, only as a bullet under Footer's own spec.
 export default function Footer() {
   const socialLinks = [
     ...(social.email ? [{ label: "Email", href: `mailto:${social.email}` }] : []),
-    ...(social.phone
-      ? [{ label: "Phone", href: `tel:${social.phone.replace(/\s+/g, "")}` }]
-      : []),
+    ...(social.phone ? [{ label: "Phone", href: `tel:${social.phone.replace(/\s+/g, "")}` }] : []),
     ...social.links.map((link) => ({ label: link.label, href: link.url })),
   ];
 
   return (
-    <Section as="footer" className="border-t border-border-subtle">
-      <div className="col-span-4 lg:col-span-12 flex flex-col gap-6 py-6 lg:flex-row lg:items-center lg:justify-between">
-        {/* Full name, matching the updated bottom-bar copyright convention
-            (2026-08-25, stitch-design/html/hero-v2-availability.html) —
-            was "thisislohit" (the site's established brand mark); both are
-            real, non-invented identifiers, this just matches the newer
-            reference. */}
-        <Text variant="metadata" as="span">
-          © {new Date().getFullYear()} Lohit Satya Sai Kuntamukkala
-        </Text>
+    <Section as="footer" className="relative z-10 mt-stack-lg border-t-2 border-accent-primary bg-surface/70 backdrop-blur-sm">
+      <div className="col-span-4 flex flex-col gap-8 py-10 lg:col-span-12">
+        <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
+          <div className="flex items-center gap-5">
+            <TVAEmblem size={72} className="text-accent-primary" />
+            <div>
+              <div className="font-display text-3xl font-black uppercase leading-none tracking-tight text-text-primary sm:text-4xl">
+                All time. <span className="text-accent-primary">All the time.</span>
+              </div>
+              <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.25em] text-text-muted">
+                Variant Lohit · Case 616-L · Sacred Timeline: stable
+              </div>
+            </div>
+          </div>
+          <div className="flex flex-wrap items-center gap-4">
+            <PruneButton />
+            <NextLink
+              href="#hero"
+              data-cursor="TOP"
+              className="inline-flex items-center gap-2 font-mono text-[11px] font-bold uppercase tracking-[0.2em] text-accent-primary hover:text-accent-utility"
+            >
+              Back to origin <ArrowUp size={14} />
+            </NextLink>
+          </div>
+        </div>
 
-        <div className="flex flex-wrap items-center gap-6">
-          <Text variant="metadata" as="span">
-            Location: Hyderabad
-          </Text>
-
-          {socialLinks.map((link) => (
-            <SocialLink key={link.href} label={link.label} href={link.href} />
-          ))}
-
-          <NextLink
-            href="/"
-            aria-label="Back to home"
-            className="inline-flex items-center justify-center min-h-11 min-w-11 rounded-sm border border-transparent text-text-primary transition-colors duration-fast hover:border-border"
-          >
-            <ArrowUp size={20} strokeWidth={2} aria-hidden="true" />
-          </NextLink>
+        <div className="flex flex-col justify-between gap-4 border-t border-border pt-6 sm:flex-row sm:items-center">
+          <ul className="flex flex-wrap items-center gap-x-6 gap-y-2">
+            {socialLinks.map((l) => (
+              <li key={l.label}>
+                <SocialLink label={l.label} href={l.href} />
+              </li>
+            ))}
+          </ul>
+          <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted">
+            © {new Date().getFullYear()} Lohit Kuntamukkala · A fan tribute to Marvel&apos;s Loki — not affiliated with Marvel or Disney
+          </p>
         </div>
       </div>
     </Section>

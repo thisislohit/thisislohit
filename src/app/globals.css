@@ -6,35 +6,35 @@
  * in markup must trace back to a token defined here.
  */
 :root {
-  /* Color — see DESIGN_SYSTEM.md §1.1–1.3 for resolution rationale */
-  --color-background: #f7f7f3;
-  --color-surface: #f7f7f3;
-  --color-text-primary: #111111;
-  --color-text-secondary: rgba(17, 17, 17, 0.7);
-  --color-text-muted: rgba(17, 17, 17, 0.5);
-  --color-border: rgba(17, 17, 17, 0.15);
-  --color-border-subtle: rgba(17, 17, 17, 0.1);
-  --color-accent-primary: #4d7cfe; /* Electric Blue — fills/focus rings, per design.md's literal spec */
-  /* Electric Blue as standalone text on the paper background computes to
-     3.47:1 at normal (16-17px, regular-weight) text sizes — fails WCAG AA's
-     4.5:1 (confirmed via QA pass, 2026-08-25, not caught during initial
-     build). Same hue, darkened (HSL lightness 0.65→0.5) to 6.0:1. Used only
-     where the color reads as TEXT (Link, SocialLink, Navigation's active
-     state) — --color-accent-primary itself is untouched for fills/rings,
-     where the contrast math is different (see DESIGN_SYSTEM.md §1.10 note
-     on Button's hover fill, a separate, documented, unresolved gap). */
-  --color-accent-primary-text: #0144fe;
-  --color-accent-utility: #c8f31d; /* Acid Lime */
-  --color-accent-rare: #ff6b5e; /* Soft Coral */
-  --color-error: #ba1a1a;
-  --color-error-container: #ffdad6;
-  --color-focus: #4d7cfe;
-  --color-on-primary: #ffffff; /* text on near-black fill */
-  --color-on-accent-utility: #111111; /* text on lime fill — required for AA/AAA contrast */
+  /* Color — Time Variance Authority: 1970s bureaucratic brown, TVA orange,
+     filing-cabinet cream paper, with Sacred Timeline gold and branch red. */
+  --color-background: #120a05; /* Burnt-umber void */
+  --color-surface: #1c110a; /* Filing-cabinet brown */
+  --color-surface-elevated: #281910;
+  --color-text-primary: #f3e6c8; /* Aged paper cream */
+  --color-text-secondary: rgba(243, 230, 200, 0.78);
+  --color-text-muted: rgba(214, 186, 144, 0.58);
+  --color-border: rgba(255, 122, 26, 0.3); /* TVA orange hairline */
+  --color-border-subtle: rgba(255, 122, 26, 0.14);
+  --color-border-bright: rgba(255, 122, 26, 0.7);
+  --color-accent-primary: #ff7a1a; /* TVA orange */
+  --color-accent-primary-text: #ff9a4d;
+  --color-accent-utility: #e8b84a; /* Sacred Timeline gold */
+  --color-accent-rare: #f6d98a;
+  --color-error: #e5392b; /* Branch / pruning red */
+  --color-error-container: #4a110c;
+  --color-focus: #ffb36b;
+  --color-on-primary: #1a0d05;
+  --color-on-accent-utility: #1a0d05;
+  --color-paper: #e9dcb9; /* Case-file paper */
+  --color-paper-dark: #cdbd93;
+  --color-ink: #2a1608; /* Typewriter ink */
+  --color-crt: #7fd6bd; /* Time-Keeper CRT teal readout */
 
-  /* Typography — font-family set by next/font in layout.tsx via --font-geist */
-  --font-family-display: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
-  --font-family-body: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  /* Typography — Space Grotesk / JetBrains Mono / Geist fallback stack */
+  --font-family-display: var(--font-archivo), "Archivo", system-ui, sans-serif;
+  --font-family-body: var(--font-plex-mono), "IBM Plex Mono", ui-monospace, monospace;
+  --font-family-typed: var(--font-special-elite), "Special Elite", "Courier New", monospace;
 
   --font-size-display-xl: 150px;
   --font-size-display-lg: 96px;
@@ -137,6 +137,10 @@
   --color-accent-primary-text: var(--color-accent-primary-text);
   --color-accent-utility: var(--color-accent-utility);
   --color-accent-rare: var(--color-accent-rare);
+  --color-paper: var(--color-paper);
+  --color-paper-dark: var(--color-paper-dark);
+  --color-ink: var(--color-ink);
+  --color-crt: var(--color-crt);
   --color-error: var(--color-error);
   --color-error-container: var(--color-error-container);
   --color-focus: var(--color-focus);
@@ -147,7 +151,10 @@
      single `font-sans` utility, not separate `font-display`/`font-body`
      keys, which would collide with the `font-*` class prefix that
      font-weight utilities also use (see --font-weight-* below). */
-  --font-sans: var(--font-family-body);
+  --font-sans: var(--font-family-display);
+  --font-mono: var(--font-family-body);
+  --font-typed: var(--font-family-typed);
+  --font-display: var(--font-family-display);
 
   --text-display-xl: var(--font-size-display-xl);
   --text-display-lg: var(--font-size-display-lg);
@@ -226,6 +233,24 @@ body {
   background: var(--color-background);
   color: var(--color-text-primary);
   font-family: var(--font-family-body);
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Custom TVA cursor takes over only on fine pointers once JS has mounted. */
+html.tva-cursor,
+html.tva-cursor a,
+html.tva-cursor button {
+  cursor: none;
 }
 
 /* Visible focus ring always — never outline:none without replacement. */
@@ -337,4 +362,178 @@ body {
 
 .group:hover .logo-dot {
   fill-opacity: 1;
+}
+
+/* =========================================================================
+   TIME VARIANCE AUTHORITY — effects
+   ========================================================================= */
+
+@keyframes tva-flicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: 0.78; }
+  94% { opacity: 1; }
+  97% { opacity: 0.88; }
+}
+
+@keyframes glitch-a {
+  0%, 100% { clip-path: inset(0 0 0 0); transform: translate(0); }
+  10% { clip-path: inset(12% 0 62% 0); transform: translate(-6px, 1px); }
+  20% { clip-path: inset(64% 0 8% 0); transform: translate(5px, -1px); }
+  30% { clip-path: inset(30% 0 40% 0); transform: translate(-3px, 0); }
+  40%, 90% { clip-path: inset(0 0 100% 0); transform: translate(0); }
+  50% { clip-path: inset(80% 0 4% 0); transform: translate(6px, 2px); }
+  60% { clip-path: inset(5% 0 78% 0); transform: translate(-5px, 0); }
+}
+
+@keyframes scan-sweep {
+  0% { transform: translateY(-110%); }
+  100% { transform: translateY(1100%); }
+}
+
+@keyframes ticker {
+  to { transform: translateX(-50%); }
+}
+
+@keyframes thread-flow {
+  to { stroke-dashoffset: -240; }
+}
+
+@keyframes caret {
+  50% { opacity: 0; }
+}
+
+@keyframes door-light {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+.animate-flicker { animation: tva-flicker 6s infinite; }
+.animate-ticker { animation: ticker 38s linear infinite; }
+.animate-caret { animation: caret 1s steps(1) infinite; }
+.animate-thread-flow { animation: thread-flow 6s linear infinite; }
+
+/* Case-file paper — the TVA's filing aesthetic. */
+.tva-paper {
+  position: relative;
+  color: var(--color-ink);
+  background:
+    radial-gradient(ellipse at 20% 0%, rgba(255, 255, 255, 0.35), transparent 55%),
+    repeating-linear-gradient(0deg, rgba(42, 22, 8, 0.035) 0 1px, transparent 1px 3px),
+    var(--color-paper);
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4) inset, 0 24px 48px -16px rgba(0, 0, 0, 0.7);
+}
+.tva-paper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  box-shadow: inset 0 0 60px rgba(120, 76, 30, 0.28);
+}
+
+.tva-panel {
+  background: linear-gradient(180deg, rgba(40, 25, 16, 0.78), rgba(22, 13, 7, 0.82));
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.4) inset, 0 20px 50px -24px rgba(0, 0, 0, 0.9);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+.tva-panel:hover {
+  border-color: var(--color-border-bright);
+  box-shadow: 0 0 40px -8px rgba(255, 122, 26, 0.25), 0 20px 50px -24px rgba(0, 0, 0, 0.9);
+}
+
+/* Perforated TVA label edge. */
+.tva-perf {
+  background-image: radial-gradient(circle, var(--color-background) 3px, transparent 3.5px);
+  background-size: 14px 14px;
+  background-repeat: repeat-y;
+}
+
+.tva-stripes {
+  background: repeating-linear-gradient(
+    -45deg,
+    var(--color-accent-primary) 0 10px,
+    var(--color-ink) 10px 20px
+  );
+}
+
+.glow-orange { filter: drop-shadow(0 0 10px rgba(255, 122, 26, 0.7)); }
+.glow-gold { filter: drop-shadow(0 0 10px rgba(232, 184, 74, 0.7)); }
+.glow-text-orange { text-shadow: 0 0 18px rgba(255, 122, 26, 0.55), 0 0 42px rgba(255, 122, 26, 0.25); }
+
+.tva-grain {
+  position: fixed;
+  inset: -50%;
+  pointer-events: none;
+  z-index: 60;
+  opacity: 0.07;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  animation: grain 0.9s steps(6) infinite;
+}
+@keyframes grain {
+  0% { transform: translate(0, 0); }
+  20% { transform: translate(-4%, 3%); }
+  40% { transform: translate(3%, -5%); }
+  60% { transform: translate(-6%, -2%); }
+  80% { transform: translate(5%, 4%); }
+  100% { transform: translate(0, 0); }
+}
+
+.tva-scanlines {
+  background: repeating-linear-gradient(0deg, rgba(0, 0, 0, 0.22) 0 1px, transparent 1px 3px);
+}
+.tva-vignette {
+  background: radial-gradient(ellipse at center, transparent 55%, rgba(0, 0, 0, 0.65) 100%);
+}
+
+/* Glitch text — duplicates data-text on pseudo-elements. */
+.glitch { position: relative; display: inline-block; }
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.glitch::before {
+  color: var(--color-accent-primary);
+  mix-blend-mode: screen;
+  animation: glitch-a 4.5s infinite steps(1);
+}
+.glitch::after {
+  color: var(--color-crt);
+  mix-blend-mode: screen;
+  animation: glitch-a 4.5s infinite steps(1) reverse;
+  animation-delay: 0.15s;
+}
+
+.outline-text {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-accent-primary);
+}
+
+.watermark-text {
+  color: transparent;
+  -webkit-text-stroke: 1px var(--color-border);
+}
+
+.logo-dot {
+  fill-opacity: 0;
+  transition: fill-opacity var(--duration-base) var(--ease-standard);
+}
+.group:hover .logo-dot { fill-opacity: 1; }
+
+::selection { background: var(--color-accent-primary); color: var(--color-on-primary); }
+
+/* Boot overlay is hidden unless the head script flagged a first visit. */
+.boot-overlay { display: none; }
+html[data-boot="play"] .boot-overlay { display: flex; }
+html[data-boot="play"] body { overflow: hidden; }
+
+@media (prefers-reduced-motion: reduce) {
+  .tva-grain { animation: none; }
+  .glitch::before, .glitch::after { display: none; }
 }

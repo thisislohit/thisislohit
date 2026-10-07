@@ -92,7 +92,7 @@ export default function About() {
           02 — About
         </Text>
 
-        <Heading level="headline-lg" as="h2">
+        <Heading level="display-lg" as="h2" className="uppercase">
           I Build for the Real World.
         </Heading>
 

@@ -1,41 +1,32 @@
 import { Section } from "@/components/ui/Section";
-import { Heading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
+import { SectionHeader } from "@/components/tva/SectionHeader";
+import { CaseFile } from "@/components/tva/CaseFile";
+import { Reveal } from "@/components/tva/Reveal";
 import { projects } from "@/data/projects";
-import { ProjectRow } from "@/sections/work/ProjectRow";
 
-// scope.md IA §03 "Work / Projects": list rows (title, one-line
-// description, stack tags, arrow-up-right link), asymmetric layout.
-// Data is real (src/data/projects.ts, from the user's resume + GitHub).
-// Headline/closing line drafted 2026-08-25, approved before implementation.
 export default function Work() {
-  // Featured first, otherwise resume order preserved — Array.sort is
-  // stable (ES2019+), so this never reorders within the same featured
-  // status.
-  const sortedProjects = [...projects].sort((a, b) => Number(b.featured) - Number(a.featured));
+  const sorted = [...projects].sort((a, b) => Number(b.featured) - Number(a.featured));
 
   return (
-    <Section id="work" aria-label="Work">
-      <div className="col-span-4 lg:col-span-12 flex flex-col gap-6">
-        <Text variant="metadata" as="span">
-          03 — Work
-        </Text>
+    <Section id="work" aria-label="Case files" className="scroll-mt-16">
+      <div className="col-span-4 flex flex-col gap-12 lg:col-span-12">
+        <SectionHeader code="01" eyebrow="Nexus realities" title="Case Files" meta="Branch multi.sys · 2023 → present" />
 
-        <Heading level="headline-lg" as="h2">
-          Work That Ships.
-        </Heading>
+        <Reveal className="max-w-2xl font-mono text-sm leading-relaxed text-text-secondary">
+          Production Flutter software, payment infrastructure and offline-first architecture. Each folder is an
+          active, stable branch — reviewed, filed, and verified against reality.
+        </Reveal>
 
-        {sortedProjects.length > 0 && (
-          <div className="flex flex-col divide-y divide-border">
-            {sortedProjects.map((project, index) => (
-              <ProjectRow key={project.name} project={project} index={index} />
-            ))}
-          </div>
-        )}
+        <div className="flex flex-col gap-14">
+          {sorted.map((p, i) => (
+            <CaseFile key={p.name} project={p} index={i} />
+          ))}
+        </div>
 
-        <Text variant="body-lg" className="mt-stack-md border-t border-border pt-stack-md">
-          Built for Real Users.
-        </Text>
+        <Reveal className="flex flex-col justify-between gap-3 border border-border bg-surface/60 p-4 font-mono text-xs uppercase tracking-widest text-text-muted sm:flex-row sm:items-center">
+          <span>{"// "}Total recorded branch realities: {projects.length}</span>
+          <span className="font-bold text-accent-primary">All timelines production-verified</span>
+        </Reveal>
       </div>
     </Section>
   );

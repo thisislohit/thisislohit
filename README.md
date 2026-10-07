@@ -1,27 +1,49 @@
-# thisislohit
+<h1 align="center">Lohit Kuntamukkala</h1>
 
-Personal-brand mobile developer portfolio — an editorial, typography-led site built from a Stitch-generated design system.
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com/?font=Fira+Code&weight=500&size=22&pause=1000&color=02569B&center=true&vCenter=true&width=520&lines=Flutter+Developer;Payments+%C2%B7+Offline-first+%C2%B7+White-label;Dependable%2C+not+just+demo-ready" alt="Flutter Developer — payments, offline-first, white-label">
+</p>
 
-**Status**: Foundation phase complete (docs below). Implementation has not started — see [tasks.md](tasks.md) for what's blocking Phase 6.
+<p align="center">
+  <a href="https://www.linkedin.com/in/thisislohit"><img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn"></a>
+  <a href="mailto:kuntamukkala2017@gmail.com"><img src="https://img.shields.io/badge/Gmail-EA4335?style=flat&logo=gmail&logoColor=white" alt="Email"></a>
+  <a href="https://thisislohit.dev"><img src="https://img.shields.io/badge/Portfolio-000000?style=flat&logo=vercel&logoColor=white" alt="Portfolio"></a>
+</p>
 
-## Project documentation
+---
 
-Read in this order for full context (a new session/agent should follow the same order — see [memory.md](memory.md)):
+I build Flutter software for environments where failure isn't an option — hospitality and
+payments apps across Android, iOS, Windows, and purpose-built hardware. Native Android
+integrations, Stripe payment flows, offline-first sync, and a white-label platform serving
+multiple clients from one codebase.
 
-1. [memory.md](memory.md) — AI session continuity: current state, decisions, next steps.
-2. [scope.md](scope.md) — what this project is and isn't.
-3. [architecture.md](architecture.md) — tech stack and folder structure, with reasoning.
-4. [design.md](design.md) — the original Stitch design source. **Visual source of truth — do not overwrite without explicit request.**
-5. [DESIGN_SYSTEM.md](DESIGN_SYSTEM.md) — design audit, resolved tokens, and component inventory derived from `design.md`.
-6. [plan.md](plan.md) — phased roadmap.
-7. [tasks.md](tasks.md) — actionable checklist, including content still needed from the site owner.
-8. [CONTRIBUTING.md](CONTRIBUTING.md) — conventions for working in this repo.
-9. [.cursor/rules/](.cursor/rules/) — enforced rules for AI-assisted sessions.
+> *I optimize for dependable, not just demo-ready.*
 
-## Stack (see architecture.md for rationale)
+**Currently** — Flutter Developer at **Crowdnetic Technologies**, building a white-label Flutter
+platform: Melos monorepo, config-driven client branding, Fastlane-automated releases.
 
-Next.js (App Router) · TypeScript · Tailwind CSS v4 · lucide-react · Vercel
+**Available for Flutter roles** where reliability and architecture matter.
 
-## Getting started
+## 🧰 Tech
 
-Not yet scaffolded — project setup begins in Plan Phase 6, after foundation docs are reviewed. See [tasks.md](tasks.md) Foundation checklist.
+<img src="https://skillicons.dev/icons?i=flutter,dart,firebase,java,androidstudio,vscode,git,github" alt="Flutter, Dart, Firebase, Java, Android Studio, VS Code, Git, GitHub">
+
+`BLoC` · `Provider` · `GetX` · `Hive` · `Dio` · `WebSockets` · `Stripe Tap-to-Pay` · `Platform Channels` · `Melos` · `Fastlane`
+
+## 💼 Selected work
+
+**FinMkt** · *Crowdnetic, current* — White-label Flutter platform: one codebase, config-driven
+client branding, many client apps, Fastlane-automated releases.
+
+**Grafterr POS &amp; Grafterr GO!** · *FIN Infocom* — Hospitality point-of-sale across Android,
+iOS, Windows and Stripe S700 hardware: Tap-to-Pay, Bluetooth / LAN / USB printing, offline-first
+real-time sync.
+
+**Collection Display App** · *Independent* — Real-time order-status displays for tablets, owned
+end-to-end: UI/UX, architecture, testing, deployment.
+
+<sub>Client work — the source is private. Public code &amp; a package are in progress.</sub>
+
+<br>
+
+<sub>This repo also holds the source for my portfolio site — Next.js · TypeScript · Tailwind CSS.</sub>

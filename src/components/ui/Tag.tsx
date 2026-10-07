@@ -22,8 +22,8 @@ interface TagProps extends ComponentPropsWithoutRef<"span"> {
 // design.md's baseline "rectangular boxes with 1px border" spec, which
 // the original borderless accent variant was a stylistic exception to.
 const variantClasses: Record<TagVariant, string> = {
-  default: "border border-border text-text-secondary",
-  accent: "border border-text-primary bg-accent-utility text-on-accent-utility",
+  default: "border border-border/50 bg-surface/60 text-text-muted font-mono",
+  accent: "border border-accent-primary/50 bg-accent-primary/10 text-accent-primary font-mono shadow-[0_0_8px_rgba(255,122,26,0.18)]",
 };
 
 export function Tag({ variant = "default", className = "", ...props }: TagProps) {

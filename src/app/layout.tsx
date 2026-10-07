@@ -1,17 +1,19 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Archivo, IBM_Plex_Mono, Special_Elite } from "next/font/google";
 import "./globals.css";
 import { Navigation } from "@/components/ui/Navigation";
 import { ShortcutsProvider } from "@/components/shortcuts/ShortcutsProvider";
 import Footer from "@/sections/Footer";
+import { SmoothScroll } from "@/components/tva/SmoothScroll";
+import { TemporalBackdrop } from "@/components/tva/TemporalBackdrop";
+import { TVACursor } from "@/components/tva/TVACursor";
+import { SacredTimelineRail } from "@/components/tva/SacredTimelineRail";
+import { MissMinutes } from "@/components/tva/MissMinutes";
+import { BootSequence } from "@/components/tva/BootSequence";
 
-// design.md specifies a single family (Geist) for both display and body —
-// no separate mono/serif. next/font self-hosts at build time, satisfying
-// architecture.md's "no external font request" performance rule.
-const geist = Geist({
-  variable: "--font-geist",
-  subsets: ["latin"],
-});
+const archivo = Archivo({ subsets: ["latin"], variable: "--font-archivo", axes: ["wdth"], display: "swap" });
+const plexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500", "700"], variable: "--font-plex-mono", display: "swap" });
+const specialElite = Special_Elite({ subsets: ["latin"], weight: "400", variable: "--font-special-elite", display: "swap" });
 
 // Title/description reuse Hero's real, already-approved copy (src/sections/Hero.tsx)
 // rather than separate marketing copy — nothing here is invented.
@@ -26,9 +28,9 @@ const geist = Geist({
 // the real domain is pointed at the deployment. sitemap.ts/robots.ts have
 // the same temp-then-swap TODO.
 const SITE_URL = "https://thisislohit.pages.dev";
-const TITLE = "thisislohit — Flutter Developer";
+const TITLE = "Variant Lohit — TVA Case File | Flutter Developer";
 const DESCRIPTION =
-  "Hyderabad-based, building payments and hospitality software that has to work — no demos, no maybes.";
+  "Time Variance Authority case file: Variant Lohit, a Hyderabad-based Flutter engineer building payments and hospitality software that has to work — no demos, no maybes.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -46,37 +48,41 @@ export const metadata: Metadata = {
   },
 };
 
-// Structural nav labels/routes, not user content — matches the link set
-// Stitch's own generated screens consistently used across every pulled
-// reference (stitch-design/html/*.html: "Work | Experience | About |
-// Contact"). As of 2026-08-25 these are real routes, not same-page anchors
-// — see src/app/{about,work,experience,contact}/page.tsx. Skills/Foundations
-// are reachable within Work/Experience respectively, same as they were
-// scroll-only (no top-nav entry) on the old single-page layout. Resume is
-// intentionally omitted until a real resume link exists (tasks.md "Content
-// Needed From User").
-// Order matches every pulled Stitch export exactly (Work, Experience,
-// About, Contact) — 2026-08-25, was previously About-first.
 const NAV_LINKS = [
-  { label: "Work", href: "/work" },
-  { label: "Experience", href: "/experience" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
+  { label: "Case Files", href: "/#work" },
+  { label: "Incident Log", href: "/#experience" },
+  { label: "Temporal Loom", href: "/#skills" },
+  { label: "Time Door", href: "/#contact" },
 ];
+
+// Runs before first paint: flags first-visit sessions so the boot overlay
+// shows immediately instead of flashing the site underneath it.
+const BOOT_FLAG = `try{if(location.pathname==='/'&&!sessionStorage.getItem('tva-booted')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.dataset.boot='play'}catch(e){}`;
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
-    <html lang="en" className={`${geist.variable} h-full antialiased`}>
-      {/* overflow-x-hidden: required for Hero's intentional edge-bleed on
-          the display name (negative margin pushes it past the viewport
-          edge on purpose, per design.md's "allowed to clip" rule) — without
-          this the bleed would create a horizontal scrollbar instead of
-          clipping. */}
-      <body className="min-h-full flex flex-col overflow-x-hidden">
+    <html
+      lang="en"
+      className={`${archivo.variable} ${plexMono.variable} ${specialElite.variable} font-sans h-full antialiased dark`}
+      suppressHydrationWarning
+    >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: BOOT_FLAG }} />
+      </head>
+      <body
+        suppressHydrationWarning
+        className="relative flex min-h-full flex-col overflow-x-hidden bg-background text-text-primary selection:bg-accent-primary selection:text-black"
+      >
+        <TemporalBackdrop />
+        <SmoothScroll />
+        <TVACursor />
+        <BootSequence />
         <ShortcutsProvider>
-          <Navigation links={NAV_LINKS} homeLabel="thisislohit" />
-          <main className="flex flex-col gap-stack-xl">{children}</main>
+          <Navigation links={NAV_LINKS} homeLabel="Lohit // Variant — TVA case file" />
+          <main className="relative z-10 flex flex-col">{children}</main>
           <Footer />
+          <SacredTimelineRail />
+          <MissMinutes />
         </ShortcutsProvider>
       </body>
     </html>

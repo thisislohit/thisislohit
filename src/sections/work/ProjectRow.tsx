@@ -24,7 +24,9 @@ export function ProjectRow({ project, index }: ProjectRowProps) {
         <Text variant="metadata" as="span">
           {String(index + 1).padStart(2, "0")} / {project.category}
         </Text>
-        <Text variant="body-lg">{project.name}</Text>
+        <Text variant="body-lg" className="uppercase">
+          {project.name}
+        </Text>
         <Text variant="body-md">{project.description}</Text>
 
         <div className="flex flex-wrap gap-2">

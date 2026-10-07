@@ -28,7 +28,7 @@ export function ExperienceRow({ entry }: { entry: ExperienceEntry }) {
         </div>
 
         <div className="flex flex-col gap-6 lg:col-span-8">
-          <p className="font-sans text-4xl font-bold tracking-tight text-text-primary break-words lg:text-6xl">
+          <p className="font-sans text-4xl font-bold uppercase tracking-tight text-text-primary break-words lg:text-6xl">
             {entry.role}
           </p>
           <Text variant="body-lg" className="max-w-2xl">

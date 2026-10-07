@@ -1,135 +1,111 @@
 import NextLink from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowDown, ArrowUpRight } from "lucide-react";
 import { Section } from "@/components/ui/Section";
-import { Heading } from "@/components/ui/Heading";
-import { Text } from "@/components/ui/Text";
-import { Button } from "@/components/ui/Button";
-import { Tag } from "@/components/ui/Tag";
-import { Link } from "@/components/ui/Link";
+import { Reveal } from "@/components/tva/Reveal";
+import { GlitchText } from "@/components/tva/GlitchText";
+import { ScrambleText } from "@/components/tva/ScrambleText";
+import { VariantDossier } from "@/components/tva/VariantDossier";
+import { CountUp } from "@/components/tva/CountUp";
+import { Marquee } from "@/components/tva/Marquee";
 
-// scope.md IA §01 "Hero", updated 2026-08-25 to match a richer Hero design
-// the user supplied directly (stitch-design/html/hero-v2-availability.html
-// + DESIGN.md, not from the live Stitch project's own screen list — a
-// separate export). Full name as the giant display statement, role as a
-// secondary heading, "Available for Work" status (confirmed true by the
-// user, not inferred), and a technical-signals grid.
-//
-// Deliberate deviations from that reference, not oversights:
-// - The source's two separate <h1> tags ("LOHIT" / "KUNTAMUKKALA") are
-//   merged into one real <h1> — the page's single heading-level-1,
-//   required for correct heading hierarchy (DESIGN_SYSTEM.md a11y rules).
-//   Visual line-break is done with block spans, not a second heading.
-// - "Let's Talk" keeps this site's already-established hover-only
-//   underline (Link component) rather than the source's always-on
-//   underline — design.md's prose explicitly says "no persistent
-//   underline," which the new screen doesn't override elsewhere.
-// - CTA button typography (metadata-style, uppercase, wide-tracked) is
-//   applied locally to these two Hero buttons only, not to Button's
-//   shared base style — Contact's email Button wasn't part of this
-//   update, so its existing body-md style is left alone rather than
-//   silently changed everywhere.
-//
-// Entrance animation (2026-08-25): the user picked the "animated" Hero
-// variant (stitch-design/html/hero-animated.html) over the static one —
-// a one-time staggered slide-up-fade on load, per-element delays matching
-// the reference's visual hierarchy. Pure CSS (globals.css's
-// .animate-slide-up-fade/.animate-line-draw/.animate-pulse-horizontal,
-// architecture.md's one named exception to "no orchestration"), so Hero
-// stays a Server Component — no IntersectionObserver/JS needed, unlike
-// the source reference's own scroll-reveal implementation.
+const STATS = [
+  { to: 3, suffix: "+", label: "Years in production" },
+  { to: 4, suffix: "", label: "Case files on record" },
+  { to: 3, suffix: "", label: "Platforms: Android · iOS · Windows" },
+  { to: 0, suffix: "", label: "Prunings required" },
+];
+
 export default function Hero() {
   return (
-    <Section id="hero" aria-label="Hero">
-      <div className="col-span-4 lg:col-span-12 flex flex-col gap-8">
-        <div className="flex items-center gap-4 animate-slide-up-fade delay-100">
-          <Text variant="metadata" as="span">
-            01 — Mobile Engineering
-          </Text>
-          <div className="h-px max-w-md flex-1 bg-border animate-line-draw" />
-        </div>
-
-        <Heading level="hero-name" as="h1" className="uppercase animate-slide-up-fade delay-200">
-          <span className="block">Lohit</span>
-          <span className="relative block text-right lg:-mr-[10vw] lg:text-left">
-            Kuntamukkala
-            <span
-              className="ml-4 inline-block h-3 w-3 animate-pulse bg-accent-primary align-middle"
-              aria-hidden="true"
-            />
-          </span>
-        </Heading>
-
-        <div className="flex flex-col gap-6 lg:max-w-xl lg:self-end">
-          <Tag variant="accent" className="animate-slide-up-fade delay-300">
-            Available for Work
-          </Tag>
-
-          <Heading
-            level="headline-lg"
-            as="h2"
-            className="uppercase leading-none animate-slide-up-fade delay-300"
-          >
-            Flutter Developer
-          </Heading>
-
-          <Text variant="metadata" as="span" className="animate-slide-up-fade delay-400">
-            3+ years building production mobile software
-          </Text>
-
-          <Text variant="body-lg" className="max-w-[520px] animate-slide-up-fade delay-400">
-            Building scalable cross-platform mobile applications, payment systems, offline-first
-            experiences, and production software with Flutter.
-          </Text>
-
-          <div className="flex flex-wrap items-center gap-8 animate-slide-up-fade delay-500">
-            <Button
-              href="/work"
-              variant="primary"
-              className="!font-metadata !text-metadata uppercase tracking-metadata"
-            >
-              View My Work →
-            </Button>
-            <Link href="/contact" className="inline-flex items-center gap-1 uppercase">
-              <Text variant="metadata" as="span" className="!text-accent-primary-text">
-                Let&apos;s Talk
-              </Text>
-              <ArrowUpRight size={14} strokeWidth={2} aria-hidden="true" />
-            </Link>
-          </div>
-
-          <div className="grid grid-cols-1 gap-4 border-t border-border pt-8 sm:grid-cols-2 animate-slide-up-fade delay-500">
-            <div className="flex flex-col gap-1">
-              <span className="font-sans text-metadata font-metadata uppercase tracking-metadata text-text-muted">
-                Domain
+    <>
+      <Section id="hero" aria-label="Variant file" className="pt-8 lg:pt-14">
+        <div className="col-span-4 flex flex-col gap-10 lg:col-span-12">
+          {/* bulletin ribbon */}
+          <Reveal y={16} className="flex flex-wrap items-center justify-between gap-3 border-b border-border pb-3 font-mono text-[11px] uppercase tracking-[0.2em]">
+            <span className="flex items-center gap-3 text-accent-primary">
+              <span className="relative flex h-2.5 w-2.5">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-primary opacity-80" />
+                <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent-primary" />
               </span>
-              <span className="font-sans text-metadata font-metadata uppercase tracking-metadata text-text-primary">
-                Mobile / Flutter / Architecture
-              </span>
+              <ScrambleText text="Nexus event · branch 616 · variant located" />
+            </span>
+            <span className="text-text-muted">
+              Status: <b className="text-crt">Open for production work</b>
+            </span>
+          </Reveal>
+
+          <div className="grid items-center gap-12 lg:grid-cols-12">
+            <div className="flex flex-col gap-7 lg:col-span-7">
+              <Reveal delay={0.1} className="font-display text-sm font-black uppercase tracking-[0.5em] text-accent-utility">
+                Variant file · Loki-class, but make it Flutter
+              </Reveal>
+
+              <h1 className="font-display font-black uppercase leading-[0.8] tracking-[-0.05em]">
+                <Reveal variant="slip" delay={0.2} className="block text-[clamp(76px,11.5vw,190px)] text-text-primary glow-text-orange">
+                  <GlitchText text="LOHIT" />
+                </Reveal>
+                <Reveal variant="slip" delay={0.4} className="mt-2 block text-[clamp(22px,3.7vw,58px)] tracking-[-0.03em]">
+                  <span className="outline-text">Kuntamukkala</span>
+                  <span className="ml-3 inline-block h-[0.16em] w-[0.16em] animate-pulse rounded-full bg-accent-primary align-middle shadow-[0_0_20px_#ff7a1a]" />
+                </Reveal>
+              </h1>
+
+              <Reveal delay={0.55} className="max-w-xl">
+                <p className="font-display text-2xl font-extrabold uppercase leading-tight text-text-primary sm:text-3xl">
+                  Flutter Architect <span className="text-accent-primary">&amp;</span> Mobile Engineer
+                </p>
+                <p className="mt-4 font-mono text-sm leading-relaxed text-text-secondary">
+                  The TVA has a file on me: three-plus years architecting payment infrastructure, white-label
+                  monorepos and offline-first engines in Flutter. No demos. No maybes. Built for production reality —
+                  the one timeline where it actually has to work.
+                </p>
+              </Reveal>
+
+              <Reveal delay={0.7} className="flex flex-wrap items-center gap-5">
+                <NextLink
+                  href="#work"
+                  data-cursor="OPEN"
+                  className="group relative inline-flex items-center gap-2 overflow-hidden bg-accent-primary px-6 py-3.5 font-display text-sm font-black uppercase tracking-[0.18em] text-on-primary shadow-[0_0_30px_-4px_rgba(255,122,26,0.7)] transition-shadow hover:shadow-[0_0_46px_0_rgba(255,122,26,0.9)]"
+                >
+                  <span className="absolute inset-0 -translate-x-full bg-accent-utility transition-transform duration-500 group-hover:translate-x-0" />
+                  <span className="relative">Open the case files</span>
+                  <ArrowDown size={16} className="relative transition-transform group-hover:translate-y-1" />
+                </NextLink>
+                <NextLink
+                  href="#contact"
+                  data-cursor="TRANSMIT"
+                  className="inline-flex items-center gap-1.5 font-mono text-xs font-bold uppercase tracking-[0.2em] text-accent-primary underline decoration-dotted underline-offset-8 transition-colors hover:text-accent-utility"
+                >
+                  Report to the Time Door
+                  <ArrowUpRight size={15} />
+                </NextLink>
+              </Reveal>
             </div>
-            <div className="flex flex-col gap-1">
-              <span className="font-sans text-metadata font-metadata uppercase tracking-metadata text-text-muted">
-                Platforms
-              </span>
-              <span className="font-sans text-metadata font-metadata uppercase tracking-metadata text-text-primary">
-                Android · iOS · Windows
-              </span>
+
+            <div className="lg:col-span-5">
+              <Reveal delay={0.35} y={60} className="w-full">
+                <VariantDossier />
+              </Reveal>
             </div>
           </div>
-        </div>
 
-        <NextLink
-          href="/about"
-          className="group inline-flex items-center gap-2 self-start font-sans text-metadata font-metadata uppercase tracking-metadata text-text-primary transition-colors duration-fast hover:text-accent-primary animate-slide-up-fade delay-500"
-        >
-          Continue to About
-          <ArrowRight
-            size={16}
-            strokeWidth={2}
-            aria-hidden="true"
-            className="animate-pulse-horizontal group-hover:text-accent-primary"
-          />
-        </NextLink>
+          {/* telemetry */}
+          <div className="grid grid-cols-2 border-y border-border lg:grid-cols-4">
+            {STATS.map((s, i) => (
+              <Reveal key={s.label} delay={0.1 * i} y={20} className="border-border p-5 odd:border-r lg:border-r lg:last:border-r-0">
+                <div className="font-display text-5xl font-black leading-none text-accent-primary sm:text-6xl">
+                  <CountUp to={s.to} suffix={s.suffix} />
+                </div>
+                <div className="mt-2 font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted">{s.label}</div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </Section>
+
+      <div className="-mt-4 border-y-2 border-ink bg-accent-primary py-2.5 font-display text-xs font-black uppercase tracking-[0.3em] text-on-primary">
+        <Marquee />
       </div>
-    </Section>
+    </>
   );
 }

@@ -22,13 +22,13 @@ const baseClasses =
 // third near-duplicate blue.
 const variantClasses: Record<ButtonVariant, string> = {
   primary:
-    "bg-text-primary text-on-primary border-text-primary " +
-    "hover:bg-accent-primary-text hover:border-accent-primary-text " +
-    "active:bg-accent-primary-text active:opacity-90",
+    "bg-accent-primary text-on-primary font-bold border-accent-primary shadow-[0_0_12px_rgba(255,122,26,0.35)] " +
+    "hover:bg-accent-utility hover:shadow-[0_0_22px_rgba(232,184,74,0.6)] hover:border-accent-utility " +
+    "active:opacity-90",
   secondary:
-    "bg-transparent text-text-primary border-text-primary " +
-    "hover:bg-accent-utility hover:text-on-accent-utility hover:border-accent-utility " +
-    "active:bg-accent-utility active:text-on-accent-utility active:opacity-90",
+    "bg-surface/60 text-accent-utility border-accent-utility/50 " +
+    "hover:bg-accent-utility/15 hover:border-accent-utility hover:text-accent-utility " +
+    "active:opacity-90",
 };
 
 interface ButtonOwnProps {
