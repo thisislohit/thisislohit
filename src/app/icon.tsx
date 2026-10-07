@@ -1,14 +1,11 @@
 import { ImageResponse } from "next/og";
 
-export const size = { width: 32, height: 32 };
+export const size = { width: 64, height: 64 };
 export const contentType = "image/png";
 
-// No Stitch-provided icon/logo asset exists — confirmed during the Stitch
-// implementation audit (only 2 decorative stock photos in the whole
-// project, no logomark). This reuses the site's own established brand
-// wordmark ("thisislohit", already the nav/footer wordmark) and its real
-// tokens directly — near-black on warm white, 0px radius, no gradient —
-// rather than inventing new imagery unrelated to the site.
+// TVA-style seal: orange ring and hourglass on the site's burnt-umber
+// background — the same mark as the TVAEmblem in the nav, simplified so it
+// stays legible at favicon size.
 export default function Icon() {
   return new ImageResponse(
     (
@@ -19,14 +16,15 @@ export default function Icon() {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          background: "#f7f7f3",
-          color: "#111111",
-          fontSize: 22,
-          fontWeight: 800,
-          fontFamily: "sans-serif",
+          background: "#120a05",
+          borderRadius: 32,
         }}
       >
-        t
+        <svg width="64" height="64" viewBox="0 0 64 64">
+          <circle cx="32" cy="32" r="28" fill="none" stroke="#ff7a1a" strokeWidth="5" />
+          <path d="M20 17 H44 L35 32 L44 47 H20 L29 32 Z" fill="none" stroke="#ff7a1a" strokeWidth="4.5" strokeLinejoin="round" />
+          <path d="M26 44 H38 L32 37 Z" fill="#e8b84a" />
+        </svg>
       </div>
     ),
     { ...size },
