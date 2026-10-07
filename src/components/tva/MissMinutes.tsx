@@ -8,6 +8,9 @@ import { Typewriter } from "./Typewriter";
 import { SECTIONS, useActiveSection } from "@/lib/useActiveSection";
 
 const LINES: Record<string, string[]> = {
+  file: [
+    "That's the Variant File — everything the TVA knows about this variant, nicely summarised.",
+  ],
   hero: [
     "Well hello, valued visitor! I'm Miss Minutes, your TVA guide. This variant's file is now open.",
     "Fun fact: this variant has never once needed pruning.",

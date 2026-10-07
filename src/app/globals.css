@@ -563,3 +563,9 @@ html[data-prune="back"] .prune-target {
   from { opacity: 0; transform: translateY(14px); letter-spacing: 0.4em; }
   to { opacity: 1; transform: none; }
 }
+
+/* Dark, thin scrollbars to match the TVA panels. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 122, 26, 0.5) transparent;
+}

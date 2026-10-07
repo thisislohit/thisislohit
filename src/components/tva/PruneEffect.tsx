@@ -10,7 +10,7 @@ type Clip = { src: string; flashAt?: number };
 
 // Everything that visually "is the page". Collected at prune time and
 // tagged so CSS can disintegrate / restore each piece with its own delay.
-const TARGETS = 'nav[aria-label="Primary"], main section .col-span-4 > *, footer > div > div > *';
+const TARGETS = 'nav[aria-label="Primary"], main section .col-span-4 > *, footer > div > div > *, .prune-block';
 
 const AWAY_MS = 1500;
 

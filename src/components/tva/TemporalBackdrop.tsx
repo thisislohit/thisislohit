@@ -46,6 +46,11 @@ export function TemporalBackdrop() {
     const stats = { spawned: 0, pruned: 0, rejoined: 0 };
     let branches: Branch[] = [];
     let scrollP = 0;
+    // Stage mode (home screen): ribbon sits mid-screen, publishes node
+    // positions, and dives toward a node when a panel opens ("warp").
+    const warpState = { target: 0, value: 0, x: 0, y: 0 };
+    const NODE_FRACTIONS = [0.11, 0.3, 0.5, 0.7, 0.89];
+    const isStage = () => document.documentElement.dataset.stage === "1";
 
     const strands = Array.from({ length: STRANDS }, (_, i) => ({
       off: (i / (STRANDS - 1)) * 2 - 1,
@@ -70,7 +75,7 @@ export function TemporalBackdrop() {
 
     // main timeline centre-line and its swelling half-width
     const cy = (x: number) =>
-      h * (0.3 + 0.42 * scrollP) + 46 * Math.sin(x * 0.0016 + t * 0.35) + 24 * Math.sin(x * 0.0043 - t * 0.5);
+      h * (isStage() ? 0.64 : 0.3 + 0.42 * scrollP) + 46 * Math.sin(x * 0.0016 + t * 0.35) + 24 * Math.sin(x * 0.0043 - t * 0.5);
     const hw = (x: number) => 20 + 24 * (0.5 + 0.5 * Math.sin(x * 0.0022 + t * 0.22));
     const sy = (i: number, x: number) => {
       const s = strands[i];
@@ -194,6 +199,13 @@ export function TemporalBackdrop() {
       last = now;
       t += dt;
       ctx.clearRect(0, 0, w, h);
+      const prevWarp = warpState.value;
+      warpState.value += (warpState.target - warpState.value) * Math.min(1, dt * 3.2);
+      const S = 1 + warpState.value * 1.15;
+      ctx.save();
+      ctx.translate(warpState.x, warpState.y);
+      ctx.scale(S, S);
+      ctx.translate(-warpState.x, -warpState.y);
       ctx.globalCompositeOperation = "lighter";
 
       // faint wide glow under the bundle
@@ -254,6 +266,33 @@ export function TemporalBackdrop() {
         return keep;
       });
 
+      ctx.restore();
+      ctx.globalCompositeOperation = "lighter";
+
+      // warp streaks while diving toward / pulling back from a node
+      const speed = Math.abs(warpState.value - prevWarp) / Math.max(dt, 0.001);
+      if (speed > 0.08) {
+        const n = 70;
+        for (let i = 0; i < n; i++) {
+          const a = (i / n) * Math.PI * 2 + i * 0.37;
+          const r0 = 40 + ((i * 53) % 160) + warpState.value * 120;
+          const len = Math.min(380, speed * 220) * (0.4 + ((i * 17) % 10) / 10);
+          ctx.beginPath();
+          ctx.moveTo(warpState.x + Math.cos(a) * r0, warpState.y + Math.sin(a) * r0);
+          ctx.lineTo(warpState.x + Math.cos(a) * (r0 + len), warpState.y + Math.sin(a) * (r0 + len));
+          ctx.strokeStyle = `rgba(255,${170 + (i % 3) * 25},${90 + (i % 5) * 20},${Math.min(0.55, speed * 0.5)})`;
+          ctx.lineWidth = 1.2;
+          ctx.stroke();
+        }
+      }
+      ctx.globalCompositeOperation = "source-over";
+
+      // publish where the nodes sit on the ribbon so the DOM can pin to them
+      if (isStage()) {
+        const pts = NODE_FRACTIONS.map((f) => ({ x: w * f, y: cy(w * f) }));
+        window.dispatchEvent(new CustomEvent("tva:nodes", { detail: pts }));
+      }
+
       if (t > nextSpawn && branches.length < 5) {
         spawn();
         nextSpawn = t + 2.2 + Math.random() * 2.6;
@@ -288,6 +327,16 @@ export function TemporalBackdrop() {
       pushHud("▸ MASS PRUNING IN PROGRESS");
     };
 
+    const onWarp = (e: Event) => {
+      const d = (e as CustomEvent<{ on: boolean; x: number; y: number }>).detail;
+      warpState.target = d.on ? 1 : 0;
+      if (d.on) {
+        warpState.x = d.x;
+        warpState.y = d.y;
+      }
+    };
+    window.addEventListener("tva:warp", onWarp);
+
     resize();
     onScroll();
     window.addEventListener("resize", resize);
@@ -317,6 +366,7 @@ export function TemporalBackdrop() {
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener(PRUNE_EVENT, onPrune);
+      window.removeEventListener("tva:warp", onWarp);
       document.removeEventListener("visibilitychange", onVis);
     };
   }, []);

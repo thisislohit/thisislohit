@@ -5,6 +5,14 @@ import { useEffect, useState } from "react";
 // Scroll-spy: which section id is crossing the middle of the viewport.
 export function useActiveSection(ids: string[]) {
   const [active, setActive] = useState(ids[0]);
+  // The home-screen stage has no scrollable sections; it announces the open
+  // panel instead (see components/stage/Stage.tsx).
+  useEffect(() => {
+    const on = (e: Event) => setActive((e as CustomEvent<string>).detail);
+    window.addEventListener("tva:section", on);
+    return () => window.removeEventListener("tva:section", on);
+  }, []);
+
   useEffect(() => {
     const els = ids.map((id) => document.getElementById(id)).filter(Boolean) as HTMLElement[];
     if (!els.length) return;
@@ -22,6 +30,7 @@ export function useActiveSection(ids: string[]) {
 }
 
 export const SECTIONS = [
+  { id: "file", code: "00", label: "VARIANT FILE", branch: "L-616 // DOSSIER" },
   { id: "hero", code: "00", label: "VARIANT FILE", branch: "L-616 // ORIGIN" },
   { id: "work", code: "01", label: "CASE FILES", branch: "NEXUS REALITIES" },
   { id: "experience", code: "02", label: "INCIDENT LOG", branch: "CHRONOLOGY 2023→" },
