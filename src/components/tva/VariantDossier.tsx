@@ -8,7 +8,7 @@ import { RiveSlot } from "./RiveSlot";
 import { TVAEmblem } from "./TVAEmblem";
 
 const FIELDS: [string, string][] = [
-  ["Name", "Lohit Kuntamukkala"],
+  ["Name", "Lohit Satya Sai Kuntamukkala"],
   ["Designation", "Variant L-616"],
   ["Alias", "God of Mobile Stories"],
   ["Origin", "Hyderabad · Earth-616"],

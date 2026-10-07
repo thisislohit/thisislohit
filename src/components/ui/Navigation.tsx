@@ -70,8 +70,8 @@ export function Navigation({ links, homeHref = "/", homeLabel }: NavigationProps
           </div>
         </Link>
 
-        <div className="hidden items-center gap-7 lg:flex">
-          <ul className="flex items-center gap-6">
+        <div className="hidden items-center gap-5 lg:flex xl:gap-7">
+          <ul className="flex items-center gap-5 xl:gap-6">
             {links.map((link) => {
               const on = isActive(link.href);
               return (
@@ -79,7 +79,7 @@ export function Navigation({ links, homeHref = "/", homeLabel }: NavigationProps
                   <Link
                     href={link.href}
                     aria-current={on ? "true" : undefined}
-                    className={`font-mono text-[11px] font-bold uppercase tracking-[0.16em] transition-colors ${
+                    className={`whitespace-nowrap font-mono text-[11px] font-bold uppercase tracking-[0.16em] transition-colors ${
                       on ? "text-accent-primary" : "text-text-secondary hover:text-accent-primary"
                     }`}
                   >

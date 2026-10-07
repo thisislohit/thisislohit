@@ -49,7 +49,7 @@ export default function Footer() {
             ))}
           </ul>
           <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted">
-            © {new Date().getFullYear()} Lohit Kuntamukkala · A fan tribute to Marvel&apos;s Loki — not affiliated with Marvel or Disney
+            © {new Date().getFullYear()} Lohit Satya Sai Kuntamukkala · A fan tribute to Marvel&apos;s Loki — not affiliated with Marvel or Disney
           </p>
         </div>
       </div>

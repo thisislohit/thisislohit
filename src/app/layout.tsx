@@ -7,7 +7,7 @@ import Footer from "@/sections/Footer";
 import { SmoothScroll } from "@/components/tva/SmoothScroll";
 import { TemporalBackdrop } from "@/components/tva/TemporalBackdrop";
 import { TVACursor } from "@/components/tva/TVACursor";
-import { SacredTimelineRail } from "@/components/tva/SacredTimelineRail";
+import { HideOnHome } from "@/components/tva/HideOnHome";
 import { MissMinutes } from "@/components/tva/MissMinutes";
 import { PruneEffect } from "@/components/tva/PruneEffect";
 import { BootSequence } from "@/components/tva/BootSequence";
@@ -50,6 +50,7 @@ export const metadata: Metadata = {
 };
 
 const NAV_LINKS = [
+  { label: "Variant File", href: "/#file" },
   { label: "Case Files", href: "/#work" },
   { label: "Incident Log", href: "/#experience" },
   { label: "Temporal Loom", href: "/#skills" },
@@ -82,8 +83,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ShortcutsProvider>
           <Navigation links={NAV_LINKS} homeLabel="Lohit // Variant — TVA case file" />
           <main className="relative z-10 flex flex-col">{children}</main>
-          <Footer />
-          <SacredTimelineRail />
+          <HideOnHome>
+            <Footer />
+          </HideOnHome>
           <MissMinutes />
         </ShortcutsProvider>
       </body>
