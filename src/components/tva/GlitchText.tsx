@@ -1,4 +1,4 @@
-import type { ElementType } from "react";
+
 
 // Chromatic-aberration glitch driven purely by CSS (see .glitch in globals.css).
 export function GlitchText({
@@ -7,7 +7,7 @@ export function GlitchText({
   className = "",
 }: {
   text: string;
-  as?: ElementType;
+  as?: "span" | "div" | "h1" | "h2" | "p";
   className?: string;
 }) {
   return (

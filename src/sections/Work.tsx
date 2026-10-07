@@ -1,6 +1,6 @@
 import { Section } from "@/components/ui/Section";
 import { SectionHeader } from "@/components/tva/SectionHeader";
-import { CaseFile } from "@/components/tva/CaseFile";
+import { CaseFileReel } from "@/components/tva/CaseFileReel";
 import { Reveal } from "@/components/tva/Reveal";
 import { projects } from "@/data/projects";
 
@@ -17,11 +17,7 @@ export default function Work() {
           active, stable branch — reviewed, filed, and verified against reality.
         </Reveal>
 
-        <div className="flex flex-col gap-14">
-          {sorted.map((p, i) => (
-            <CaseFile key={p.name} project={p} index={i} />
-          ))}
-        </div>
+        <CaseFileReel projects={sorted} />
 
         <Reveal className="flex flex-col justify-between gap-3 border border-border bg-surface/60 p-4 font-mono text-xs uppercase tracking-widest text-text-muted sm:flex-row sm:items-center">
           <span>{"// "}Total recorded branch realities: {projects.length}</span>

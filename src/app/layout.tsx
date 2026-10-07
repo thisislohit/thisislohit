@@ -9,6 +9,7 @@ import { TemporalBackdrop } from "@/components/tva/TemporalBackdrop";
 import { TVACursor } from "@/components/tva/TVACursor";
 import { SacredTimelineRail } from "@/components/tva/SacredTimelineRail";
 import { MissMinutes } from "@/components/tva/MissMinutes";
+import { PruneEffect } from "@/components/tva/PruneEffect";
 import { BootSequence } from "@/components/tva/BootSequence";
 
 const archivo = Archivo({ subsets: ["latin"], variable: "--font-archivo", axes: ["wdth"], display: "swap" });
@@ -77,6 +78,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <SmoothScroll />
         <TVACursor />
         <BootSequence />
+        <PruneEffect />
         <ShortcutsProvider>
           <Navigation links={NAV_LINKS} homeLabel="Lohit // Variant — TVA case file" />
           <main className="relative z-10 flex flex-col">{children}</main>

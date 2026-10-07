@@ -6,6 +6,7 @@ import { GlitchText } from "@/components/tva/GlitchText";
 import { ScrambleText } from "@/components/tva/ScrambleText";
 import { VariantDossier } from "@/components/tva/VariantDossier";
 import { CountUp } from "@/components/tva/CountUp";
+import { ScrollParallax } from "@/components/tva/ScrollParallax";
 import { Marquee } from "@/components/tva/Marquee";
 
 const STATS = [
@@ -35,7 +36,7 @@ export default function Hero() {
           </Reveal>
 
           <div className="grid items-center gap-12 lg:grid-cols-12">
-            <div className="flex flex-col gap-7 lg:col-span-7">
+            <ScrollParallax y={[0, -110]} className="flex flex-col gap-7 lg:col-span-7">
               <Reveal delay={0.1} className="font-display text-sm font-black uppercase tracking-[0.5em] text-accent-utility">
                 Variant file · Loki-class, but make it Flutter
               </Reveal>
@@ -80,13 +81,13 @@ export default function Hero() {
                   <ArrowUpRight size={15} />
                 </NextLink>
               </Reveal>
-            </div>
+            </ScrollParallax>
 
-            <div className="lg:col-span-5">
+            <ScrollParallax y={[0, 70]} rotate={[0, 4]} fade={false} className="lg:col-span-5">
               <Reveal delay={0.35} y={60} className="w-full">
                 <VariantDossier />
               </Reveal>
-            </div>
+            </ScrollParallax>
           </div>
 
           {/* telemetry */}
