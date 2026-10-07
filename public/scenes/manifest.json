@@ -1,0 +1,4 @@
+{
+  "_comment": "Set loom to your own clip, e.g. { \"src\": \"/scenes/loom.mp4\", \"flashAt\": 12 }. flashAt = seconds into the clip when the page starts re-forming (default: 1.5s before the end). While loom is null, the built-in Loom scene plays.",
+  "loom": null
+}

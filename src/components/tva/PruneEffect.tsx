@@ -2,9 +2,11 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { LoomScene } from "./LoomScene";
+import { SceneVideo } from "./SceneVideo";
 import { PRUNE_EVENT } from "./PruneButton";
 
-type Phase = "idle" | "away" | "loom";
+type Phase = "idle" | "away" | "loom" | "video" | "restoring";
+type Clip = { src: string; flashAt?: number };
 
 // Everything that visually "is the page". Collected at prune time and
 // tagged so CSS can disintegrate / restore each piece with its own delay.
@@ -12,11 +14,13 @@ const TARGETS = 'nav[aria-label="Primary"], main section .col-span-4 > *, footer
 
 const AWAY_MS = 1500;
 
-// Pruning: the page crumbles into ash, then the Temporal Loom scene plays —
-// Loki walks to the Loom, raises his hands, gathers every thread into a single
-// golden point — and the flood of light re-forms the page from the very top.
+// Pruning: the page crumbles into ash, the scene clip configured in
+// public/scenes/manifest.json plays full-screen, and the page re-forms from
+// the very top as it ends. With no clip configured, the built-in Loom
+// scene plays instead.
 export function PruneEffect() {
   const [phase, setPhase] = useState<Phase>("idle");
+  const [clip, setClip] = useState<Clip | null>(null);
   const canvas = useRef<HTMLCanvasElement>(null);
   const busy = useRef(false);
   const els = useRef<HTMLElement[]>([]);
@@ -60,9 +64,24 @@ export function PruneEffect() {
     html().dataset.prune = "away";
     setPhase("away");
 
+    // A real clip (public/scenes/manifest.json) wins over the canvas scene.
+    const manifest: Promise<Clip | null> = fetch("/scenes/manifest.json")
+      .then((r) => r.json())
+      .then((j: { loom?: Clip | null }) => j.loom ?? null)
+      .catch(() => null);
+
     // reduced motion: skip the film, just reset
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    setTimeout(() => (reduce ? flash(true) : setPhase("loom")), AWAY_MS);
+    setTimeout(async () => {
+      if (reduce) {
+        setPhase("restoring");
+        return flash(true);
+      }
+      const c = await manifest;
+      setClip(c);
+      // a clip you supply wins; otherwise the built-in Loom scene plays
+      setPhase(c ? "video" : "loom");
+    }, AWAY_MS);
   }, [flash]);
 
   useEffect(() => {
@@ -117,7 +136,30 @@ export function PruneEffect() {
   return (
     <>
       <canvas ref={canvas} aria-hidden="true" className="pointer-events-none fixed inset-0 z-[250] h-full w-full" />
-      {phase === "loom" && <LoomScene onFlash={() => flash()} onDone={finish} />}
+      {phase === "loom" && (
+        <LoomScene
+          onFlash={() => flash()}
+          onDone={() => {
+            setPhase("restoring");
+            setTimeout(finish, 1800);
+          }}
+        />
+      )}
+      {phase === "video" && clip && (
+        <SceneVideo
+          src={clip.src}
+          flashAt={clip.flashAt}
+          onFlash={() => flash()}
+          onDone={() => {
+            setPhase("restoring");
+            setTimeout(finish, 1800);
+          }}
+          onFail={() => {
+            setPhase("restoring");
+            flash(true);
+          }}
+        />
+      )}
     </>
   );
 }

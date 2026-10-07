@@ -34,11 +34,10 @@ function Silhouette() {
       <path d="M12 240 C12 192 56 172 100 172 C144 172 188 192 188 240 Z" fill="#3a2414" />
       <rect x="84" y="140" width="32" height="40" fill="#3a2414" />
       <ellipse cx="100" cy="108" rx="38" ry="46" fill="#4a2e19" />
-      {/* Loki-style crown: two swept horns + centre blade */}
-      <path d="M70 78 C50 66 52 36 30 10 C66 24 84 46 90 78 Z" fill="url(#horn)" stroke="#7a4a00" strokeWidth="1.5" />
-      <path d="M130 78 C150 66 148 36 170 10 C134 24 116 46 110 78 Z" fill="url(#horn)" stroke="#7a4a00" strokeWidth="1.5" />
-      <path d="M100 70 L90 78 H110 Z M100 36 L106 74 H94 Z" fill="url(#horn)" stroke="#7a4a00" strokeWidth="1.5" strokeLinejoin="round" />
-      <path d="M62 80 Q100 62 138 80 L138 88 Q100 72 62 88 Z" fill="url(#horn)" stroke="#7a4a00" strokeWidth="1.5" />
+      {/* gold circlet + floating hourglass sigil (original variant mark) */}
+      <path d="M64 84 Q100 66 136 84 L136 92 Q100 76 64 92 Z" fill="url(#horn)" stroke="#7a4a00" strokeWidth="1.5" />
+      <path d="M86 42 H114 L100 62 L114 82 H86 L100 62 Z" fill="none" stroke="url(#horn)" strokeWidth="4" strokeLinejoin="round" />
+      <path d="M92 76 H108 L100 66 Z" fill="url(#horn)" />
     </svg>
   );
 }

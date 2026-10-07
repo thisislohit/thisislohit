@@ -43,3 +43,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# scene clips are served from a host/CDN, never committed (see public/scenes/README.md)
+/public/scenes/*.mp4
+/public/scenes/*.mov
+/public/scenes/*.webm
+/public/scenes/*.mkv

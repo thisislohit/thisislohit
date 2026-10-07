@@ -23,12 +23,12 @@ const specialElite = Special_Elite({ subsets: ["latin"], weight: "400", variable
 // real content + tokens.
 //
 // Domain locked in as thisislohit.dev (2026-08-25), not yet pointed —
-// temporarily deployed on Cloudflare Pages' thisislohit.pages.dev, so
+// deployed on Netlify at thisislohit.netlify.app, so
 // metadataBase uses that for now (OG image URLs must resolve to wherever
 // the site is actually live). Swap to https://thisislohit.dev the moment
 // the real domain is pointed at the deployment. sitemap.ts/robots.ts have
 // the same temp-then-swap TODO.
-const SITE_URL = "https://thisislohit.pages.dev";
+const SITE_URL = "https://thisislohit.netlify.app";
 const TITLE = "Variant Lohit — TVA Case File | Flutter Developer";
 const DESCRIPTION =
   "Time Variance Authority case file: Variant Lohit, a Hyderabad-based Flutter engineer building payments and hospitality software that has to work — no demos, no maybes.";

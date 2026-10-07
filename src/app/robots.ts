@@ -6,7 +6,7 @@ import type { MetadataRoute } from "next";
 // the temporary Cloudflare Pages URL until then, matching layout.tsx's
 // metadataBase. Swap to https://thisislohit.dev once the real domain is live.
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = "https://thisislohit.pages.dev";
+  const baseUrl = "https://thisislohit.netlify.app";
 
   return {
     rules: {
