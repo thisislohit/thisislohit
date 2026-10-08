@@ -1,6 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { createPortal } from "react-dom";
 import * as Dialog from "@radix-ui/react-dialog";
 import { AnimatePresence, motion } from "framer-motion";
 import { Mail, ExternalLink, X, MousePointerClick } from "lucide-react";
@@ -8,11 +10,12 @@ import { GlitchText } from "@/components/tva/GlitchText";
 import { ScrambleText } from "@/components/tva/ScrambleText";
 import { PruneButton, PRUNE_EVENT } from "@/components/tva/PruneButton";
 import { social } from "@/data/social";
-import { FilePanel } from "./panels/FilePanel";
-import { WorkPanel } from "./panels/WorkPanel";
-import { ExperiencePanel } from "./panels/ExperiencePanel";
-import { SkillsPanel } from "./panels/SkillsPanel";
-import { ContactPanel } from "./panels/ContactPanel";
+// Each card's code loads the first time it opens (the home screen itself stays light).
+const FilePanel = dynamic(() => import("./panels/FilePanel").then((m) => m.FilePanel), { ssr: false });
+const WorkPanel = dynamic(() => import("./panels/WorkPanel").then((m) => m.WorkPanel), { ssr: false });
+const ExperiencePanel = dynamic(() => import("./panels/ExperiencePanel").then((m) => m.ExperiencePanel), { ssr: false });
+const SkillsPanel = dynamic(() => import("./panels/SkillsPanel").then((m) => m.SkillsPanel), { ssr: false });
+const ContactPanel = dynamic(() => import("./panels/ContactPanel").then((m) => m.ContactPanel), { ssr: false });
 
 export type PanelId = "file" | "work" | "experience" | "skills" | "contact";
 
@@ -46,6 +49,16 @@ export function Stage() {
   const [open, setOpen] = useState<PanelId | null>(null);
   const nodeEls = useRef<(HTMLButtonElement | null)[]>([]);
   const pos = useRef<{ x: number; y: number }[]>([]);
+  // a node holds still while hovered/focused so the target never slides away from the pointer
+  const held = useRef(-1);
+  const lastNode = useRef(-1);
+  const heroRef = useRef<HTMLDivElement>(null);
+  // nodes render at the top of <body>: inside <main> they would sit below Miss Minutes' layer and her bubble could cover them
+  const [host, setHost] = useState<HTMLElement | null>(null);
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- document.body only exists in the browser
+    setHost(document.body);
+  }, []);
   const [ready, setReady] = useState(false);
   // where the card flies out of / back into: the selected node, relative to screen centre
   const [from, setFrom] = useState({ x: 0, y: 0 });
@@ -59,7 +72,7 @@ export function Stage() {
       pos.current = pts;
       pts.forEach((p, i) => {
         const el = nodeEls.current[i];
-        if (el) el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
+        if (el && held.current !== i) el.style.transform = `translate3d(${p.x}px, ${p.y}px, 0)`;
       });
       if (first) {
         first = false;
@@ -73,10 +86,33 @@ export function Stage() {
     };
   }, []);
 
+  // Put the ribbon (and so the nodes) just below the hero copy, whatever the
+  // screen size or text wrapping: never overlapping it, never off-screen.
+  useEffect(() => {
+    const hero = heroRef.current;
+    if (!hero) return;
+    const place = () => {
+      const labels = window.innerWidth >= 640 && window.innerHeight > 620;
+      const margin = labels ? 135 : 72; // node radius + ribbon drift (+ label height when shown)
+      const frac = Math.min(0.8, Math.max(0.6, (hero.getBoundingClientRect().bottom + margin) / window.innerHeight));
+      window.dispatchEvent(new CustomEvent("tva:ribbon", { detail: frac }));
+    };
+    place();
+    const ro = new ResizeObserver(place);
+    ro.observe(hero);
+    window.addEventListener("resize", place);
+    document.fonts?.ready.then(place);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", place);
+    };
+  }, []);
+
   const apply = useCallback((id: PanelId | null) => {
     setOpen(id);
     window.dispatchEvent(new CustomEvent("tva:section", { detail: id ?? "hero" }));
     const i = id ? NODES.findIndex((n) => n.id === id) : -1;
+    if (i >= 0) lastNode.current = i;
     const p = pos.current[i] ?? { x: window.innerWidth / 2, y: window.innerHeight * 0.6 };
     window.dispatchEvent(new CustomEvent("tva:warp", { detail: { on: id !== null, x: p.x, y: p.y } }));
     if (id) setFrom({ x: p.x - window.innerWidth / 2, y: p.y - window.innerHeight / 2 });
@@ -129,9 +165,9 @@ export function Stage() {
   }, [apply, go]);
 
   return (
-    <div className="relative h-[calc(100dvh-65px)] min-h-[520px] overflow-hidden">
+    <div className="relative min-h-[440px] flex-1 overflow-hidden">
       {/* ——— hero copy: kept deliberately small ——— */}
-      <div className="prune-block pointer-events-none absolute inset-x-0 top-0 z-10 flex flex-col gap-3 px-margin-page-mobile pt-6 sm:pt-10 md:px-margin-page">
+      <div ref={heroRef} className="prune-block pointer-events-none absolute inset-x-0 top-0 z-10 flex flex-col gap-2 px-margin-page-mobile pt-5 sm:gap-3 sm:pt-10 md:px-margin-page [@media(max-height:640px)]:pt-3">
         <div className="flex items-center gap-3 font-mono text-[10px] font-bold uppercase tracking-[0.3em] text-accent-primary sm:text-[11px]">
           <span className="relative flex h-2 w-2">
             <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-accent-primary opacity-80" />
@@ -139,13 +175,13 @@ export function Stage() {
           </span>
           <ScrambleText text="Variant located · branch 616" />
         </div>
-        <h1 className="font-display text-[clamp(64px,11vw,150px)] font-black uppercase leading-[0.82] tracking-[-0.05em] text-text-primary glow-text-orange">
+        <h1 style={{ fontSize: "clamp(56px, min(11vw, 17vh), 150px)" }} className="font-display font-black uppercase leading-[0.82] tracking-[-0.05em] text-text-primary glow-text-orange">
           <GlitchText text="LOHIT" />
         </h1>
         <p className="font-display text-base font-extrabold uppercase tracking-wide text-text-primary sm:text-xl">
           Flutter Architect <span className="text-accent-primary">&amp;</span> Mobile Engineer
         </p>
-        <p className="max-w-md font-mono text-xs leading-relaxed text-text-secondary sm:text-sm">
+        <p className="max-w-md font-mono text-xs leading-relaxed text-text-secondary sm:text-sm [@media(max-height:640px)]:hidden">
           Payments &amp; hospitality software that has to work. No demos. No maybes.
         </p>
         <div className="pointer-events-auto mt-1 flex flex-wrap items-center gap-2">
@@ -163,36 +199,44 @@ export function Stage() {
       </div>
 
       {/* ——— nodes riding the Sacred Timeline ——— */}
-      <div className="prune-block pointer-events-none fixed inset-0 z-30">
-        {NODES.map((node, i) => (
-          <button
-            key={node.id}
-            ref={(el) => {
-              nodeEls.current[i] = el;
-            }}
-            onClick={() => go(node.id)}
-            aria-label={`${node.label} — ${node.hint}`}
-            data-cursor="DIVE IN"
-            className="group pointer-events-auto absolute left-0 top-0 will-change-transform"
-            style={{ opacity: ready ? 1 : 0, transition: `opacity 0.8s ${0.2 * i + 0.4}s` }}
-          >
-            <span className="absolute -left-6 -top-6 flex h-12 w-12 items-center justify-center">
-              <span className="absolute h-full w-full animate-ping rounded-full border border-accent-primary opacity-40" style={{ animationDuration: `${2.4 + i * 0.3}s` }} />
-              <span className="absolute h-9 w-9 rounded-full border-2 border-accent-primary bg-background/60 transition-transform duration-300 group-hover:scale-125 group-focus-visible:scale-125" style={{ boxShadow: "0 0 22px 3px rgba(255,122,26,0.75), inset 0 0 12px rgba(255,122,26,0.5)" }} />
-              <span className="relative font-mono text-[11px] font-black text-accent-utility">{node.n}</span>
-            </span>
-            <span className={`pointer-events-none absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-center ${i % 2 ? "top-9" : "-top-[4.4rem]"}`}>
-              <span className="hidden font-display text-sm font-black uppercase tracking-[0.12em] text-text-primary transition-colors group-hover:text-accent-primary sm:block">
-                {node.label}
+      {host &&
+        createPortal(
+      <div className="prune-block pointer-events-none fixed inset-0 z-[56]">
+          {NODES.map((node, i) => (
+            <button
+              key={node.id}
+              ref={(el) => {
+                nodeEls.current[i] = el;
+              }}
+              onClick={() => go(node.id)}
+              onPointerEnter={() => (held.current = i)}
+              onPointerLeave={() => (held.current = -1)}
+              onFocus={() => (held.current = i)}
+              onBlur={() => (held.current = -1)}
+              aria-label={`${node.label} — ${node.hint}`}
+              data-cursor="DIVE IN"
+              className="group pointer-events-auto absolute left-0 top-0 -ml-6 -mt-6 h-12 w-12 rounded-full will-change-transform"
+              style={{ opacity: ready ? 1 : 0, transition: `opacity 0.8s ${0.2 * i + 0.4}s` }}
+            >
+              <span className="absolute inset-0 flex items-center justify-center">
+                <span className="absolute h-full w-full animate-ping rounded-full border border-accent-primary opacity-40" style={{ animationDuration: `${2.4 + i * 0.3}s` }} />
+                <span className="absolute h-9 w-9 rounded-full border-2 border-accent-primary bg-background/60 transition-transform duration-300 group-hover:scale-125 group-focus-visible:scale-125" style={{ boxShadow: "0 0 22px 3px rgba(255,122,26,0.75), inset 0 0 12px rgba(255,122,26,0.5)" }} />
+                <span className="relative font-mono text-[11px] font-black text-accent-utility">{node.n}</span>
               </span>
-              <span className="hidden font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted sm:block">{node.hint}</span>
-            </span>
-          </button>
-        ))}
-      </div>
+              <span className={`pointer-events-none absolute left-1/2 -translate-x-1/2 whitespace-nowrap text-center ${i % 2 ? "top-[3.75rem]" : "-top-[2.9rem]"}`}>
+                <span className="hidden font-display text-sm [@media(max-height:620px)]:!hidden font-black uppercase tracking-[0.12em] text-text-primary transition-colors group-hover:text-accent-primary sm:block">
+                  {node.label}
+                </span>
+                <span className="hidden font-mono text-[9px] uppercase tracking-[0.25em] text-text-muted sm:block [@media(max-height:620px)]:!hidden">{node.hint}</span>
+              </span>
+            </button>
+          ))}
+        </div>,
+          host,
+        )}
 
       {/* ——— bottom bar ——— */}
-      <div className="prune-block absolute inset-x-0 bottom-3 z-10 flex flex-col items-center gap-3 px-4 sm:bottom-5">
+      <div className="prune-block absolute inset-x-0 bottom-3 z-10 flex flex-col items-start gap-2 pl-4 pr-24 sm:bottom-5 sm:items-center sm:gap-3 sm:px-4">
         <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.3em] text-text-muted">
           <MousePointerClick size={13} className="text-accent-primary" /> Select a node on the timeline
         </div>
@@ -214,7 +258,16 @@ export function Stage() {
                 />
               </Dialog.Overlay>
               <div className="pointer-events-none fixed inset-0 z-[120] flex items-end justify-center sm:items-center sm:p-6">
-                <Dialog.Content asChild forceMount aria-describedby={undefined}>
+                <Dialog.Content
+                  asChild
+                  forceMount
+                  aria-describedby={undefined}
+                  onCloseAutoFocus={(e) => {
+                    // hand focus back to the node that opened the card
+                    e.preventDefault();
+                    nodeEls.current[lastNode.current]?.focus();
+                  }}
+                >
                   <motion.div
                     key={open}
                     initial={{ opacity: 0, scale: 0.15, x: from.x, y: from.y, clipPath: "inset(40% 40% 40% 40%)" }}
@@ -237,7 +290,7 @@ export function Stage() {
                         </button>
                       </Dialog.Close>
                     </div>
-                    <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5 sm:p-6" data-lenis-prevent>
+                    <div tabIndex={0} role="region" aria-label={`${TITLES[open]} content`} className="min-h-0 flex-1 overflow-y-auto overscroll-contain p-5 focus-visible:outline-offset-[-3px] sm:p-6" data-lenis-prevent>
                       {open === "file" && <FilePanel />}
                       {open === "work" && <WorkPanel />}
                       {open === "experience" && <ExperiencePanel />}

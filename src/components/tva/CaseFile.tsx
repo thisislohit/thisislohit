@@ -24,7 +24,7 @@ export function CaseFile({ project, index }: { project: Project; index: number }
       <div className="absolute left-6 top-0 z-10 flex items-center gap-3 rounded-t-lg border-2 border-b-0 border-ink bg-paper-dark px-5 py-1.5 font-display text-[11px] font-black uppercase tracking-[0.2em] text-ink">
         <span>Case #{num}</span>
         <span className="text-accent-primary">◆</span>
-        <span className="text-ink/60">Branch {String(index + 1).padStart(2, "0")}</span>
+        <span className="text-ink/75">Branch {String(index + 1).padStart(2, "0")}</span>
       </div>
 
       <TiltCard maxTilt={2.5}>
@@ -77,7 +77,7 @@ export function CaseFile({ project, index }: { project: Project; index: number }
               )}
             </div>
             <div>
-              <div className="mb-2 flex items-center gap-1.5 font-display text-[10px] font-black uppercase tracking-[0.25em] text-ink/60">
+              <div className="mb-2 flex items-center gap-1.5 font-display text-[10px] font-black uppercase tracking-[0.25em] text-ink/75">
                 <Cpu size={12} /> Engineering notes
               </div>
               <ul className="space-y-1.5 font-typed text-[13px] text-ink">
@@ -99,7 +99,7 @@ export function CaseFile({ project, index }: { project: Project; index: number }
           </div>
 
           <div className="relative flex flex-wrap items-center gap-2 border-t-2 border-dashed border-ink/40 pt-5 lg:col-span-12">
-            <span className="mr-1 font-display text-[10px] font-black uppercase tracking-[0.25em] text-ink/60">Stack</span>
+            <span className="mr-1 font-display text-[10px] font-black uppercase tracking-[0.25em] text-ink/75">Stack</span>
             {project.stack.map((t) => (
               <span
                 key={t}

@@ -55,7 +55,7 @@ export function Navigation({ links, homeHref = "/", homeLabel }: NavigationProps
     pathname === "/" ? href === `/#${active}` : pathname === href;
 
   return (
-    <nav aria-label="Primary" className="sticky top-0 z-nav border-b border-border bg-background/80 backdrop-blur-md">
+    <nav aria-label="Primary" className="sticky top-0 z-nav border-b border-border bg-background/95">
       <div className="tva-stripes h-[3px] w-full" aria-hidden="true" />
       <div className="flex items-center justify-between gap-4 px-margin-page-mobile py-2.5 md:px-margin-page">
         <Link href={homeHref} aria-label={homeLabel} data-cursor="HOME" className="group flex items-center gap-3">

@@ -1,9 +1,12 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { LoomScene } from "./LoomScene";
-import { SceneVideo } from "./SceneVideo";
+import dynamic from "next/dynamic";
 import { PRUNE_EVENT } from "./PruneButton";
+
+// the cinematics are only needed when someone actually prunes — keep them out of the first load
+const LoomScene = dynamic(() => import("./LoomScene").then((m) => m.LoomScene), { ssr: false });
+const SceneVideo = dynamic(() => import("./SceneVideo").then((m) => m.SceneVideo), { ssr: false });
 
 type Phase = "idle" | "away" | "loom" | "video" | "restoring";
 type Clip = { src: string; flashAt?: number };
@@ -36,6 +39,7 @@ export function PruneEffect() {
     html().style.overflow = "";
     setPhase("idle");
     busy.current = false;
+    window.dispatchEvent(new CustomEvent("tva:pause", { detail: false }));
   }, []);
 
   // The gold light floods the screen: restore the page beneath it.
@@ -79,6 +83,8 @@ export function PruneEffect() {
       }
       const c = await manifest;
       setClip(c);
+      // a full-screen cinematic covers the page: stop the background canvas underneath it
+      window.dispatchEvent(new CustomEvent("tva:pause", { detail: true }));
       // a clip you supply wins; otherwise the built-in Loom scene plays
       setPhase(c ? "video" : "loom");
     }, AWAY_MS);
@@ -95,7 +101,7 @@ export function PruneEffect() {
     const c = canvas.current;
     const ctx = c?.getContext("2d");
     if (!c || !ctx) return;
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
     const w = (c.width = window.innerWidth * dpr);
     const h = (c.height = window.innerHeight * dpr);
     ctx.scale(dpr, dpr);
@@ -122,8 +128,6 @@ export function PruneEffect() {
         a.y += a.vy;
         ctx.globalAlpha = 1 - age;
         ctx.fillStyle = a.gold ? "#e8b84a" : "#ff7a1a";
-        ctx.shadowColor = ctx.fillStyle;
-        ctx.shadowBlur = 8;
         ctx.fillRect(a.x, a.y, a.r * 2, a.r * 2);
       }
       if (t < 2.4) raf = requestAnimationFrame(frame);

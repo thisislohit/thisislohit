@@ -14,7 +14,7 @@ export default function Footer() {
   ];
 
   return (
-    <Section as="footer" className="relative z-10 mt-stack-lg border-t-2 border-accent-primary bg-surface/70 backdrop-blur-sm">
+    <Section as="footer" className="relative z-10 mt-stack-lg border-t-2 border-accent-primary bg-surface/90">
       <div className="col-span-4 flex flex-col gap-8 py-10 lg:col-span-12">
         <div className="flex flex-col items-start justify-between gap-8 lg:flex-row lg:items-center">
           <div className="flex items-center gap-5">

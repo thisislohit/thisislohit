@@ -7,8 +7,8 @@ import { motion, useMotionValue, useSpring } from "framer-motion";
 export function TVACursor() {
   const x = useMotionValue(-100);
   const y = useMotionValue(-100);
-  const rx = useSpring(x, { stiffness: 380, damping: 32, mass: 0.5 });
-  const ry = useSpring(y, { stiffness: 380, damping: 32, mass: 0.5 });
+  const rx = useSpring(x, { stiffness: 900, damping: 46, mass: 0.35 });
+  const ry = useSpring(y, { stiffness: 900, damping: 46, mass: 0.35 });
   const [hot, setHot] = useState(false);
   const [label, setLabel] = useState("");
   const [down, setDown] = useState(false);
@@ -46,13 +46,12 @@ export function TVACursor() {
     <>
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[100] mix-blend-screen"
+        className="pointer-events-none fixed left-0 top-0 z-[100] will-change-transform"
         style={{ x: rx, y: ry }}
       >
-        <motion.div
-          className="-ml-4 -mt-4 h-8 w-8 border border-accent-primary"
-          animate={{ scale: down ? 0.7 : hot ? 1.9 : 1, rotate: hot ? 45 : 0, borderRadius: hot ? "4px" : "999px" }}
-          transition={{ type: "spring", stiffness: 400, damping: 24 }}
+        <div
+          className="-ml-4 -mt-4 h-8 w-8 border border-accent-primary transition-[transform,border-radius] duration-200 ease-out"
+          style={{ transform: `scale(${down ? 0.7 : hot ? 1.9 : 1}) rotate(${hot ? 45 : 0}deg)`, borderRadius: hot ? 4 : 999 }}
         />
         {label && (
           <span className="absolute left-5 top-3 whitespace-nowrap font-mono text-[9px] font-bold uppercase tracking-widest text-accent-primary">
@@ -62,7 +61,7 @@ export function TVACursor() {
       </motion.div>
       <motion.div
         aria-hidden="true"
-        className="pointer-events-none fixed left-0 top-0 z-[100] -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-accent-utility"
+        className="pointer-events-none fixed left-0 top-0 z-[100] -ml-[3px] -mt-[3px] h-1.5 w-1.5 rounded-full bg-accent-utility will-change-transform"
         style={{ x, y }}
       />
     </>

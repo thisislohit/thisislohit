@@ -87,7 +87,7 @@ export function VariantDossier() {
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.9 + i * 0.18 }}
               >
-                <dt className="font-display text-[8px] font-black uppercase tracking-[0.22em] text-ink/55">{k}</dt>
+                <dt className="font-display text-[8px] font-black uppercase tracking-[0.22em] text-ink/75">{k}</dt>
                 <dd className="font-bold uppercase">{v}</dd>
               </motion.div>
             ))}
@@ -95,7 +95,7 @@ export function VariantDossier() {
         </div>
 
         <div className="mt-4 border-t-2 border-dashed border-ink/50 pt-3">
-          <div className="mb-1.5 font-display text-[9px] font-black uppercase tracking-[0.25em] text-ink/60">Charges filed</div>
+          <div className="mb-1.5 font-display text-[9px] font-black uppercase tracking-[0.25em] text-ink/75">Charges filed</div>
           <ul className="space-y-1 text-[11px] text-ink">
             {CRIMES.map((c, i) => (
               <motion.li
@@ -113,7 +113,7 @@ export function VariantDossier() {
         </div>
 
         <div className="mt-4 flex items-end justify-between">
-          <div className="font-mono text-[9px] uppercase leading-tight tracking-widest text-ink/60">
+          <div className="font-mono text-[9px] uppercase leading-tight tracking-widest text-ink/75">
             Case no. 616-L / Clearance: public
             <br />
             Sentence: <b className="text-ink">hire immediately</b>

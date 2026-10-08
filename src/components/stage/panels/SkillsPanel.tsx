@@ -23,7 +23,7 @@ export function SkillsPanel() {
               n === i ? "border-accent-primary bg-accent-primary text-on-primary" : "border-border text-text-secondary hover:border-accent-primary/60 hover:text-accent-primary"
             }`}
           >
-            <span className="mr-2 font-mono text-[10px] opacity-70">{String(n + 1).padStart(2, "0")}</span>
+            <span className="mr-2 font-mono text-[10px]">{String(n + 1).padStart(2, "0")}</span>
             {s.category}
           </button>
         ))}

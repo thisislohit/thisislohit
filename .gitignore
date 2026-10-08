@@ -49,3 +49,7 @@ next-env.d.ts
 /public/scenes/*.mov
 /public/scenes/*.webm
 /public/scenes/*.mkv
+
+# playwright
+/test-results/
+/playwright-report/

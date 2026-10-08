@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const GLYPHS = "▓▒░█/\\|<>[]{}#%&*+=ΣΩ0123456789";
+// plain ASCII only: every glyph exists in the site fonts, so nothing falls back to a wider face
+const GLYPHS = "/\\|<>[]{}#%&*+=0123456789";
 
 // Decodes text from noise, like a TVA terminal resolving a record. Runs on
 // view (auto) and/or on hover (via the returned wrapper's pointer events).
@@ -64,8 +65,12 @@ export function ScrambleText({
   }, [auto, delay, run]);
 
   return (
-    <span ref={ref} className={className} onPointerEnter={run} aria-label={text}>
-      <span aria-hidden="true">{out}</span>
+    // The final text reserves the width (invisible); the scramble is drawn on
+    // top of it, so decoding never changes the layout or moves a click target.
+    <span ref={ref} className={`relative inline-block ${className}`} onPointerEnter={run}>
+      <span className="sr-only">{text}</span>
+      <span aria-hidden="true" className="invisible whitespace-nowrap">{text}</span>
+      <span aria-hidden="true" className="absolute inset-0 whitespace-nowrap">{out}</span>
     </span>
   );
 }

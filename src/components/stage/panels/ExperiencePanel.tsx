@@ -9,15 +9,17 @@ export function ExperiencePanel() {
   const [open, setOpen] = useState(0);
 
   return (
-    <ol className="relative flex flex-col gap-3 pl-7">
-      <div className="absolute bottom-2 left-[9px] top-2 w-px bg-border" />
+    <div className="relative pl-7">
+      <div className="absolute bottom-2 left-[9px] top-2 w-px bg-border" aria-hidden="true" />
       <motion.div
+        aria-hidden="true"
         className="absolute left-[8px] top-2 w-[3px] origin-top bg-gradient-to-b from-accent-primary to-accent-utility"
         style={{ height: "calc(100% - 1rem)", boxShadow: "0 0 12px rgba(255,122,26,0.9)" }}
         initial={{ scaleY: 0 }}
         animate={{ scaleY: 1 }}
         transition={{ duration: 1.2, ease: [0.19, 1, 0.22, 1] }}
       />
+      <ol className="flex flex-col gap-3">
       {experience.map((e, i) => {
         const live = e.endDate === "Present";
         const on = open === i;
@@ -35,7 +37,7 @@ export function ExperiencePanel() {
                 <span className="font-display text-lg font-black uppercase leading-tight text-text-primary">
                   {e.role} <span className="text-accent-utility">· {e.company}</span>
                 </span>
-                <span className={`font-mono text-[10px] font-bold uppercase tracking-[0.2em] ${live ? "text-error" : "text-text-muted"}`}>
+                <span className={`font-mono text-[10px] font-bold uppercase tracking-[0.2em] ${live ? "text-error-text" : "text-text-muted"}`}>
                   {e.startDate} → {e.endDate}
                 </span>
               </div>
@@ -56,6 +58,7 @@ export function ExperiencePanel() {
           </li>
         );
       })}
-    </ol>
+      </ol>
+    </div>
   );
 }

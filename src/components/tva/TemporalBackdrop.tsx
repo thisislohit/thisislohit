@@ -7,9 +7,20 @@ import { PRUNE_EVENT } from "./PruneButton";
 // strands that swells and pinches as it flows. New branches keep diverging
 // from it; each one is either PRUNED (turns red, flashes, retracts from the
 // tip) or REJOINS the main timeline. A small HUD narrates the count.
+//
+// Performance notes (this runs every frame, behind everything):
+//  - glows are pre-rendered ONCE into small sprites and blitted with
+//    drawImage — no per-frame shadowBlur passes;
+//  - the ribbon's centre-line / width are computed once per x per frame, not
+//    once per strand per x;
+//  - strands are batched into a handful of paths (one stroke per colour band)
+//    instead of one stroke per strand;
+//  - the canvas backing store is capped at 1.25× DPR and drops to 30 fps while
+//    a card is open, and it fully pauses while the prune cinematic plays.
 
-const STRANDS = 28;
-const STEP = 12;
+const STRANDS = 24;
+const STEP = 16;
+const BANDS = 3; // alpha bands per colour
 
 type Branch = {
   id: number;
@@ -30,6 +41,18 @@ type Branch = {
 const smooth = (u: number) => u * u * (3 - 2 * u);
 const clamp01 = (v: number) => Math.min(1, Math.max(0, v));
 
+// A soft radial glow rendered once; drawn many times with drawImage.
+function makeSprite(size: number, stops: [number, string][]) {
+  const c = document.createElement("canvas");
+  c.width = c.height = size;
+  const g = c.getContext("2d")!;
+  const grad = g.createRadialGradient(size / 2, size / 2, 0, size / 2, size / 2, size / 2);
+  stops.forEach(([o, col]) => grad.addColorStop(o, col));
+  g.fillStyle = grad;
+  g.fillRect(0, 0, size, size);
+  return c;
+}
+
 export function TemporalBackdrop() {
   const ref = useRef<HTMLCanvasElement>(null);
   const [hud, setHud] = useState({ spawned: 0, pruned: 0, rejoined: 0, active: 0, line: "SACRED TIMELINE: STABLE" });
@@ -39,9 +62,13 @@ export function TemporalBackdrop() {
     const ctx = canvas?.getContext("2d");
     if (!canvas || !ctx) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+    const dpr = Math.min(window.devicePixelRatio || 1, 1.25);
 
-    let w = 0, h = 0, raf = 0, last = 0, t = 0, nextSpawn = 1.2, idSeq = 40;
+    let w = 0, h = 0, raf = 0, last = 0, lastDraw = 0, t = 0, nextSpawn = 1.2, idSeq = 40;
+    let paused = false;
+    let stage = false;
+    let ribbonFrac = 0.64; // vertical position of the ribbon on the stage (set by Stage from the real hero height)
+    let waveAmp = 1;
     const mouse = { x: -9999, y: -9999 };
     const stats = { spawned: 0, pruned: 0, rejoined: 0 };
     let branches: Branch[] = [];
@@ -50,41 +77,43 @@ export function TemporalBackdrop() {
     // positions, and dives toward a node when a panel opens ("warp").
     const warpState = { target: 0, value: 0, x: 0, y: 0 };
     const NODE_FRACTIONS = [0.11, 0.3, 0.5, 0.7, 0.89];
-    const isStage = () => document.documentElement.dataset.stage === "1";
 
     const strands = Array.from({ length: STRANDS }, (_, i) => ({
       off: (i / (STRANDS - 1)) * 2 - 1,
       ph: i * 1.37,
-      f: 0.008 + (i % 5) * 0.0011,
+      f: (0.008 + (i % 5) * 0.0011) * 1.6,
       s: 0.5 + (i % 7) * 0.05,
       gold: i % 4 === 0,
+      band: Math.min(BANDS - 1, Math.floor((1 - Math.abs((i / (STRANDS - 1)) * 2 - 1)) * BANDS)),
     }));
 
-    const pushHud = (line: string) =>
-      setHud({ ...stats, active: branches.length, line });
+    // pre-rendered glows (drawn with drawImage — never blurred per frame)
+    const pulseSprite = makeSprite(32, [[0, "rgba(255,240,205,1)"], [0.25, "rgba(255,170,90,0.85)"], [1, "rgba(255,122,26,0)"]]);
+    const tipSprite = makeSprite(48, [[0, "rgba(255,240,200,1)"], [0.3, "rgba(255,150,60,0.8)"], [1, "rgba(255,122,26,0)"]]);
+    const tipRedSprite = makeSprite(48, [[0, "rgba(255,210,190,1)"], [0.3, "rgba(255,70,50,0.8)"], [1, "rgba(229,57,43,0)"]]);
+
+    const pushHud = (line: string) => setHud({ ...stats, active: branches.length, line });
 
     const resize = () => {
       w = window.innerWidth;
       h = window.innerHeight;
-      canvas.width = w * dpr;
-      canvas.height = h * dpr;
+      canvas.width = Math.round(w * dpr);
+      canvas.height = Math.round(h * dpr);
       canvas.style.width = w + "px";
       canvas.style.height = h + "px";
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      cols = Math.ceil((w + 40) / STEP) + 1;
+      cyArr = new Float32Array(cols);
+      hwArr = new Float32Array(cols);
+      if (reduce && cyArr.length) renderOnce();
     };
+    let cols = 0;
+    let cyArr = new Float32Array(0);
+    let hwArr = new Float32Array(0);
 
-    // main timeline centre-line and its swelling half-width
-    const cy = (x: number) =>
-      h * (isStage() ? 0.64 : 0.3 + 0.42 * scrollP) + 46 * Math.sin(x * 0.0016 + t * 0.35) + 24 * Math.sin(x * 0.0043 - t * 0.5);
-    const hw = (x: number) => 20 + 24 * (0.5 + 0.5 * Math.sin(x * 0.0022 + t * 0.22));
-    const sy = (i: number, x: number) => {
-      const s = strands[i];
-      let y = cy(x) + s.off * hw(x) + 6 * Math.sin(x * s.f * 1.6 + t * s.s + s.ph);
-      const dx = x - mouse.x, dy = y - mouse.y;
-      const d2 = dx * dx + dy * dy;
-      if (d2 < 22000) y += (dy >= 0 ? 1 : -1) * (1 - d2 / 22000) * 26; // strands part around the cursor
-      return y;
-    };
+    // main timeline centre-line (any x) — branches attach to this
+    let baseY = 0;
+    const cy = (x: number) => baseY + waveAmp * (46 * Math.sin(x * 0.0016 + t * 0.35) + 24 * Math.sin(x * 0.0043 - t * 0.5));
 
     const spawn = (forced = false) => {
       const dir: 1 | -1 = Math.random() > 0.5 ? 1 : -1;
@@ -101,7 +130,7 @@ export function TemporalBackdrop() {
         phase: "grow",
         endAt: 0,
         forced,
-        offs: Array.from({ length: 5 }, (_, i) => (i - 2) * 3.2),
+        offs: Array.from({ length: 4 }, (_, i) => (i - 1.5) * 3.6),
       };
       branches.push(b);
       stats.spawned++;
@@ -114,13 +143,14 @@ export function TemporalBackdrop() {
       b.endAt = t;
     };
 
-    const branchPoint = (b: Branch, j: number, x: number, grow: number, merge: number) => {
+    const branchPoint = (b: Branch, j: number, x: number, merge: number) => {
       const u = clamp01((x - b.x0) / b.len);
       const tail = Math.max(0, x - b.x0 - b.len) * 0.18;
       const d = b.dir * (b.amp * smooth(u) + tail) * (1 - merge);
       return cy(x) + b.offs[j] * (0.4 + u) + d + 5 * Math.sin(x * 0.011 + t * 0.9 + j);
     };
 
+    // returns false once the branch is finished
     const drawBranch = (b: Branch, dt: number) => {
       b.x0 -= 14 * dt; // the whole branch drifts with the flow
       const total = b.len + 520;
@@ -149,106 +179,115 @@ export function TemporalBackdrop() {
       if (xEnd <= xStart) return true;
 
       const base = b.fate === "merge" && b.phase !== "end" ? [232, 184, 74] : [255, 122, 26];
-      const col = [
-        base[0] + (229 - base[0]) * red,
-        base[1] + (57 - base[1]) * red,
-        base[2] + (43 - base[2]) * red,
-      ];
-      const forcedRed = b.forced ? 1 : red;
-      const rgb = b.forced ? [229, 57, 43] : col;
-      ctx.lineWidth = 1.2;
-      for (let j = 0; j < b.offs.length; j++) {
-        ctx.beginPath();
-        for (let x = xStart; x <= xEnd; x += STEP) {
-          const y = branchPoint(b, j, x, grow, merge);
-          if (x === xStart) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = `rgba(${rgb[0] | 0},${rgb[1] | 0},${rgb[2] | 0},${0.42 - j * 0.04})`;
-        ctx.stroke();
-      }
-      // glowing growth tip
-      const tipX = xEnd;
-      const tipY = branchPoint(b, 2, tipX, grow, merge);
-      const tipR = b.phase === "grow" ? 5 : 3;
+      const rgb = b.forced ? [229, 57, 43] : [base[0] + (229 - base[0]) * red, base[1] + (57 - base[1]) * red, base[2] + (43 - base[2]) * red];
+      // all of a branch's strands in ONE path / ONE stroke
       ctx.beginPath();
-      ctx.fillStyle = `rgba(255,${230 - forcedRed * 150 | 0},${200 - forcedRed * 170 | 0},0.95)`;
-      ctx.shadowColor = `rgb(${rgb[0] | 0},${rgb[1] | 0},${rgb[2] | 0})`;
-      ctx.shadowBlur = 14;
-      ctx.arc(tipX, tipY, tipR, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.shadowBlur = 0;
-      // pruning flash ring at the tip
+      for (let j = 0; j < b.offs.length; j++) {
+        let first = true;
+        for (let x = xStart; x <= xEnd; x += STEP) {
+          const y = branchPoint(b, j, x, merge);
+          if (first) {
+            ctx.moveTo(x, y);
+            first = false;
+          } else ctx.lineTo(x, y);
+        }
+      }
+      ctx.lineWidth = 1.2;
+      ctx.strokeStyle = `rgba(${rgb[0] | 0},${rgb[1] | 0},${rgb[2] | 0},0.4)`;
+      ctx.stroke();
+
+      // growth tip: a blitted glow sprite, not a shadowBlur
+      const tipY = branchPoint(b, 1, xEnd, merge);
+      const r = b.phase === "grow" ? 15 : 10;
+      ctx.drawImage(b.forced || red > 0.5 ? tipRedSprite : tipSprite, xEnd - r, tipY - r, r * 2, r * 2);
+
       if (b.phase === "end" && b.fate === "prune") {
         const e = t - b.endAt;
         if (e < 0.9) {
           ctx.beginPath();
           ctx.strokeStyle = `rgba(255,120,90,${1 - e / 0.9})`;
           ctx.lineWidth = 2;
-          ctx.arc(tipX, tipY, 8 + e * 70, 0, Math.PI * 2);
+          ctx.arc(xEnd, tipY, 8 + e * 70, 0, Math.PI * 2);
           ctx.stroke();
         }
       }
       return true;
     };
 
-    const pulses = Array.from({ length: 16 }, (_, i) => ({ i: (i * 5) % STRANDS, x: Math.random() * 2000, v: 110 + Math.random() * 190 }));
+    const pulses = Array.from({ length: 12 }, (_, i) => ({ i: (i * 5) % STRANDS, x: Math.random() * 2000, v: 110 + Math.random() * 190 }));
+
+    // colour × alpha-band path batches (reused each frame)
+    const BAND_ALPHA = [0.2, 0.3, 0.42];
 
     const frame = (now: number) => {
+      raf = requestAnimationFrame(frame);
+      // 30 fps while a card is open (the card is covering most of the view)
+      const minGap = warpState.target === 1 ? 1000 / 30 - 2 : 0;
+      if (now - lastDraw < minGap) return;
+      lastDraw = now;
+
       const dt = Math.min(0.05, (now - last) / 1000 || 0.016);
       last = now;
       t += dt;
-      ctx.clearRect(0, 0, w, h);
+
+      waveAmp = stage ? 0.5 : 1; // nodes ride the ribbon: keep their drift small
+      baseY = h * (stage ? ribbonFrac : 0.3 + 0.42 * scrollP);
       const prevWarp = warpState.value;
       warpState.value += (warpState.target - warpState.value) * Math.min(1, dt * 3.2);
       const S = 1 + warpState.value * 1.15;
+
+      // centre-line + width: once per column
+      for (let c = 0; c < cols; c++) {
+        const x = -20 + c * STEP;
+        cyArr[c] = cy(x);
+        hwArr[c] = 20 + 24 * (0.5 + 0.5 * Math.sin(x * 0.0022 + t * 0.22));
+      }
+
+      ctx.clearRect(0, 0, w, h);
       ctx.save();
       ctx.translate(warpState.x, warpState.y);
       ctx.scale(S, S);
       ctx.translate(-warpState.x, -warpState.y);
       ctx.globalCompositeOperation = "lighter";
 
-      // faint wide glow under the bundle
-      ctx.lineWidth = 9;
-      for (const i of [3, 14, 24]) {
-        ctx.beginPath();
-        for (let x = -20; x <= w + 20; x += STEP * 2) {
-          const y = sy(i, x);
-          if (x === -20) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = "rgba(255,122,26,0.05)";
-        ctx.stroke();
-      }
-
-      // the main strands
-      ctx.lineWidth = 1;
+      // the strands, batched: 2 colours × BANDS alpha bands = 6 strokes
+      const paths: Path2D[][] = [Array.from({ length: BANDS }, () => new Path2D()), Array.from({ length: BANDS }, () => new Path2D())];
       for (let i = 0; i < STRANDS; i++) {
-        ctx.beginPath();
-        for (let x = -20; x <= w + 20; x += STEP) {
-          const y = sy(i, x);
-          if (x === -20) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
+        const s = strands[i];
+        const path = paths[s.gold ? 1 : 0][s.band];
+        for (let c = 0; c < cols; c++) {
+          const x = -20 + c * STEP;
+          let y = cyArr[c] + s.off * hwArr[c] + 6 * Math.sin(x * s.f + t * s.s + s.ph);
+          const dx = x - mouse.x;
+          if (dx < 148 && dx > -148) {
+            const dy = y - mouse.y;
+            const d2 = dx * dx + dy * dy;
+            if (d2 < 22000) y += (dy >= 0 ? 1 : -1) * (1 - d2 / 22000) * 26; // strands part around the cursor
+          }
+          if (c === 0) path.moveTo(x, y);
+          else path.lineTo(x, y);
         }
-        const mid = 1 - Math.abs(strands[i].off);
-        ctx.strokeStyle = strands[i].gold
-          ? `rgba(232,184,74,${0.17 + mid * 0.26})`
-          : `rgba(255,122,26,${0.14 + mid * 0.28})`;
-        ctx.stroke();
       }
+      ctx.lineWidth = 1;
+      for (let b = 0; b < BANDS; b++) {
+        ctx.strokeStyle = `rgba(255,122,26,${BAND_ALPHA[b]})`;
+        ctx.stroke(paths[0][b]);
+        ctx.strokeStyle = `rgba(232,184,74,${BAND_ALPHA[b] + 0.08})`;
+        ctx.stroke(paths[1][b]);
+      }
+      // one soft wide glow under the middle of the ribbon
+      ctx.lineWidth = 9;
+      ctx.strokeStyle = "rgba(255,122,26,0.05)";
+      ctx.stroke(paths[0][BANDS - 1]);
 
-      // minutes of light running along the strands
+      // minutes of light running along the strands (sprite blits)
       for (const p of pulses) {
         p.x += p.v * dt;
         if (p.x > w + 40) p.x = -40;
-        const y = sy(p.i, p.x);
-        ctx.beginPath();
-        ctx.fillStyle = "rgba(255,236,200,0.9)";
-        ctx.shadowColor = "#ff9a4d";
-        ctx.shadowBlur = 12;
-        ctx.arc(p.x, y, 1.8, 0, Math.PI * 2);
-        ctx.fill();
-        ctx.shadowBlur = 0;
+        const c = Math.max(0, Math.min(cols - 1, Math.round((p.x + 20) / STEP)));
+        const s = strands[p.i];
+        const y = cyArr[c] + s.off * hwArr[c] + 6 * Math.sin(p.x * s.f + t * s.s + s.ph);
+        ctx.drawImage(pulseSprite, p.x - 8, y - 8, 16, 16);
       }
 
       // branches
@@ -265,31 +304,33 @@ export function TemporalBackdrop() {
         }
         return keep;
       });
-
       ctx.restore();
-      ctx.globalCompositeOperation = "lighter";
 
-      // warp streaks while diving toward / pulling back from a node
+      // warp streaks while diving toward / pulling back from a node (one path)
       const speed = Math.abs(warpState.value - prevWarp) / Math.max(dt, 0.001);
       if (speed > 0.08) {
-        const n = 70;
+        ctx.globalCompositeOperation = "lighter";
+        ctx.beginPath();
+        const n = 56;
         for (let i = 0; i < n; i++) {
           const a = (i / n) * Math.PI * 2 + i * 0.37;
           const r0 = 40 + ((i * 53) % 160) + warpState.value * 120;
           const len = Math.min(380, speed * 220) * (0.4 + ((i * 17) % 10) / 10);
-          ctx.beginPath();
           ctx.moveTo(warpState.x + Math.cos(a) * r0, warpState.y + Math.sin(a) * r0);
           ctx.lineTo(warpState.x + Math.cos(a) * (r0 + len), warpState.y + Math.sin(a) * (r0 + len));
-          ctx.strokeStyle = `rgba(255,${170 + (i % 3) * 25},${90 + (i % 5) * 20},${Math.min(0.55, speed * 0.5)})`;
-          ctx.lineWidth = 1.2;
-          ctx.stroke();
         }
+        ctx.strokeStyle = `rgba(255,190,110,${Math.min(0.5, speed * 0.45)})`;
+        ctx.lineWidth = 1.2;
+        ctx.stroke();
       }
       ctx.globalCompositeOperation = "source-over";
 
       // publish where the nodes sit on the ribbon so the DOM can pin to them
-      if (isStage()) {
-        const pts = NODE_FRACTIONS.map((f) => ({ x: w * f, y: cy(w * f) }));
+      if (stage) {
+        const pts = NODE_FRACTIONS.map((f) => {
+          const x = w * f;
+          return { x, y: cy(x) };
+        });
         window.dispatchEvent(new CustomEvent("tva:nodes", { detail: pts }));
       }
 
@@ -297,8 +338,6 @@ export function TemporalBackdrop() {
         spawn();
         nextSpawn = t + 2.2 + Math.random() * 2.6;
       }
-      ctx.globalCompositeOperation = "source-over";
-      raf = requestAnimationFrame(frame);
     };
 
     const onScroll = () => {
@@ -309,12 +348,18 @@ export function TemporalBackdrop() {
       mouse.x = e.clientX;
       mouse.y = e.clientY;
     };
-    const onVis = () => {
+    const run = () => {
       cancelAnimationFrame(raf);
-      if (!document.hidden && !reduce) {
-        last = performance.now();
-        raf = requestAnimationFrame(frame);
-      }
+      if (reduce || paused || document.hidden) return;
+      last = performance.now();
+      raf = requestAnimationFrame(frame);
+    };
+    const onVis = () => run();
+    // The prune cinematic covers the whole screen: stop drawing underneath it.
+    const onPause = (e: Event) => {
+      paused = (e as CustomEvent<boolean>).detail;
+      if (paused) cancelAnimationFrame(raf);
+      else run();
     };
     // Pruning wipes every active branch at once, in red.
     const onPrune = () => {
@@ -326,7 +371,6 @@ export function TemporalBackdrop() {
       for (let i = 0; i < 4; i++) spawn(true);
       pushHud("▸ MASS PRUNING IN PROGRESS");
     };
-
     const onWarp = (e: Event) => {
       const d = (e as CustomEvent<{ on: boolean; x: number; y: number }>).detail;
       warpState.target = d.on ? 1 : 0;
@@ -335,7 +379,23 @@ export function TemporalBackdrop() {
         warpState.y = d.y;
       }
     };
-    window.addEventListener("tva:warp", onWarp);
+    // the home stage announces itself via <html data-stage>
+    const syncStage = () => {
+      stage = document.documentElement.dataset.stage === "1";
+      if (reduce) renderOnce();
+    };
+    const onRibbon = (e: Event) => {
+      ribbonFrac = (e as CustomEvent<number>).detail;
+      if (reduce) renderOnce();
+    };
+    // reduced motion draws a single still frame (and republishes node positions)
+    function renderOnce() {
+      frame(performance.now());
+      cancelAnimationFrame(raf);
+    }
+    const mo = new MutationObserver(syncStage);
+    mo.observe(document.documentElement, { attributes: true, attributeFilter: ["data-stage"] });
+    syncStage();
 
     resize();
     onScroll();
@@ -343,6 +403,9 @@ export function TemporalBackdrop() {
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("pointermove", onMove, { passive: true });
     window.addEventListener(PRUNE_EVENT, onPrune);
+    window.addEventListener("tva:warp", onWarp);
+    window.addEventListener("tva:pause", onPause);
+    window.addEventListener("tva:ribbon", onRibbon);
     document.addEventListener("visibilitychange", onVis);
 
     if (reduce) {
@@ -352,6 +415,7 @@ export function TemporalBackdrop() {
         b.born = t - b.growFor - 1;
         b.phase = "live";
       });
+      last = performance.now();
       frame(performance.now());
       cancelAnimationFrame(raf);
     } else {
@@ -362,11 +426,14 @@ export function TemporalBackdrop() {
 
     return () => {
       cancelAnimationFrame(raf);
+      mo.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("pointermove", onMove);
       window.removeEventListener(PRUNE_EVENT, onPrune);
       window.removeEventListener("tva:warp", onWarp);
+      window.removeEventListener("tva:pause", onPause);
+      window.removeEventListener("tva:ribbon", onRibbon);
       document.removeEventListener("visibilitychange", onVis);
     };
   }, []);
@@ -376,9 +443,7 @@ export function TemporalBackdrop() {
       <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-0">
         <div className="absolute inset-x-0 top-0 h-[70vh] bg-[radial-gradient(ellipse_at_50%_-10%,rgba(255,122,26,0.14),transparent_65%)]" />
         <canvas ref={ref} className="absolute inset-0" />
-        <div className="tva-scanlines absolute inset-0" />
-        <div className="tva-vignette absolute inset-0" />
-        <div className="tva-grain" />
+        <div className="tva-overlay absolute inset-0" />
       </div>
 
       {/* live narration of the timeline */}
@@ -389,7 +454,7 @@ export function TemporalBackdrop() {
         <span className="text-accent-primary">{hud.line}</span>
         <span>
           spawned {String(hud.spawned).padStart(3, "0")} · pruned{" "}
-          <span className="text-error">{String(hud.pruned).padStart(3, "0")}</span> · rejoined{" "}
+          <span className="text-error-text">{String(hud.pruned).padStart(3, "0")}</span> · rejoined{" "}
           {String(hud.rejoined).padStart(3, "0")} · active {hud.active}
         </span>
       </div>

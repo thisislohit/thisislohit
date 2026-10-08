@@ -1,12 +1,16 @@
 "use client";
 
 import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 import Lenis from "lenis";
 
 // Buttery inertial scrolling for the whole site. Skipped entirely for
 // reduced-motion users so native scrolling (and anchor jumps) stay instant.
 export function SmoothScroll() {
+  const pathname = usePathname();
   useEffect(() => {
+    // the home stage never scrolls: no inertial-scroll loop needed there
+    if (pathname === "/") return;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
     const lenis = new Lenis({ duration: 1.15, easing: (t) => 1 - Math.pow(1 - t, 4) });
@@ -38,7 +42,7 @@ export function SmoothScroll() {
       document.removeEventListener("click", onClick);
       lenis.destroy();
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }

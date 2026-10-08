@@ -62,12 +62,8 @@ function Face({ look }: { look: { x: ReturnType<typeof useSpring>; y: ReturnType
       ))}
       {/* forehead clock hands */}
       <line x1="60" y1="44" x2="60" y2="38" stroke="#7a2e00" strokeWidth="2.5" strokeLinecap="round" />
-      <motion.line
-        x1="60" y1="44" x2="68" y2="44" stroke="#7a2e00" strokeWidth="2.5" strokeLinecap="round"
-        style={{ originX: "60px", originY: "44px" }}
-        animate={{ rotate: 360 }}
-        transition={{ repeat: Infinity, duration: 12, ease: "linear" }}
-      />
+      {/* hands stay still: a continuously turning hand under a drop-shadow would re-rasterise the filter every frame */}
+      <line x1="60" y1="44" x2="67" y2="46" stroke="#7a2e00" strokeWidth="2.5" strokeLinecap="round" />
       {/* eyes */}
       {[46, 74].map((cx) => (
         <g key={cx}>
@@ -111,8 +107,14 @@ export function MissMinutes() {
       const k = Math.min(1, d / 220);
       lx.set((dx / d) * 3.6 * k);
       ly.set((dy / d) * 4.2 * k);
-      setLook({ lookX: (dx / d) * k, lookY: (dy / d) * k });
+      // only the (optional) Rive file needs these as React state — keep it to ~5 Hz
+      const now = performance.now();
+      if (now - lastLook > 200) {
+        lastLook = now;
+        setLook({ lookX: (dx / d) * k, lookY: (dy / d) * k });
+      }
     };
+    let lastLook = 0;
     window.addEventListener("pointermove", move, { passive: true });
     return () => window.removeEventListener("pointermove", move);
   }, [lx, ly]);
@@ -150,7 +152,7 @@ export function MissMinutes() {
                 setDismissed(true);
               }}
               aria-label="Dismiss Miss Minutes"
-              className="absolute right-1.5 top-1.5 p-1 text-ink/60 hover:text-ink"
+              className="absolute right-1.5 top-1.5 p-1 text-ink/75 hover:text-ink"
             >
               <X size={12} />
             </button>
@@ -179,16 +181,19 @@ export function MissMinutes() {
         data-cursor="HI!"
         whileHover={{ scale: 1.1, rotate: [0, -6, 6, -4, 0] }}
         whileTap={{ scale: 0.92 }}
-        animate={{ y: [0, -6, 0] }}
-        transition={{ y: { repeat: Infinity, duration: 3.2, ease: "easeInOut" }, scale: { type: "spring" }, rotate: { duration: 0.5 } }}
-        className="pointer-events-auto h-16 w-16 drop-shadow-[0_8px_18px_rgba(255,122,26,0.45)] sm:h-20 sm:w-20"
+        transition={{ scale: { type: "spring" }, rotate: { duration: 0.5 } }}
+        className="pointer-events-auto relative h-16 w-16 sm:h-20 sm:w-20"
       >
-        <RiveSlot
-          src="/rive/miss-minutes.riv"
-          stateMachine="Main"
-          inputs={{ ...look, talk: open }}
-          fallback={<Face look={{ x: lx, y: ly }} />}
-        />
+        {/* static baked glow behind her (a CSS drop-shadow filter would be re-computed every frame) */}
+        <span aria-hidden="true" className="absolute -inset-3 rounded-full bg-[radial-gradient(circle,rgba(255,122,26,0.45),transparent_68%)]" />
+        <span className="animate-float relative block h-full w-full">
+          <RiveSlot
+            src="/rive/miss-minutes.riv"
+            stateMachine="Main"
+            inputs={{ ...look, talk: open }}
+            fallback={<Face look={{ x: lx, y: ly }} />}
+          />
+        </span>
       </motion.button>
     </div>
   );

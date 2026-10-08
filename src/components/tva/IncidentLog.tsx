@@ -45,7 +45,7 @@ export function IncidentLog({ entries }: { entries: ExperienceEntry[] }) {
                   <span className="text-accent-primary">
                     Incident #{String(entries.length - i).padStart(3, "0")} · {e.project}
                   </span>
-                  <span className={live ? "text-error" : "text-text-muted"}>
+                  <span className={live ? "text-error-text" : "text-text-muted"}>
                     {e.startDate} → {e.endDate}
                     {live && <span className="ml-2 animate-flicker">● ongoing</span>}
                   </span>

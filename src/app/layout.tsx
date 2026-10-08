@@ -9,6 +9,7 @@ import { TemporalBackdrop } from "@/components/tva/TemporalBackdrop";
 import { TVACursor } from "@/components/tva/TVACursor";
 import { HideOnHome } from "@/components/tva/HideOnHome";
 import { MissMinutes } from "@/components/tva/MissMinutes";
+import { SvgSprite } from "@/components/tva/SvgSprite";
 import { PruneEffect } from "@/components/tva/PruneEffect";
 import { BootSequence } from "@/components/tva/BootSequence";
 
@@ -75,6 +76,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         suppressHydrationWarning
         className="relative flex min-h-full flex-col overflow-x-hidden bg-background text-text-primary selection:bg-accent-primary selection:text-black"
       >
+        <SvgSprite />
         <TemporalBackdrop />
         <SmoothScroll />
         <TVACursor />
@@ -82,7 +84,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <PruneEffect />
         <ShortcutsProvider>
           <Navigation links={NAV_LINKS} homeLabel="Lohit // Variant — TVA case file" />
-          <main className="relative z-10 flex flex-col">{children}</main>
+          <main className="relative z-10 flex min-h-0 flex-1 flex-col">{children}</main>
           <HideOnHome>
             <Footer />
           </HideOnHome>
